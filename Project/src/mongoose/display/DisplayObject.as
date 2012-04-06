@@ -45,7 +45,9 @@ package mongoose.display
         private var _fz:Number;
 		
 		//位置cache
-		private var _mx:Number=0,_my:Number=0,_mz:Number=0;
+		private var _mx:Number=0,
+			        _my:Number=0,
+					_mz:Number=0;
 		//原始缩放cache
 		private var _mosx:Number=0,_mosy:Number=0;
 		//尺寸缩放cache
@@ -54,7 +56,9 @@ package mongoose.display
 		private var _sx:Number=0,_sy:Number=0;
         private var _changed:Boolean = true;
         //旋转cache
-        private var _rx:Number=0,_ry:Number=0,_rz:Number=0;
+        private var _rx:Number=0,
+			        _ry:Number=0,
+					_rz:Number=0;
         public function DisplayObject()
         {
            
@@ -69,11 +73,19 @@ package mongoose.display
             mOutMatrix = new Matrix3D();
             mColorData = new Vector.<Number>;
             mColorData.push(1,1,1,1);
-            addEventListener(Event.ADDED, onAdd);
+            addEventListener(Event.ADDED, onChange);
+			world.addEventListener(Event.CHANGE,onChange);
         }// end function
 
-        protected function onAdd(far:Event = null) : void
+        protected function onChange(far:Event = null) : void
         {
+			mBaseMtx.identity();
+			mMatrix3D.identity();
+			_mx=_my=_mz=0,
+			_mosx=_mosy=0;
+			_msx=_msy=0;
+			_sx=_sy=0;
+			_rx=_ry=_rz=0;
             _changed = true;
 			
         }// end function

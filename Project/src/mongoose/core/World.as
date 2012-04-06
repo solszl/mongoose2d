@@ -77,6 +77,7 @@ package mongoose.core
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, mPerspective, true);
             }
             scale = height / width;
+			
             dispatchEvent(new Event(Event.CHANGE));
         }// end function
 
