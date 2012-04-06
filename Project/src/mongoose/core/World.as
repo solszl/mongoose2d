@@ -38,7 +38,8 @@ package mongoose.core
             mPerspective = new PerspectiveMatrix3D();
             mCamera = new Camera();
             mCamera.active = true;
-            mFps = new FrameRater(65280, true, true, 16711680);
+            mFps = new FrameRater(65280, true,false);
+			
 			super();
             this.initialize(stage, mRect);
           
@@ -129,6 +130,7 @@ package mongoose.core
         {
             context3d.clear();
             Camera.current.capture();
+			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,Camera.current.matrix,true);
             render();
             context3d.present();
         }// end function
