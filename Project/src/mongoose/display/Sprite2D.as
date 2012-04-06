@@ -70,13 +70,15 @@ package mongoose.display
                 vg = new AGALMiniAssembler();
                 fg = new AGALMiniAssembler();
                 vs =     "m44 vt0,va0,vc8\n" + 
-					     "m44 vt0,vt0,vc0\n" + 
-						 "m44 vt0,vt0,vc4\n" + 
+					     "m44 vt0,vt0,vc4\n" + 
+						 "m44 vt0,vt0,vc0\n" + 
 						 "mov op vt0\n" + 
-						 "mov v0,va1";
+						 "mov v0,va1\n"+
+				         "mov v1,vt0";
 				
-                fs = "tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
+                fs =     "tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
 					     "mul ft0,ft0,fc0\n" + 
+						 "mul ft0.w,v1.z,ft0.w\n"+
 						 "mov oc ft0\n";
                 vg.assemble(Context3DProgramType.VERTEX, vs);
                 fg.assemble(Context3DProgramType.FRAGMENT, fs);

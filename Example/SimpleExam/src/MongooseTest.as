@@ -7,7 +7,9 @@ package
 	import flash.events.TouchEvent;
 	import flash.ui.Mouse;
 	
+	import mongoose.core.Camera;
 	import mongoose.core.World;
+	import mongoose.display.DisplayObject;
 	import mongoose.display.Sprite2D;
 	import mongoose.display.TextureData;
 	import mongoose.geom.Point;
@@ -45,7 +47,12 @@ package
 			stage.addEventListener(MouseEvent.MOUSE_UP,onCK);
 			stage.addEventListener(TouchEvent.TOUCH_MOVE,onAddRoll);
 		
-			createRols(1)
+			createRols(1600);
+			//Camera.current.enterFrameEvent(Event.ENTER_FRAME,onCamera);
+		}
+		private function onCamera(tar:Camera):void
+		{
+			tar.z+=10;
 		}
 		private function createRols(num:uint):void
 		{
@@ -55,8 +62,11 @@ package
 				sprite1.x=Math.random()*world.width;
 				sprite1.y=Math.random()*world.height;
 				sprite1.rotateZ=Math.random()*360;
-				sprite1.addEventListener("enterFrame",onEnter);
+				sprite1.enterFrameEvent("enterFrame",onEnter);
 				sprite1.data=Math.random()*5;
+				sprite1.color=Math.random()*0xffffff;
+				sprite1.alpha=Math.random()*1;
+				sprite1.z=Math.random()*10000;
 				world.addChild(sprite1);
 			}
 		}
@@ -71,10 +81,11 @@ package
 		{
 			createRols(5);
 		}
-		private function onEnter(e:Event):void
+		private function onEnter(tar:DisplayObject):void
 		{
-			var tar:Sprite2D=Sprite2D(e.currentTarget);
+			//var tar:Sprite2D=Sprite2D(e.currentTarget);
 			tar.x+=tar.data;
+			
 			//tar.rotateZ+=.1;
 			if(tar.x>world.width+100)tar.x=-100;
 		}
