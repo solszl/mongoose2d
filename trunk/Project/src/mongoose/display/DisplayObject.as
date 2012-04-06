@@ -9,6 +9,7 @@ package mongoose.display
 
     public class DisplayObject extends BaseObject
     {
+		
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
         public var scaleZ:Number = 1;
@@ -108,13 +109,13 @@ package mongoose.display
 			{
 				tx=tx*_fx;
 				mBaseMtx.appendScale(tx,1,1);
-				trace("原始缩放x")
+				//trace("原始缩放x")
 			}	
 			if(ty!=0)
 			{
 				ty=ty*_fy;
 				mBaseMtx.appendScale(1,ty, 1);
-				trace("原始缩放y")
+				//trace("原始缩放y")
 			}  
 			//------------------------尺寸缩放计算------------------------------
 			var scorex:Number=width-mOriginWidth;
@@ -127,13 +128,13 @@ package mongoose.display
 			{
 				tx=tx*_fx;
 				mMatrix3D.appendScale(tx,1, 1);
-				trace("尺寸缩放x")
+				//trace("尺寸缩放x")
 			}	
 			if(ty!=0)
 			{
 				ty=ty*_fy;
 				mMatrix3D.appendScale(1,ty, 1);
-				trace("尺寸缩放y")
+				//trace("尺寸缩放y")
 			}  
 			//-----------------------直接缩放------------------------------------
 			tx=scaleX-_sx;
@@ -234,8 +235,8 @@ package mongoose.display
 
         protected function draw() : void
         {
-            context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, mOutMatrix, true);
-            context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8,mTemp , true);
+            context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, mOutMatrix, true);
+           
             context3d.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, mColorData);
         }// end function
 

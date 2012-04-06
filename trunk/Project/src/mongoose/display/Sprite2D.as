@@ -69,9 +69,9 @@ package mongoose.display
             {
                 vg = new AGALMiniAssembler();
                 fg = new AGALMiniAssembler();
-                vs = "m44 vt0,va0,vc4\n" + 
-					     "m44 vt0,vt0,vc8\n" + 
-						 "m44 vt0,vt0,vc0\n" + 
+                vs =     "m44 vt0,va0,vc8\n" + 
+					     "m44 vt0,vt0,vc0\n" + 
+						 "m44 vt0,vt0,vc4\n" + 
 						 "mov op vt0\n" + 
 						 "mov v0,va1";
 				
