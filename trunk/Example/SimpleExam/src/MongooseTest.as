@@ -15,7 +15,7 @@ package
 	
 	import tools.FrameRater;
 
-	[SWF(frameRate="120",width="1024",height="600",backgroundcolor="0xffffff")]
+	[SWF(frameRate="120",width="2048",height="1024",backgroundcolor="0xffffff")]
 	public class MongooseTest extends Sprite
 	{
 		[Embed(source="fighter.png")]
@@ -52,8 +52,8 @@ package
 			for(var i:uint=0;i<num;i++)
 			{
 				var sprite1:Sprite2D=new Sprite2D(texture);
-				sprite1.y=Math.random()*world.width;
-				sprite1.x=Math.random()*world.height;
+				sprite1.x=Math.random()*world.width;
+				sprite1.y=Math.random()*world.height;
 				sprite1.rotateZ=Math.random()*360;
 				sprite1.addEventListener("enterFrame",onEnter);
 				sprite1.data=Math.random()*5;
@@ -76,7 +76,7 @@ package
 			var tar:Sprite2D=Sprite2D(e.currentTarget);
 			tar.x+=tar.data;
 			//tar.rotateZ+=.1;
-			if(tar.x>1024)tar.x=-100;
+			if(tar.x>world.width+100)tar.x=-100;
 		}
 	}
 }
