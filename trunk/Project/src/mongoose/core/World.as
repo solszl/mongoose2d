@@ -7,6 +7,7 @@ package mongoose.core
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
     import flash.display3D.Context3DBlendFactor;
+    import flash.display3D.Context3DCompareMode;
     import flash.display3D.Context3DProgramType;
     import flash.display3D.Context3DTriangleFace;
     import flash.events.*;
@@ -36,6 +37,7 @@ package mongoose.core
             world = this;
             mRect=viewPort;
             mPerspective = new PerspectiveMatrix3D();
+			Camera.stage=stage;
             mCamera = new Camera();
             mCamera.active = true;
             mFps = new FrameRater(65280, true,false);
@@ -117,6 +119,7 @@ package mongoose.core
             context3d.enableErrorChecking = true;
             context3d.configureBackBuffer(width, height, 0, false);
             context3d.setCulling(Context3DTriangleFace.NONE);
+			//context3d.setDepthTest(true,Context3DCompareMode.LESS_EQUAL);
             context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
             TextureData.context3d = context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);

@@ -238,7 +238,7 @@ package mongoose.display
             mOutMatrix.append(mBaseMtx);
             mOutMatrix.append(mMatrix3D);
 			mOutMatrix.append(mParentMatrix3D);
-            mOutMatrix.appendTranslation(-1, world.scale, 0);
+            
         }// end function
         public function getMatrix3D():Matrix3D
 		{
