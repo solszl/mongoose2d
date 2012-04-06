@@ -15,7 +15,7 @@ package mongoose.display
         public var scaleZ:Number = 1;
         public var parent:DisplayObject;
         public var color:Number = 0xffffff;
-        public var alpha:Number = 255;
+        public var alpha:Number = 1;
         public var width:Number = 1;
         public var height:Number = 1;
 		
@@ -59,6 +59,10 @@ package mongoose.display
         private var _rx:Number=0,
 			        _ry:Number=0,
 					_rz:Number=0;
+		
+		private var _color:uint;
+		private var _alpha:uint;
+		private var _colTem:Number=1/255;
         public function DisplayObject()
         {
            
@@ -103,14 +107,23 @@ package mongoose.display
 				
                 _changed = false;
             }
-			
+			var col:uint=color-_color;
+			_color=color;
+			if(col!=0)
+			{
+				
+				mColorData[0]=(color>>16)*_colTem;
+				mColorData[1]=(color>>8&0xff)*_colTem;
+				mColorData[2]=(color&0xff)*_colTem;
+			}
+			mColorData[4]=alpha;
         }// end function
 
         protected function composeMatrix() : void
         {
             mOutMatrix.identity();
             
-			var tx:Number,ty:Number,tz:Number;
+			var tx:Number,ty:Number,tz:Number,scorex:Number,scorey:Number;
 			//----------------------原始缩放计算----------------------
 			tx=mOriginWidth-_mosx;
 			ty=mOriginHeight-_mosy;
@@ -130,8 +143,8 @@ package mongoose.display
 				//trace("原始缩放y")
 			}  
 			//------------------------尺寸缩放计算------------------------------
-			var scorex:Number=width-mOriginWidth;
-			var scorey:Number=height-mOriginHeight;
+			scorex=width-mOriginWidth;
+			scorey=height-mOriginHeight;
 			tx=scorex-_msx;
 			ty=scorey-_msy;
 			_msx=scorex;
