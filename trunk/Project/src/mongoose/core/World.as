@@ -158,11 +158,13 @@ package mongoose.core
             mFps.uints = mChilds.length;
             
         }// end function
-
+        
+		
         override public function render() : void
         {
             var step:uint;
             var total:* = mChilds.length;
+			
             while (step< total)
             {
                 
