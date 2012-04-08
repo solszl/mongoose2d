@@ -2,6 +2,7 @@ package mongoose.display
 {
     import flash.display.*;
     import flash.display3D.*;
+    import flash.display3D.textures.Texture;
     import flash.events.*;
     
     import mongoose.core.*;
