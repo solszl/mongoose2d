@@ -24,8 +24,12 @@ package
 		private var fighter:Class;
 		private var world:World;
 		private var texture:TextureData;
+		
+		private var rols:Vector.<DisplayObject>;
+		private var t:Number=0;
 		public function MongooseTest()
 		{
+			rols=new Vector.<DisplayObject>;
 			world=new World(stage,new Rectangle(0,0,400,300));
 			//world.initialize(stage,);
 			world.addEventListener(Event.COMPLETE,onStart);
@@ -46,28 +50,31 @@ package
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onCK);
 			stage.addEventListener(MouseEvent.MOUSE_UP,onCK);
 			stage.addEventListener(TouchEvent.TOUCH_MOVE,onAddRoll);
-		
+		    //stage.addEventListener(Event.ENTER_FRAME,onFrame);
 			createRols(1600);
 			//Camera.current.enterFrameEvent(Event.ENTER_FRAME,onCamera);
 		}
+		
 		private function onCamera(tar:Camera):void
 		{
 			tar.z+=10;
 		}
 		private function createRols(num:uint):void
 		{
+			
 			for(var i:uint=0;i<num;i++)
 			{
 				var sprite1:Sprite2D=new Sprite2D(texture);
-				sprite1.x=Math.random()*world.width;
-				sprite1.y=Math.random()*world.height;
-				sprite1.rotateZ=Math.random()*360;
+				
+				//sprite1.rotateZ=Math.random()*360;
 				sprite1.enterFrameEvent("enterFrame",onEnter);
-				sprite1.data=Math.random()*5;
-				sprite1.color=Math.random()*0xffffff;
-				sprite1.alpha=Math.random()*1;
-				sprite1.z=Math.random()*10000;
+				sprite1.data=i;
+				sprite1.color=Math.random()*0xff00ff;
+				//sprite1.alpha=Math.random()*1;
+				sprite1.z=i*10;
 				world.addChild(sprite1);
+				rols.push(sprite1);
+				
 			}
 		}
 		private function onCK(e:MouseEvent):void
@@ -83,10 +90,33 @@ package
 		}
 		private function onEnter(tar:DisplayObject):void
 		{
-			//var tar:Sprite2D=Sprite2D(e.currentTarget);
-			tar.x+=tar.data;
 			
+			var num:Number=Number(tar.data);
+			//var k:Number=Math.sin(num*.1+(num*.1+t*2));
+			//var tar:Sprite2D=Sprite2D(e.currentTarget);
+			//tar.x=Math.cos(Number(tar.data)+Number(tar.data)*2)*world.width;
+			
+			var k:Number=Math.random()*100;
+			var g:Number=2;
+			if(k>90)g=Math.random()*10;
+			
+			
+			var cx:Number=Math.cos(num*.1)*g;
+			var cy:Number=Math.sin(num*.1)*g;
+			
+			
+			num++;
+			tar.data=num;
+			
+			tar.y=world.height*.2*Math.cos(num*.01+(num*.01+t))+world.height/2+cx;
+			tar.x=world.height*.2*Math.sin(num*.01+(num*.01+t))+world.height/2+cy;
+			
+			tar.z=5000*Math.sin(num*.01+(num*.1+t))+3000+cy;
+			
+			//tar.color=Math.random()*0x00ff00;
+			//tar.x+=(Number(num)*.01);
 			//tar.rotateZ+=.1;
+			//tar.data+=.3;
 			if(tar.x>world.width+100)tar.x=-100;
 		}
 	}
