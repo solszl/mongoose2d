@@ -38,7 +38,7 @@ package mongoose.display
             }
             return false;
         }// end function
-
+		
         public function removeChild(uint:DisplayObject) : void
         {
             return;
@@ -63,6 +63,7 @@ package mongoose.display
         {
             var step:uint;
             var total:* = this.mChilds.length;
+			
             while (step< total)
             {
                 
@@ -70,6 +71,7 @@ package mongoose.display
 				step++;
             }
 			super.render();
+			
         }// end function
 
     }
