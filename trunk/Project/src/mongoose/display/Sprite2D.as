@@ -3,6 +3,7 @@ package mongoose.display
     import com.adobe.utils.*;
     
     import flash.display3D.*;
+    import flash.display3D.textures.Texture;
 
     public class Sprite2D extends DisplayObjectContainer
     {
@@ -13,6 +14,8 @@ package mongoose.display
         public static var vertexBuffer:VertexBuffer3D;
         public static var indexBuffer:IndexBuffer3D;
 
+		static private var CURRENT_TEXTURE:Texture;
+		static private var CURRENT_VERTEXT_BUFFER:VertexBuffer3D;
         public function Sprite2D(texture:TextureData = null)
         {
             var vertexBufferData:Vector.<Number>;
@@ -91,8 +94,17 @@ package mongoose.display
         override protected function draw() : void
         {
             super.draw();
-            context3d.setTextureAt(0, mTexture.texture);
-            context3d.setVertexBufferAt(0, vertexBuffer, 0, "float3");
+			if(CURRENT_TEXTURE!=mTexture.texture)
+			{
+				context3d.setTextureAt(0, mTexture.texture);
+				CURRENT_TEXTURE=mTexture.texture;
+			}
+            if(CURRENT_VERTEXT_BUFFER!=vertexBuffer)
+			{
+				context3d.setVertexBufferAt(0, vertexBuffer, 0, "float3");
+				CURRENT_VERTEXT_BUFFER=vertexBuffer;
+			}
+            
             context3d.drawTriangles(indexBuffer);
         }// end function
 

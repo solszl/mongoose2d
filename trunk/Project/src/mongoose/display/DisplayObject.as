@@ -99,6 +99,7 @@ package mongoose.display
            
             if (_changed)
             {
+				trace("change")
                 _r1 = 1 / world.width;
                 _r2 = 1 / world.height;
                 _fx = _r1 * 2;

@@ -52,12 +52,19 @@ package
 			stage.addEventListener(TouchEvent.TOUCH_MOVE,onAddRoll);
 		    //stage.addEventListener(Event.ENTER_FRAME,onFrame);
 			createRols(1600);
-			//Camera.current.enterFrameEvent(Event.ENTER_FRAME,onCamera);
+			Camera.current.enterFrameEvent(Event.ENTER_FRAME,onCamera);
 		}
 		
 		private function onCamera(tar:Camera):void
 		{
 			tar.z+=10;
+			var num:Number=Number(2);
+			
+			/*tar.x=world.width/4*Math.sin(num*.1+(num*.01+t));
+			tar.y=world.height/6*Math.sin(num*.1+(num*.01+t));*/
+			
+			tar.z=10000*Math.sin(num*t+(num*.01+t));
+			
 		}
 		private function createRols(num:uint):void
 		{
@@ -66,12 +73,15 @@ package
 			{
 				var sprite1:Sprite2D=new Sprite2D(texture);
 				
-				//sprite1.rotateZ=Math.random()*360;
+				sprite1.rotateZ=Math.random()*360;
 				sprite1.enterFrameEvent("enterFrame",onEnter);
 				sprite1.data=i;
-				sprite1.color=Math.random()*0xff00ff;
+				
+				sprite1.color=Math.random()*0xffffff;
 				//sprite1.alpha=Math.random()*1;
-				sprite1.z=i*10;
+				//sprite1.z=i*10;
+				sprite1.x=Math.random()*world.width;//world.width/2;
+				sprite1.y=Math.random()*world.height;
 				world.addChild(sprite1);
 				rols.push(sprite1);
 				
@@ -108,10 +118,10 @@ package
 			num++;
 			tar.data=num;
 			
-			tar.y=world.height*.2*Math.cos(num*.01+(num*.01+t))+world.height/2+cx;
-			tar.x=world.height*.2*Math.sin(num*.01+(num*.01+t))+world.height/2+cy;
+			tar.y=world.height*.2*Math.cos(num*.001+(num*.01+t))+world.height/2;
+			tar.x+=Math.sin(num*.008+(num*.001+t))*2;
 			
-			tar.z=5000*Math.sin(num*.01+(num*.1+t))+3000+cy;
+			tar.z=5000*Math.sin(num*.09+(num*.01+t))+3000;
 			
 			//tar.color=Math.random()*0x00ff00;
 			//tar.x+=(Number(num)*.01);
