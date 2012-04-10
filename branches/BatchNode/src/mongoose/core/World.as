@@ -76,7 +76,7 @@ package mongoose.core
                 ra = Math.atan(height / width) * 2;
                 mPerspective.perspectiveFieldOfViewLH(ra, width / height, near, far);
                 context3d.configureBackBuffer(width, height, 0, false);
-                context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, mPerspective, true);
+                context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, mPerspective, true);
             }
             scale = height / width;
 			
@@ -122,7 +122,7 @@ package mongoose.core
 			//context3d.setDepthTest(true,Context3DCompareMode.LESS_EQUAL);
             context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
             TextureData.context3d = context3d;
-            stage.addEventListener(Event.ENTER_FRAME, this.onRender);
+           // stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
