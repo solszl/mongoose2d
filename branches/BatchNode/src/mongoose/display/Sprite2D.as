@@ -14,6 +14,7 @@ package mongoose.display
         public static var vertexBuffer:VertexBuffer3D;
         public static var indexBuffer:IndexBuffer3D;
 
+		//cache...
 		static private var CURRENT_TEXTURE:Texture;
 		static private var CURRENT_VERTEXT_BUFFER:VertexBuffer3D;
         public function Sprite2D(texture:TextureData = null)
