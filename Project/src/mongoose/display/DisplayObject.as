@@ -1,5 +1,6 @@
 package mongoose.display
 {
+    import flash.display.Shape;
     import flash.display3D.*;
     import flash.events.*;
     import flash.geom.*;
@@ -37,7 +38,7 @@ package mongoose.display
         protected var mOutMatrix:Matrix3D;
         protected var mTemp:Matrix3D=new Matrix3D;
 		protected var mParentMatrix3D:Matrix3D;
-        private var _pivot:Vector3D;
+        protected var _pivot:Vector3D;
         private var _r1:Number;
         private var _r2:Number;
         private var _fx:Number;
@@ -63,6 +64,7 @@ package mongoose.display
 		private var _color:uint;
 		private var _alpha:uint;
 		private var _colTem:Number=1/255;
+		
         public function DisplayObject()
         {
            
@@ -77,6 +79,7 @@ package mongoose.display
             mOutMatrix = new Matrix3D();
             mColorData = new Vector.<Number>;
             mColorData.push(1,1,1,1);
+			
             addEventListener(Event.ADDED, onChange);
 			world.addEventListener(Event.CHANGE,onChange);
         }// end function

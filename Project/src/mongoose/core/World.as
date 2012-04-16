@@ -182,33 +182,31 @@ package mongoose.core
 			{
 				root.addEventListener(MouseEvent.CLICK, _mouseEventHandler);
 				root.addEventListener(MouseEvent.MOUSE_DOWN, _mouseEventHandler);
-//				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
+				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
 				root.addEventListener(MouseEvent.MOUSE_UP, _mouseEventHandler);
 			}
 			
 		}
 		
-		public function _removeMouseListener( root:Stage ):void
+		protected function _removeMouseListener( root:Stage ):void
 		{
 			if (root)
 			{
 				root.removeEventListener(MouseEvent.CLICK, _mouseEventHandler);
 				root.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseEventHandler);
-//				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
+				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
 				root.removeEventListener(MouseEvent.MOUSE_UP, _mouseEventHandler);
 			}
 		}
 		
 		protected function _mouseEventHandler(evt:MouseEvent):void
 		{
-			var _i:int;
-			var _len:uint= mChilds.length;
-			while (_i < _len)
+			var i:int;
+			var len:uint= mChilds.length;
+			while (i < len)
 			{
-				//                trace(event.type,getTimer());
-				InteractiveObject(mChilds[_i]).triggerMouseEvent(evt);
-				//                trace(event.type,getTimer());
-				_i++;
+				InteractiveObject(mChilds[i]).triggerMouseEvent(evt);
+				i++;
 			}
 		}
     }

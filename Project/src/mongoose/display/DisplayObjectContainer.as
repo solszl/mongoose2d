@@ -76,53 +76,53 @@ package mongoose.display
         override internal function _passMouseEvent(event:MouseEvent, isBubbled:Boolean=false):Boolean
         {
             //假如是禁止鼠标的，那直接向上冒泡
-            if( !m_mouseEnabled )
+            if(!mMouseEnabled)
             {
                 return false;
             }
             
             //假如是冒泡上来的 只需要继续向上冒泡
-            if( isBubbled )
+            if(isBubbled)
             {
-                switch( event.type )
+                switch(event.type)
                 {
                     case 'click':
                     {
-                        _mouseClick( event );
+                        _mouseClick(event);
                         break;
                     }
                     case 'mouseDown':
                     {
-                        _mouseDown( event );
+                        _mouseDown(event);
                         break;
                     }
                     case 'mouseUp':
                     {
-                        _mouseUp( event );
+                        _mouseUp(event);
                         break;
                     }
                 }
                 
-                if( parent )
-                    parent._passMouseEvent( event, true );
+                if(parent)
+                    parent._passMouseEvent(event, true);
                 
             }
             else
             {
                 //是否有孩子响应了鼠标事件
-                var _hasTriggerChild:Boolean = false;
+                var hasTriggerChild:Boolean = false;
                 
-                if( m_mouseChildren )
+                if(mMouseChildren)
                 {
-                    var _len:uint = mChilds.length;
+                    var len:uint = mChilds.length;
                     //倒序检测
-                    for( var i:int = _len-1; i >= 0;  --i )
+                    for( var i:int = len-1; i >= 0;  --i )
                     {
                         if( mChilds[i] is InteractiveObject )
                         {
                             if( InteractiveObject(mChilds[i])._passMouseEvent( event ) )
                             {
-                                _hasTriggerChild = true;
+                                hasTriggerChild = true;
                                 break;
                             }
                             else
@@ -132,7 +132,7 @@ package mongoose.display
                 }
                 
                 //没有孩子响应，就检测是否点在自己身上
-                if( !_hasTriggerChild )
+                if( !hasTriggerChild )
                 {
                     if( super._passMouseEvent( event ) && parent )
                     {
