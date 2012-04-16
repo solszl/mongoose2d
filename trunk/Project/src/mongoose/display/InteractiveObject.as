@@ -6,39 +6,39 @@ package mongoose.display
     
     public class InteractiveObject extends DisplayObject
     {
-        
-        [Event(name="click", type="flash.events.MouseEvent")]
-        [Event(name="mouseDown", type="flash.events.MouseEvent")]
-        [Event(name="mouseMove", type="flash.events.MouseEvent")]
-        [Event(name="mouseUp", type="flash.events.MouseEvent")]
-        [Event(name="mouseOver", type="flash.events.MouseEvent")]
-        [Event(name="mouseOut", type="flash.events.MouseEvent")]
-        
-        protected var m_mouseEnabled:Boolean = true;
-        protected var m_mouseChildren:Boolean = true;
-        
-        protected var handleMap:Dictionary;;
+        protected var mMouseEnabled:Boolean = true;
+        protected var mMouseChildren:Boolean = true;
+		protected var mMouseHandleMap:Dictionary;
+		
+		private var _mouseHandleFunc:Function;
+		
+        protected var mHandleMap:Dictionary;
+		
+		
+		protected var mInBound:Boolean;
+		protected var mGlobalPoint:Point = new Point();
         
         public function InteractiveObject()
         {
-			handleMap=new Dictionary;
+			mHandleMap=new Dictionary;
+			mMouseHandleMap = new Dictionary;
             
         }// end function
 
        
         public function enterFrameEvent(name:String,handle:Function):void
 		{
-			handleMap[name]=handle;
+			mHandleMap[name]=handle;
 		}
 		public function removeFrameEvent(name:String,handle:Function):void
 		{
-			if(handleMap[name])
-				delete handleMap[name];
+			if(mHandleMap[name])
+				delete mHandleMap[name];
 		}
 		override protected function preRender():void
 		{
 			super.preRender();
-			for each(var handle:Function in handleMap)
+			for each(var handle:Function in mHandleMap)
 			{
 				handle(this);
 			}
@@ -46,25 +46,34 @@ package mongoose.display
         
         public function set mouseEnabled( bool:Boolean ):void
         {
-            m_mouseEnabled = bool;
+            mMouseEnabled = bool;
         }
         
         public function get mouseEnabled():Boolean
         {
-            return m_mouseEnabled;
+            return mMouseEnabled;
         }
         
         public function set mouseChildren( bool:Boolean ):void
         {
-            m_mouseChildren = bool;
+            mMouseChildren = bool;
         }
         
         public function get mouseChildren():Boolean
         {
-            return m_mouseChildren;
+            return mMouseChildren;
         }
         
-		protected var mGlobalPoint:Point = new Point();
+		public function listenMouseEvent(name:String,handle:Function):void
+		{
+			mMouseHandleMap[name]=handle;
+		}
+		public function removeMouseEvent(name:String,handle:Function):void
+		{
+			if(mMouseHandleMap[name])
+				delete mMouseHandleMap[name];
+		}
+		
 		public function get globalPosition():Point
 		{
 			mGlobalPoint.x = x;
@@ -76,7 +85,6 @@ package mongoose.display
 			return (mGlobalPoint);
 		}
 		
-        protected var m_inBound:Boolean;
         /**
          * 事件的传递和回冒 
          * @param event 鼠标事件
@@ -84,38 +92,40 @@ package mongoose.display
          * @return 
          * 
          */  
-        internal function _passMouseEvent( event:MouseEvent, isBubbled:Boolean=false ):Boolean
+        internal function _passMouseEvent(event:MouseEvent, isBubbled:Boolean=false):Boolean
         {
-            m_inBound =  _checkPointHasPixel( event.stageX, event.stageY );
+            mInBound =  _checkPointHasPixel(event.stageX, event.stageY);
             
             switch( event.type )
             {
                 case 'mouseMove':
                 {
-                    _mouseMove( event, m_inBound );
+                    _mouseMove(event, mInBound);
                     break;
                 }
                 case 'click':
                 {
-                    if( m_inBound )
-                        _mouseClick( event );
+                    if( mInBound )
+                        _mouseClick(event);
                     break;
                 }
                 case 'mouseDown':
                 {
-                    if( m_inBound )
-                        _mouseDown( event );
+                    if( mInBound )
+                        _mouseDown(event);
                     break;
                 }
                 case 'mouseUp':
                 {
-                    if( m_inBound )
-                        _mouseUp( event );
+                    if( mInBound )
+                        _mouseUp(event);
                     break;
                 }
             }
             
-            return m_inBound;
+			_mouseHandleFunc = null;
+			
+            return mInBound;
         }
         
         /**
@@ -125,7 +135,7 @@ package mongoose.display
          * @return 
          * 
          */        
-        protected function _checkPointHasPixel( pointX:Number, pointY:Number ):Boolean
+        protected function _checkPointHasPixel(pointX:Number, pointY:Number):Boolean
         {
             //todo:...
             //假如
@@ -142,7 +152,7 @@ package mongoose.display
 //                }
 //            }
             
-            return _isContainPoint( pointX, pointY );
+            return hitTest( pointX, pointY );
         }
         /**
          * 检测点的位置是否在矩形内 
@@ -151,8 +161,9 @@ package mongoose.display
          * @return 
          * 
          */        
-        protected function _isContainPoint( pointX:Number, pointY:Number ):Boolean
+        protected function hitTest(pointX:Number, pointY:Number):Boolean
         {
+			
 			mGlobalPoint.x = x;
 			mGlobalPoint.y = y;
 			if (parent != null)
@@ -161,9 +172,9 @@ package mongoose.display
 			}
 			
             if( pointX > mGlobalPoint.x && 
-                pointY > mGlobalPoint.y && 
-                pointX < (mGlobalPoint.x+width) && 
-                pointY < (mGlobalPoint.y+height) )
+				pointY > mGlobalPoint.y && 
+				pointX < (mGlobalPoint.x+width) && 
+				pointY < (mGlobalPoint.y+height) )
             {
                 return true;
             }
@@ -171,56 +182,64 @@ package mongoose.display
             return false;
         }
         
-        protected function _mouseDown( event:MouseEvent ):void
+        protected function _mouseDown(event:MouseEvent):void
         {
-            if( hasEventListener( 'mouseDown') )
+			_mouseHandleFunc = mMouseHandleMap['mouseDown'];
+            if( _mouseHandleFunc != null)
             {
-                dispatchEvent( event );
+				_mouseHandleFunc(event);
                 //trace('down')
             }
+			
         }
         
-        protected function _mouseUp( event:MouseEvent ):void
+        protected function _mouseUp(event:MouseEvent):void
         {
-            if( hasEventListener( 'mouseUp' ) )
-            {
-                dispatchEvent( event );
-                //trace('up')
-            }
+			_mouseHandleFunc = mMouseHandleMap['mouseUp'];
+			if( _mouseHandleFunc != null)
+			{
+				_mouseHandleFunc(event);
+				//trace('down')
+			}
         }
         
-        protected function _mouseClick( event:MouseEvent ):void
+        protected function _mouseClick(event:MouseEvent):void
         {
-            if( hasEventListener( 'click' ) )
-            {
-                dispatchEvent( event );
-            }
+			_mouseHandleFunc = mMouseHandleMap['click'];
+			if( _mouseHandleFunc != null)
+			{
+				_mouseHandleFunc(event);
+				//trace('down')
+			}
         }
         
-        protected var m_isMouseOver:Boolean = false;
-        protected function _mouseMove( event:MouseEvent, hasPixel:Boolean ):void
+        protected var mIsMouseOver:Boolean = false;
+        protected function _mouseMove(event:MouseEvent, hasPixel:Boolean):void
         {
             if( hasPixel )
             {
-                if( hasEventListener( 'mouseMove' ) )
+				_mouseHandleFunc = mMouseHandleMap['mouseMove'];
+				if( _mouseHandleFunc != null)
+				{
+					_mouseHandleFunc(event);
+					//trace('down')
+				}
+				
+				_mouseHandleFunc = mMouseHandleMap['mouseOver'];
+                if( !mIsMouseOver &&  _mouseHandleFunc!= null)
                 {
-                    dispatchEvent( event );
-                }
-                
-                if( !m_isMouseOver && hasEventListener( 'mouseOver' ) )
-                {
-                    m_isMouseOver = true;
-                    dispatchEvent( new MouseEvent('mouseOver',true,false,event.stageX- parent.x,event.stageY-parent.y) );
+                    mIsMouseOver = true;
+					_mouseHandleFunc(new MouseEvent('mouseOver',true,false,event.stageX- parent.x,event.stageY-parent.y));
                 }
             }
             else
             {
-                if( m_isMouseOver )
+                if( mIsMouseOver )
                 {
-                    m_isMouseOver = false;
-                    
-                    if( hasEventListener('mouseOut') )
-                        dispatchEvent( new MouseEvent('mouseOut',true,false,event.stageX-parent.x,event.stageY-parent.y) );
+                    mIsMouseOver = false;
+					_mouseHandleFunc = mMouseHandleMap['mouseOut'];
+                    if(_mouseHandleFunc != null)
+						_mouseHandleFunc(new MouseEvent('mouseOut',true,false,event.stageX-parent.x,event.stageY-parent.y));
                 }
             }
         }
@@ -230,7 +249,7 @@ package mongoose.display
          * @param event
          * 
          */        
-        public function triggerMouseEvent( event:MouseEvent ):void
+        public function triggerMouseEvent(event:MouseEvent):void
         {
             _passMouseEvent( event );
         }
