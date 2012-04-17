@@ -5,29 +5,31 @@ package mongoose.display
 
     public class InteractiveObject extends DisplayObject
     {
-        protected var handleMap:Dictionary;;
+        protected var enterHandle:Array=[];
         public function InteractiveObject()
         {
-			handleMap=new Dictionary;
+			
             
         }// end function
 
        
         public function enterFrameEvent(name:String,handle:Function):void
 		{
-			handleMap[name]=handle;
+			enterHandle.push(handle);
 		}
 		public function removeFrameEvent(name:String,handle:Function):void
 		{
-			if(handleMap[name])
-				delete handleMap[name];
+			
 		}
 		override protected function preRender():void
 		{
 			super.preRender();
-			for each(var handle:Function in handleMap)
+			var step:uint,item:Object;
+			var len:uint=enterHandle.length;
+			while(step<len)
 			{
-				handle(this);
+				enterHandle[step](this);
+				step++;
 			}
 		}
     }
