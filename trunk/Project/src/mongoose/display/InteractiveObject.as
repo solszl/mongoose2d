@@ -1,7 +1,10 @@
 package mongoose.display
 {
     import flash.events.*;
+    import flash.geom.Matrix3D;
     import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.geom.Vector3D;
     import flash.utils.Dictionary;
     
     public class InteractiveObject extends DisplayObject
@@ -16,13 +19,15 @@ package mongoose.display
 		
 		
 		protected var mInBound:Boolean;
+		protected var mRectangle:Rectangle;
+		
 		protected var mGlobalPoint:Point = new Point();
         
         public function InteractiveObject()
         {
 			mHandleMap=new Dictionary;
 			mMouseHandleMap = new Dictionary;
-            
+			mRectangle = new Rectangle();
         }// end function
 
        
@@ -170,18 +175,94 @@ package mongoose.display
 			{
 				mGlobalPoint = mGlobalPoint.add(parent.globalPosition);
 			}
-			
-            if( pointX > mGlobalPoint.x && 
+			/*
+			if(rotateZ == 0)
+			{	
+	            if( pointX > mGlobalPoint.x && 
+					pointY > mGlobalPoint.y && 
+					pointX < (mGlobalPoint.x+width) && 
+					pointY < (mGlobalPoint.y+height) )
+	            {
+					
+	                return true;
+	            }
+			}
+			else
+			{
+				mRectangle.x = mGlobalPoint.x;
+				mRectangle.y = mGlobalPoint.y;
+				mRectangle.width = width;
+				mRectangle.height = height;
+				
+				return getBoundsAfterTransformation(mRectangle, mOutMatrix).contains(pointX, pointY);
+			}
+            */
+			if( pointX > mGlobalPoint.x && 
 				pointY > mGlobalPoint.y && 
 				pointX < (mGlobalPoint.x+width) && 
 				pointY < (mGlobalPoint.y+height) )
-            {
-                return true;
-            }
-            
+			{
+				
+				return true;
+			}
+			
             return false;
         }
-        
+		
+		public function getBoundsAfterTransformation(bounds:Rectangle, m:Matrix3D):Rectangle 
+		{
+			if (m == null) return bounds;
+			
+			var topLeft:Vector3D = m.transformVector(new Vector3D(bounds.topLeft.x, bounds.topLeft.y, 1));
+			var topRight:Vector3D = m.transformVector(new Vector3D(bounds.right, bounds.top,1));
+			var bottomRight:Vector3D = m.transformVector(new Vector3D(bounds.bottomRight.x, bounds.bottomRight.y, 1));
+			var bottomLeft:Vector3D = m.transformVector(new Vector3D(bounds.left, bounds.bottom ,1));
+			
+			var left:Number = Math.min(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var top:Number = Math.min(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			var right:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var bottom:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			return new Rectangle(left, top, right - left, bottom - top);
+		}
+		
+		private function insidePolygon(pointList:Array, p:Point):Boolean
+		{
+			var counter:int = 0;
+			var i:int;
+			var xinters:Number;
+			var p1:Point;
+			var p2:Point;
+			var n:int = pointList.length;
+			
+			p1 = pointList[0];
+			for (i = 1; i <= n; i++)
+			{
+				p2 = pointList[i % n];
+				if (p.y > Math.min(p1.y, p2.y))
+				{
+					if (p.y <= Math.max(p1.y, p2.y))
+					{
+						if (p.x <= Math.max(p1.x, p2.x))
+						{
+							if (p1.y != p2.y) {
+								xinters = (p.y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x;
+								if (p1.x == p2.x || p.x <= xinters)
+									counter++;
+							}
+						}
+					}
+				}
+				p1 = p2;
+			}
+			if (counter % 2 == 0)
+			{
+				return(false);
+			}
+			else
+			{
+				return(true);
+			}
+		}
         protected function _mouseDown(event:MouseEvent):void
         {
 			_mouseHandleFunc = mMouseHandleMap['mouseDown'];
