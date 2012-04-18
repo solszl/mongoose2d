@@ -10,7 +10,7 @@ package mongoose.display
         protected var mOffsetX:Number = 0;
         protected var mOffsetY:Number = 0;
         protected var mTexture:TextureData;
-        private static var program3d:Program3D;
+        protected static var program3d:Program3D;
         public static var vertexBuffer:VertexBuffer3D;
         public static var indexBuffer:IndexBuffer3D;
 
@@ -90,7 +90,14 @@ package mongoose.display
                 context3d.setProgram(program3d);
             }
         }// end function
-
+        
+        override protected function preRender():void
+        {
+            super.preRender();
+            
+            context3d.setProgram(program3d);
+        }
+        
         override protected function draw() : void
         {
             super.draw();
@@ -113,6 +120,6 @@ package mongoose.display
             super.composeMatrix();
             mOutMatrix.appendTranslation(mOffsetX, mOffsetY, 0);
         }// end function
-
+        
     }
 }
