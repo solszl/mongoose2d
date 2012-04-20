@@ -182,7 +182,7 @@ package mongoose.core
 			{
 				root.addEventListener(MouseEvent.CLICK, _mouseEventHandler);
 				root.addEventListener(MouseEvent.MOUSE_DOWN, _mouseEventHandler);
-				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
+//				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
 				root.addEventListener(MouseEvent.MOUSE_UP, _mouseEventHandler);
 			}
 			
