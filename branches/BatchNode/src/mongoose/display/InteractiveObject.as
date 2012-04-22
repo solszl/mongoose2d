@@ -13,7 +13,7 @@ package mongoose.display
         }// end function
 
        
-        public function enterFrameEvent(name:String,handle:Function):void
+        public function enterFrameEvent(handle:Function):void
 		{
 			enterHandle.push(handle);
 		}
