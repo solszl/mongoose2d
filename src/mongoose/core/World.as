@@ -11,6 +11,7 @@ package mongoose.core
     import flash.display3D.Context3DProgramType;
     import flash.display3D.Context3DTriangleFace;
     import flash.events.*;
+    import flash.geom.Matrix3D;
     
     import mongoose.display.*;
     import mongoose.geom.*;
@@ -119,7 +120,7 @@ package mongoose.core
             context3d.enableErrorChecking = true;
             context3d.configureBackBuffer(width, height, 0, false);
             context3d.setCulling(Context3DTriangleFace.NONE);
-			//context3d.setDepthTest(true,Context3DCompareMode.LESS_EQUAL);
+			context3d.setDepthTest(false,Context3DCompareMode.LESS_EQUAL);
             context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
             TextureData.context3d = context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
@@ -173,6 +174,9 @@ package mongoose.core
             }
             return;
         }// end function
-
+        override public function getMatrix3D():Matrix3D
+		{
+			return null;
+		}
     }
 }

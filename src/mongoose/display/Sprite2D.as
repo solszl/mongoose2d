@@ -82,12 +82,14 @@ package mongoose.display
             mTexture = texture;
             width = mTexture.width;
             height = mTexture.height;
-            mOriginWidth = width;
-            mOriginHeight = height;
+            mOriginWidth = mSx=width;
+            mOriginHeight = mSy=height;
             mOffsetX = texture.offsetX;
             mOffsetY = texture.offsetY;
             mOffsetX = mOffsetX / world.width * 2;
             mOffsetY = -mOffsetY / world.height * world.scale * 2;
+			
+			init();
             //context3d.setVertexBufferAt(1, this.mTexture.uvBuffer, 0, "float2");
         }// end function
 
@@ -123,7 +125,7 @@ package mongoose.display
 				
                 fs ="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
 			        "mul ft0,ft0,v1\n" + 
-				    "mul ft0.w,v1.z,ft0.w\n"+
+				    //"mul ft0.w,v1.z,ft0.w\n"+
 				    "mov oc ft0\n";
                 vg.assemble(Context3DProgramType.VERTEX, vs);
                 fg.assemble(Context3DProgramType.FRAGMENT, fs);
@@ -161,8 +163,8 @@ package mongoose.display
 			var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+CURRENT_TEMP;
 			//trace("数据:",mid,uid,cid);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
-			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mTexture.uvVector);
-			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,cid,mColorData);
+			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mTexture.uvVector,1);
+			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,cid,mColorData,1);
 			
 			//trace(mid,CURRENT_REND);
 			//trace("控制",CURRENT_TEMP,BATCH_NUM)
@@ -171,7 +173,8 @@ package mongoose.display
 				//trace("绘制一次");
 				context3d.drawTriangles(indexBuffer);
 				
-				LAST_DRAW=CURRENT_TEMP;
+				LAST_DRAW=CURRENT_REND+1;
+				//trace("记忆最后一次完整DrawCall",LAST_DRAW);
 				CURRENT_TEMP=0;
 			}
 			else
@@ -181,8 +184,8 @@ package mongoose.display
 			if(CURRENT_REND==INSTANCE_NUM-1)
 			{
 				//trace("绘制二次");
-				var p2:uint=(BATCH_NUM-LAST_DRAW)*2;
-				
+				var p2:uint=(INSTANCE_NUM-LAST_DRAW)*2;
+				//trace("剩余DrawCall",INSTANCE_NUM,LAST_DRAW,p2)
 				context3d.drawTriangles(indexBuffer,0,p2);
 				CURRENT_REND=0;
 				CURRENT_TEMP=0;
