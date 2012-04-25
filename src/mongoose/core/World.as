@@ -6,9 +6,12 @@ package mongoose.core
     import flash.display.Stage3D;
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
+    import flash.display3D.Context3D;
     import flash.display3D.Context3DBlendFactor;
+    import flash.display3D.Context3DClearMask;
     import flash.display3D.Context3DCompareMode;
     import flash.display3D.Context3DProgramType;
+    import flash.display3D.Context3DStencilAction;
     import flash.display3D.Context3DTriangleFace;
     import flash.events.*;
     import flash.geom.Matrix3D;
@@ -18,7 +21,7 @@ package mongoose.core
     
     import tools.*;
 
-    public class World extends DisplayObjectContainer
+    public class World extends EventDispatcher
     {
         protected var mFullScreen:Boolean;
         protected var mPerspective:PerspectiveMatrix3D;
@@ -31,23 +34,27 @@ package mongoose.core
         private static var STAGE_USED:uint = 0;
         public static var near:Number = 0.1;
         public static var far:Number = 10000;
-
+        public var stage:Stage;
+		
+		public var width:Number,height:Number;
+		public var context3d:Context3D;
+		public var x:Number=0,y:Number=0;
+		protected var mChilds:Vector.<DisplayObject>;
         public function World(stage2D:Stage, viewPort:Rectangle)
         {
             stage = stage2D;
-            world = this;
+           
             mRect=viewPort;
             mPerspective = new PerspectiveMatrix3D();
 			Camera.stage=stage;
             mCamera = new Camera();
             mCamera.active = true;
             mFps = new FrameRater(65280, true,false);
-			
-			super();
+			mChilds=new Vector.<DisplayObject>;
             this.initialize(stage, mRect);
           
         }// end function
-
+       
         public function set fullScreen(mRect:Boolean) : void
         {
             this.mFullScreen = mRect;
@@ -77,6 +84,9 @@ package mongoose.core
                 ra = Math.atan(height / width) * 2;
                 mPerspective.perspectiveFieldOfViewLH(ra, width / height, near, far);
                 context3d.configureBackBuffer(width, height, 0, false);
+				//context3d.setDepthTest(true,Context3DCompareMode.LESS_EQUAL);
+				context3d.setStencilActions(Context3DTriangleFace.FRONT,Context3DCompareMode.LESS_EQUAL);
+				//context3d.setStencilReferenceValue(Context3DStencilAction.
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, mPerspective, true);
             }
             scale = height / width;
@@ -120,9 +130,13 @@ package mongoose.core
             context3d.enableErrorChecking = true;
             context3d.configureBackBuffer(width, height, 0, false);
             context3d.setCulling(Context3DTriangleFace.NONE);
-			context3d.setDepthTest(false,Context3DCompareMode.LESS_EQUAL);
+			//context3d.setDepthTest(false,Context3DCompareMode.LESS_EQUAL);
+			//context3d.setStencilReferenceValue(Context3DClearMask.DEPTH,100,200);
             context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
             TextureData.context3d = context3d;
+			BaseObject.stage=stage;
+			BaseObject.world=this;
+			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			
             onResize();
@@ -153,28 +167,25 @@ package mongoose.core
             return;
         }// end function
 
-        override public function addChild(object:DisplayObject) : void
+        public function addChild(object:DisplayObject) : void
         {
-            super.addChild(object);
-            mFps.uints = mChilds.length;
-            
+			Image.INSTANCE_NUM++;
+            mChilds.push(object);
         }// end function
         
 		
-        override public function render() : void
+        public function render() : void
         {
             var step:uint;
             var total:* = mChilds.length;
-			
             while (step< total)
             {
-                
                 mChilds[step].render();
 				step++;
             }
-            return;
+			mFps.uints=Image.INSTANCE_NUM;
         }// end function
-        override public function getMatrix3D():Matrix3D
+        public function getMatrix3D():Matrix3D
 		{
 			return null;
 		}

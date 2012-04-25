@@ -20,18 +20,11 @@ package mongoose.display
         public static var context3d:Context3D;
         public static var stage:Stage;
         public static var world:World;
-        static protected const TOTAL_REG:uint=128;
-		//系统占用8个,包括透视和相机
-		static protected const SYSTEM_USED_REG:uint=8;
-		//预留寄存器数量
-		static protected const REG_SAVE:uint=6;
-		//每个角色使用的寄存器数量.4个矩阵，一个颜色，一个UV
-		static protected const REG_PER_ROLS:uint=6;
-		static protected var REG_INDEX:uint;
+       
 		
         public function BaseObject()
         {
-			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
+			
             return;
         }// end function
 

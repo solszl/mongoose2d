@@ -75,13 +75,9 @@ package mongoose.display
             mColorData = new Vector.<Number>;
             mColorData.push(1,1,1,1);
       
-			world.addEventListener(Event.CHANGE,onChange);
+			
         }// end function
 
-        protected function onChange(far:Event = null) : void
-        {
-			init();
-        }// end function
         
         override protected function preRender() : void
         {
@@ -105,6 +101,7 @@ package mongoose.display
 			mSx=mOriginWidth;
 			mSy=mOriginHeight;
 			_sx=_sy=1;
+			_mx=_my=_mz=0;
 			_rx=_ry=_rz=0;
 			_rotPivot.x=0;
 			_rotPivot.y=0;
@@ -233,19 +230,15 @@ package mongoose.display
             if (parent != null)
             {
                 mParentMatrix3D=parent.getMatrix3D();
-				if(mParentMatrix3D!=null)
-					mOutMatrix.append(mParentMatrix3D);
+				mOutMatrix.append(mParentMatrix3D);
             }
         }// end function
         public function getMatrix3D():Matrix3D
 		{
+			mMyMatrix.identity();
+			mMyMatrix.append(mMatrix3D);
 			if(mParentMatrix3D!=null)
-			{
-				mMyMatrix.identity();
-				mMyMatrix.append(mMatrix3D);
-				mMyMatrix.append(mParentMatrix3D);
-			}
-				
+			mMyMatrix.append(mParentMatrix3D);
 			return mMyMatrix;
 		}
         public function render() : void
