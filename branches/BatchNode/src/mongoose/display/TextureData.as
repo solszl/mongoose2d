@@ -49,12 +49,12 @@ package mongoose.display
             }
             else
             {
-				trace("新建...");
+				//trace("新建...");
                 texture = context3d.createTexture(bmp.width, bmp.height, "bgra", false);
                 texture.uploadFromBitmapData(bmp);
 				cache[bmp]=texture;
             }
-            cache[bmp] = texture;
+            
             return;
         }// end function
 
@@ -63,6 +63,10 @@ package mongoose.display
             
             width = TextureData.width;
             height = TextureData.height;
+			
+			width%2==0?width:width++;
+			height%2==0?height:height++;
+			
             offsetX = Object.x;
             offsetY = Object.y;
             var tx:Number = TextureData.x / bitmapData.width;

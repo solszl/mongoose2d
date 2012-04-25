@@ -15,9 +15,11 @@ package mongoose.display
 
         public function addChild(child:DisplayObject) : void
         {
+			
             if (!this.hasChild(child))
             {
                 this.mChilds.push(child);
+				Image.INSTANCE_NUM++;
             }
             child.parent = this;
             dispatchEvent(new Event(Event.ADDED));
@@ -39,14 +41,23 @@ package mongoose.display
             return false;
         }// end function
 		
-        public function removeChild(uint:DisplayObject) : void
+        public function removeChild(object:DisplayObject) : void
         {
+			var step:uint=0;
+			while(step<mChilds.length)
+			{
+				if(mChilds[step]==object)
+				{
+					mChilds.splice(step,1);
+					INSTANCE_NUM--;
+				}	
+			}
             return;
         }// end function
 
         public function get numChildren() : Number
         {
-            return 0;
+            return mChilds.length;
         }// end function
 
         public function getChildByName(name:String) : DisplayObject
@@ -56,7 +67,7 @@ package mongoose.display
 
         public function getChildByIndex(index:uint) : DisplayObject
         {
-            return null;
+            return mChilds[index];
         }// end function
 
         override public function render() : void
