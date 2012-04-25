@@ -6,13 +6,17 @@ package
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TouchEvent;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.ui.Mouse;
 	
 	import mongoose.core.Camera;
 	import mongoose.core.World;
 	import mongoose.display.DisplayObject;
+	import mongoose.display.Image;
 	import mongoose.display.MovieClip;
 	import mongoose.display.Sprite2D;
+	import mongoose.display.TextField;
 	import mongoose.display.TextureData;
 	import mongoose.geom.Point;
 	import mongoose.geom.Rectangle;
@@ -52,7 +56,7 @@ package
 			trace("COMPLETE");
 			texture=new TextureData;
 		    texture.setBitmap(bd);
-			texture.setUVData(new Rectangle(0,0,64,128),new Point(0,0));
+			texture.setUVData(new Rectangle(13*64,0,64,128),new Point(0,0));
 		    
 			frameData=new FormatFrame(bd,16,1,1,11);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onCK);
@@ -60,8 +64,16 @@ package
 			stage.addEventListener(TouchEvent.TOUCH_MOVE,onAddRoll);
 			stage.addEventListener(Event.RESIZE,onResize);
 		    //stage.addEventListener(Event.ENTER_FRAME,onFrame);
-			createRols(1600);
+			createRols(400);
 			//Camera.current.enterFrameEvent(Event.ENTER_FRAME,onCamera);
+			
+			
+				
+		   var texf:TextFormat=new TextFormat
+			   texf.color=0x99cc00;
+			   
+			   
+			  
 		}
 		
 		private function onCamera(tar:Camera):void
@@ -85,7 +97,8 @@ package
 		}
 		private function createRols(num:uint):void
 		{
-			
+			var texf:TextFormat=new TextFormat
+			texf.color=0x99cc00;
 			for(var i:uint=0;i<num;i++)
 			{
 				texture=new TextureData;
@@ -95,16 +108,22 @@ package
 				{
 					f=0;
 				}
-				texture.setUVData(new Rectangle(f*64,0,64,128),new Point(0,0));
+				texture.setUVData(new Rectangle(12*64,0,64,128),new Point(0,0));
 				var sprite1:MovieClip=new MovieClip(frameData.data,24);
-				
+				sprite1.stop();
 				//sprite1.rotateZ=Math.random()*360;
 				sprite1.enterFrameEvent(onEnter);
 				sprite1.data=i;
-				sprite1.x=world.width/2;
-				sprite1.y=world.height/2;
+				sprite1.x=Math.random()*world.width;
+				sprite1.y=Math.random()*world.height;
+				sprite1.z=Math.random()*10000;
+				var tex:mongoose.display.TextField=new mongoose.display.TextField;
+				tex.setTextFormat(texf);
+				tex.y=-64;
+				tex.setText("我是好学生...");
+				sprite1.addChild(tex);
 				
-                sprite1.color=Math.random()*0xffffff;
+                //sprite1.color=Math.random()*0xffffff;
 				//sprite1.scaleX=sprite1.scaleY=(Math.sqrt((i)*.001));
 				//if(i==0)sprite1.color=0xffffff;
 				//sprite1.alpha=Math.random()*1.0;
@@ -122,6 +141,13 @@ package
 			//sprite1.x-=10;
 			//sprite1.y-=30;
 			//sprite1.color=0xffffff;
+		}
+		private function onTFrame(e:Event):void
+		{
+			var target:flash.text.TextField=e.currentTarget as flash.text.TextField
+			target.x++
+			if(target.x>stage.stageWidth)
+				target.x=-100;
 		}
 		private function onCK(e:MouseEvent):void
 		{
