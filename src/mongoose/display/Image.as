@@ -10,7 +10,7 @@ package mongoose.display
 		protected var mOffsetX:Number = 0;
 		protected var mOffsetY:Number = 0;
 		protected var mTexture:TextureData;
-		private static var program3d:Program3D;
+		protected static var program3d:Program3D;
 		public static var vertexBuffer:VertexBuffer3D;
 		public static var indexBuffer:IndexBuffer3D;
 		
@@ -48,7 +48,7 @@ package mongoose.display
 			}
 			initBuffer();
 			initProgram();
-		}// end function
+		}
 		protected function initBuffer():void
 		{
 			if (vertexBuffer == null)
@@ -105,7 +105,7 @@ package mongoose.display
 			
 			init();
 			//context3d.setVertexBufferAt(1, this.mTexture.uvBuffer, 0, "float2");
-		}// end function
+		}
 		
 		protected function initProgram() : void
 		{
@@ -147,15 +147,13 @@ package mongoose.display
 				program3d.upload(vg.agalcode, fg.agalcode);
 				context3d.setProgram(program3d);
 			}
-		}// end function
+		}
 		
 		override protected function draw() : void
 		{
 			//trace("start",this);
 			if(CURRENT_TEXTURE!=mTexture.texture)
 			{
-				
-				
 				if(CURRENT_TEXTURE!=null)
 				{
 					//trace("draw cache..");
@@ -214,13 +212,13 @@ package mongoose.display
 				CURRENT_REND++;
 			}
 			//context3d.drawTriangles(indexBuffer);
-		}// end function
+		}
 		
 		override protected function composeMatrix() : void
 		{
 			super.composeMatrix();
 			mOutMatrix.appendTranslation(mOffsetX, mOffsetY, 0);
-		}// end function
+		}
 		
 	}
 }
