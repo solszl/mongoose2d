@@ -1,16 +1,5 @@
 package mongoose.display
 {
-	import flash.display.BitmapData;
-	import flash.display3D.textures.Texture;
-	import flash.events.TimerEvent;
-	import flash.utils.setInterval;
-	
-	import mongoose.display.Sprite2D;
-	import mongoose.display.TextureData;
-	
-	import mx.messaging.AbstractConsumer;
-	
-
 	public class MovieClip extends Sprite2D
 	{
 		

@@ -3,7 +3,6 @@ package mongoose.display
     import com.adobe.utils.*;
     
     import flash.display3D.*;
-    import flash.display3D.textures.Texture;
 
     public class Sprite2D extends DisplayObjectContainer
     {
@@ -11,7 +10,7 @@ package mongoose.display
        
         public function Sprite2D(texture:TextureData = null)
         {
-			
+			super(texture);
         }// end function
     }
 }

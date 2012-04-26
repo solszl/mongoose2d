@@ -1,11 +1,6 @@
 package mongoose.display
 {
-
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
-	import flash.display3D.Context3DTextureFormat;
-	import flash.display3D.textures.Texture;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
@@ -13,15 +8,8 @@ package mongoose.display
 	
 	import math.getUpPower2;
 	
-	import mongoose.display.Image;
-	import mongoose.display.TextureData;
 	import mongoose.geom.Point;
 	import mongoose.geom.Rectangle;
-	
-	import mx.controls.Text;
-	
-	
-	
 	
 	public class TextField extends Image
 	{

@@ -5,7 +5,6 @@ package mongoose.display
     import flash.geom.*;
     
     import mongoose.core.*;
-    import mongoose.geom.RemMatrix3D;
 
     public class DisplayObject extends BaseObject
     {
@@ -13,7 +12,7 @@ package mongoose.display
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
         public var scaleZ:Number = 1;
-        public var parent:DisplayObject;
+        public var parent:DisplayObjectContainer;
         public var color:Number = 0xffffff;
         public var alpha:Number = 1;
         public var width:Number = 0;

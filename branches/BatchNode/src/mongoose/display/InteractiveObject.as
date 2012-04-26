@@ -6,11 +6,12 @@ package mongoose.display
     public class InteractiveObject extends Image
     {
         protected var enterHandle:Array=[];
-        public function InteractiveObject()
+        public function InteractiveObject(texture:TextureData = null)
         {
-			
             world.addEventListener(Event.CHANGE,onChange);
-        }// end function
+            
+            super(texture);
+        }
         private function onChange(e:Event):void
 		{
 			init();
