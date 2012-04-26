@@ -4,7 +4,7 @@ package mongoose.filter
     import flash.display3D.Context3DBlendFactor;
     import flash.display3D.Context3DProgramType;
     import flash.geom.Matrix3D;
-
+    
     /**
      * 径向模糊 
      * @author genechen
