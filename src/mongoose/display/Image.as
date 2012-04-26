@@ -109,12 +109,13 @@ package mongoose.display
 		
 		protected function initProgram() : void
 		{
-			var vg:AGALMiniAssembler;
-			var fg:AGALMiniAssembler;
-			var vs:String;
-			var fs:String;
 			if (program3d == null)
 			{
+                var vg:AGALMiniAssembler;
+                var fg:AGALMiniAssembler;
+                var vs:String;
+                var fs:String;
+                
 				vg = new AGALMiniAssembler();
 				fg = new AGALMiniAssembler();
 				vs ="m44 vt0, va0,vc[va2.x]\n"+
