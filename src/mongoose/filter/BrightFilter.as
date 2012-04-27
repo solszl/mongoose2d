@@ -37,7 +37,6 @@ package mongoose.filter
             
             var fs:String = 
 				"tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
-				"mul ft0,ft0,v1\n" +
 				"add ft0.xyz, ft0.xyz, fc"+ regIndex +".w\n";
 			return fs;
         }

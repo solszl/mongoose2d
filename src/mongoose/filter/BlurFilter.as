@@ -7,16 +7,16 @@ package mongoose.filter
         protected var mFilterConst:Vector.<Number>;
         protected var mFilterConst2:Vector.<Number>;
         
-        protected var mBlurLevel:Number;
+        protected var mBlurIntensity:Number;
         protected var mFragmentIndex:uint;
         protected var mVertexIndex:uint;
         
-        public function BlurFilter(value:Number=0.004)
+        public function BlurFilter( intensity:Number=0.004)
         {
             super();
             
-			mBlurLevel = value;
-            mFilterConst = Vector.<Number>([mBlurLevel,-mBlurLevel,0.0,0.0]);
+			mBlurIntensity = intensity;
+            mFilterConst = Vector.<Number>([mBlurIntensity, -mBlurIntensity, 0.0,0.0]);
             mFilterConst2 = Vector.<Number>([0.2,0.2,0.2,0.2]);
         }
         
@@ -71,22 +71,22 @@ package mongoose.filter
             return mVertexIndex+0;
         }
         
-        public function set blurLevel(value:Number):void
+        public function set blurLevel(intensity:Number):void
         {
-            if( value<=0 )
+            if( intensity<=0 )
             {
-                value = 0.0001;
+				intensity = 0.0001;
             }
             
-            mBlurLevel = value;
+			mBlurIntensity = intensity;
             
-            mFilterConst[0] = blurLevel;
-            mFilterConst[1] = -blurLevel;
+            mFilterConst[0] = intensity;
+            mFilterConst[1] = -intensity;
         }
         
         public function get blurLevel():Number
         {
-            return mBlurLevel
+            return mBlurIntensity
         }
     }
 }

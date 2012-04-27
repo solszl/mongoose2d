@@ -66,12 +66,12 @@ package mongoose.display
                 if(temp == "")
                 {
                     fs ="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
-                        "mul oc,ft0,v1\n" ; 
+						"mul oc, ft0, v1\n" ; 
                         //"mul ft0.w,v1.z,ft0.w\n"+
                 }
                 else
                 {
-                    fs = temp + "mov oc, ft0";
+                    fs = temp + "mul oc, ft0, v1\n" ;
                 }
                 
                 vg.assemble(Context3DProgramType.VERTEX, vs);
