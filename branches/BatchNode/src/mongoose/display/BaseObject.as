@@ -25,7 +25,7 @@ package mongoose.display
         {
 			
             return;
-        }// end function
+        }
 
         protected function preRender() : void
         {
@@ -33,7 +33,7 @@ package mongoose.display
             this.mY = (-this.y) / world.height * 2 * world.scale;
             this.mZ = this.z / (World.far - World.near);
             return;
-        }// end function
+        }
 
     }
 }

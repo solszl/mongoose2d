@@ -62,7 +62,7 @@ package tools
 											wPos*wLen,hPos*hLen+hLen
 				                         ]);*/
 				bmp=new TextureData();
-				bmp.setBitmap(bitmap);
+				bmp.bitmapData = bitmap;
 				bmp.setUVData(new Rectangle(hPos*wLen,wPos*hLen,wLen,hLen),new Point(0,0));
 				data.push(bmp);
 			}
