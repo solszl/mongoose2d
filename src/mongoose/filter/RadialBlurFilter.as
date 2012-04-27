@@ -84,11 +84,8 @@ package mongoose.filter
         
         public function apply(context:Context3D):void
         {
-            //0.0025为一次缩放步长，0.005为一次缩放步长两倍
             context.setProgramConstantsFromVector("fragment", mFragmentIndex, mFilterConst);
-            //单位矩阵，采用时候用
             context.setProgramConstantsFromMatrix("fragment", mFragmentIndex+1, mNullMatrix);
-            
         }
         
         public function get endPsReg():uint
