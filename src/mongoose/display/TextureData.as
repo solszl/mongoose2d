@@ -3,10 +3,10 @@ package mongoose.display
     import flash.display.*;
     import flash.display3D.*;
     import flash.display3D.textures.*;
-    import flash.geom.Point;
-    import flash.geom.Rectangle;
     import flash.utils.*;
     
+    import mongoose.geom.MPoint;
+    import mongoose.geom.MRectangle;
     import mongoose.utils.TextureHelper;
 
     public class TextureData extends Object
@@ -66,7 +66,7 @@ package mongoose.display
 			return mBitmapData;
 		}
 
-        public function setUVData(TextureData:Rectangle, offsetPt:Point=null):void
+        public function setUVData(TextureData:MRectangle, offsetPt:MPoint=null):void
         {
             width = TextureData.width;
             height = TextureData.height;

@@ -1,14 +1,15 @@
 package mongoose.display
 {
 	import flash.display.BitmapData;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
 	import flashx.textLayout.formats.TextAlign;
 	
 	import math.getUpPower2;
+	
+	import mongoose.geom.MPoint;
+	import mongoose.geom.MRectangle;
 	
 	public class TextField extends Image
 	{
@@ -76,7 +77,7 @@ package mongoose.display
 				//stage.addChild(new Bitmap(mBitmapData));
 				
 				mTextTexture.bitmapData = mBitmapData;
-				mTextTexture.setUVData(new Rectangle(0,0,width,height),new Point(0,0));
+				mTextTexture.setUVData(new MRectangle(0,0,width,height),new MPoint(0,0));
 				setTexture(mTextTexture);
 				_text=value;
 			}

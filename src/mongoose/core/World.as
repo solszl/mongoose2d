@@ -15,10 +15,9 @@ package mongoose.core
     import flash.display3D.Context3DTriangleFace;
     import flash.events.*;
     import flash.geom.Matrix3D;
-    import flash.geom.Rectangle;
     
     import mongoose.display.*;
-    import mongoose.geom.RemMatrix3D;
+    import mongoose.geom.*;
     
     import tools.*;
 
@@ -27,7 +26,7 @@ package mongoose.core
         protected var mFullScreen:Boolean;
         protected var mPerspective:PerspectiveMatrix3D;
         protected var mStage3D:Stage3D;
-        protected var mRect:Rectangle;
+        protected var mRect:MRectangle;
       
         public var scale:Number;
         protected var mCamera:Camera;
@@ -41,7 +40,7 @@ package mongoose.core
 		public var context3d:Context3D;
 		public var x:Number=0,y:Number=0;
 		protected var mChilds:Vector.<DisplayObject>;
-        public function World(stage2D:Stage, viewPort:Rectangle)
+        public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
            
@@ -100,7 +99,7 @@ package mongoose.core
             return;
         }
 
-        public function initialize(mRoot:Stage, viewPort:Rectangle) : void
+        public function initialize(mRoot:Stage, viewPort:MRectangle) : void
         {
             stage = mRoot;
             stage.scaleMode = StageScaleMode.NO_SCALE;
