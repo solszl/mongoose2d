@@ -11,11 +11,12 @@ package mongoose.filter
         protected var mFragmentIndex:uint;
         protected var mVertexIndex:uint;
         
-        public function BlurFilter()
+        public function BlurFilter(value:Number=0.004)
         {
             super();
             
-            mFilterConst = Vector.<Number>([0.004,-0.004,0.0,0.0]);
+			mBlurLevel = value;
+            mFilterConst = Vector.<Number>([mBlurLevel,-mBlurLevel,0.0,0.0]);
             mFilterConst2 = Vector.<Number>([0.2,0.2,0.2,0.2]);
         }
         
