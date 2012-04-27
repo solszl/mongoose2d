@@ -153,6 +153,9 @@ package mongoose.display
 		override protected function draw() : void
 		{
 			//trace("start",this);
+			if(mTexture == null || mTexture.texture == null)
+				return;
+			
 			if(CURRENT_TEXTURE!=mTexture.texture)
 			{
 				if(CURRENT_TEXTURE!=null)

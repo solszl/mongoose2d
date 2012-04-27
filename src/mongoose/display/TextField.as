@@ -76,7 +76,7 @@ package mongoose.display
 				//mTextField.y=100;
 				//stage.addChild(new Bitmap(mBitmapData));
 				
-				mTextTexture.setBitmap(mBitmapData);
+				mTextTexture.bitmapData = mBitmapData;
 				mTextTexture.setUVData(new Rectangle(0,0,width,height),new Point(0,0));
 				setTexture(mTextTexture);
 				_text=value;

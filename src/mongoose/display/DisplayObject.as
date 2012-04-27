@@ -75,7 +75,7 @@ package mongoose.display
             mColorData.push(1,1,1,1);
       
 			
-        }// end function
+        }
 
         
         override protected function preRender() : void
@@ -89,7 +89,7 @@ package mongoose.display
 				mColorData[2]=(color&0xff)*_colTem;
 			}
 			mColorData[3]=alpha;
-        }// end function
+        }
         protected function init():void
 		{
 			mBaseMtx.identity();
@@ -231,7 +231,7 @@ package mongoose.display
                 mParentMatrix3D=parent.getMatrix3D();
 				mOutMatrix.append(mParentMatrix3D);
             }
-        }// end function
+        }
         public function getMatrix3D():Matrix3D
 		{
 			mMyMatrix.identity();
@@ -245,12 +245,12 @@ package mongoose.display
             preRender();
             composeMatrix();
             draw();
-        }// end function
+        }
 
         protected function draw() : void
         {
             
-        }// end function
+        }
 
     }
 }
