@@ -1,15 +1,14 @@
 package mongoose.display
 {
 	import flash.display.BitmapData;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
 	import flashx.textLayout.formats.TextAlign;
 	
 	import math.getUpPower2;
-	
-	import mongoose.geom.Point;
-	import mongoose.geom.Rectangle;
 	
 	public class TextField extends Image
 	{

@@ -20,6 +20,7 @@ package mongoose.display
         public static var stage:Stage;
         public static var world:World;
        
+		public var name:String;
 		
         public function BaseObject()
         {
