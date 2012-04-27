@@ -29,27 +29,36 @@ package mongoose.filter
         {
             var fs:String = 
                 
-                "tex ft0, v0, fs0 <2d,nearest,nomip>\n" +
-                "mov ft1, ft0\n" +
+                "tex ft1, v0, fs0 <2d,nearest,nomip>\n" +
+                "mov ft3, ft1\n" +
                 
-                "add ft0.xy, v0.xy, fc"+mFragmentIndex+".xx\n" +
-                "tex ft2, ft0, fs0 <2d,nearest,nomip>\n" +
-                "add ft1, ft1, ft2\n" +
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xx\n" +
+                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "add ft3, ft3, ft2\n" +
                 
-                "add ft0.xy, v0.xy, fc"+mFragmentIndex+".yx\n" +
-                "tex ft2, ft0, fs0 <2d,nearest,nomip>\n" +
-                "add ft1, ft1, ft2\n" +
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yx\n" +
+                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "add ft3, ft3, ft2\n" +
                 
-                "add ft0.xy, v0.xy, fc"+mFragmentIndex+".yy\n" +
-                "tex ft2, ft0, fs0 <2d,nearest,nomip>\n" +
-                "add ft1, ft1, ft2\n" +
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yy\n" +
+                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "add ft3, ft3, ft2\n" +
                 
-                "add ft0.xy, v0.xy, fc"+mFragmentIndex+".xy\n" +
-                "tex ft2, ft0, fs0 <2d,nearest,nomip>\n" +
-                "add ft1, ft1, ft2\n" +
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xy\n" +
+                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "add ft3, ft3, ft2\n" +
                 
-                "mul ft1, ft1, fc"+(mFragmentIndex+1)+"\n" +
-                "mul ft0, ft1, v1\n";
+                "mul ft3, ft3, fc"+(mFragmentIndex+1)+"\n";
+			
+			if(regIndex>0)
+			{
+				fs = fs + "mul ft1, ft3, v1\n" +
+					"add ft0, ft1, ft0\n";
+			}
+			else
+			{
+				fs = fs + "mul ft0, ft3, v1\n";
+			}
             
             return fs;
         }
