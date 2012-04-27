@@ -71,20 +71,20 @@ package mongoose.filter
             return mVertexIndex+0;
         }
         
-        public function set blurLevel(intensity:Number):void
+        public function set intensity(value:Number):void
         {
-            if( intensity<=0 )
+            if( value<=0 )
             {
-				intensity = 0.0001;
+				value = 0.0001;
             }
             
-			mBlurIntensity = intensity;
+			mBlurIntensity = value;
             
-            mFilterConst[0] = intensity;
-            mFilterConst[1] = -intensity;
+            mFilterConst[0] = value;
+            mFilterConst[1] = -value;
         }
         
-        public function get blurLevel():Number
+        public function get intensity():Number
         {
             return mBlurIntensity
         }

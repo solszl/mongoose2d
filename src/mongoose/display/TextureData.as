@@ -6,6 +6,7 @@ package mongoose.display
     import flash.utils.*;
     
     import mongoose.geom.*;
+    import mongoose.utils.TextureHelper;
 
     public class TextureData extends Object
     {
@@ -37,7 +38,7 @@ package mongoose.display
             setBitmap(defaultBmp);
             
            
-        }// end function
+        }
 
         public function setBitmap(bmp:BitmapData) : void
         {
@@ -50,13 +51,12 @@ package mongoose.display
             else
             {
 				//trace("新建...");
-                texture = context3d.createTexture(bmp.width, bmp.height, "bgra", false);
-                texture.uploadFromBitmapData(bmp);
+                texture = TextureHelper.generateTextureFromBitmap(context3d,bmp,false);
 				cache[bmp]=texture;
             }
             
             return;
-        }// end function
+        }
 
         public function setUVData(TextureData:Rectangle, Object:Point) : void
         {

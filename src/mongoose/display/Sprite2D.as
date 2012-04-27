@@ -100,7 +100,7 @@ package mongoose.display
                     filter = IFilter(mFilters[i]);
                     if(regIndex<0)
                     {
-                        tempfs += filter.getPsCode(1);
+                        tempfs += filter.getPsCode(0);
                     }
                     else
                     {

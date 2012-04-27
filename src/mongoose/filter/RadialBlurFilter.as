@@ -46,10 +46,9 @@ package mongoose.filter
         public function getPsCode(regIndex:uint):String
         {
             mFragmentIndex = regIndex;
-            
             //将变换矩阵拷到临时寄存器
             //进行采样
-            var fragmentProgram_0:String =   
+            var fragment0:String =   
                 "mov ft3, fc"+(mFragmentIndex+1)+"\n" +
                 "mov ft4, fc"+(mFragmentIndex+2)+"\n" +
                 "mov ft5, fc"+(mFragmentIndex+3)+"\n" +
@@ -59,27 +58,36 @@ package mongoose.filter
             //对矩阵按中心等比缩小固定值
             //对采样点应用矩阵变换以向中心移动位置
             //对变换后的采样点进行采样，并将颜色值累计到中间变量
-            var fragmentProgram_1:String =   
+            var fragment1:String =   
 				"sub ft3.x, ft3.x, fc"+mFragmentIndex+".z\n" +
                 "sub ft4.y, ft4.y, fc"+mFragmentIndex+".z\n" +
                 "add ft3.w, ft3.w, fc"+mFragmentIndex+".y\n" +
                 "add ft4.w, ft4.w, fc"+mFragmentIndex+".y\n" +
-                "m44 ft0, v0, ft3\n" +
-                "tex ft2, ft0, fs0<2d,nearest,nomip>\n" +
+                "m44 ft5, v0, ft3\n" +
+                "tex ft2, ft5, fs0<2d,nearest,nomip>\n" +
                 "add ft1, ft1, ft2\n";
             
-            //对累计的颜色值除以采样次数得到采样平均值，输出颜色值
-            var fragmentProgram_2:String = "div ft0, ft1, fc"+mFragmentIndex+".x\n";
+			var fragment2:String;
+			if(regIndex>0)
+			{
+				//对累计的颜色值除以采样次数得到采样平均值，输出颜色值
+				fragment2 = 
+					"div ft1, ft1, fc"+mFragmentIndex+".x\n" +
+					"add ft0, ft1, ft0\n";
+			}
+			else
+			{
+				fragment2 = "div ft0, ft1, fc"+mFragmentIndex+".x\n";
+			}
             
-            //在agal中累计STEP - 1次采样，注意不要超过程序最大长度
-            //这个方法有点土，不知各路大大有没高招
+            //组合shader片段
             for (var i:int = 1; i < mGradation; i++)
             {
-                fragmentProgram_0 = fragmentProgram_0 + fragmentProgram_1;
+                fragment0 = fragment0 + fragment1;
             }
-            fragmentProgram_0 = fragmentProgram_0 + fragmentProgram_2;
+			fragment0 = fragment0 + fragment2;
             
-            return fragmentProgram_0;
+            return fragment0;
         }
         
         public function apply(context:Context3D):void
