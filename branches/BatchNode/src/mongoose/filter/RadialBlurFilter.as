@@ -28,7 +28,7 @@ package mongoose.filter
             
             if(params == null)
             {
-                mFilterConst = Vector.<Number>([mGradation, 0.005, 0.01, 0]);
+                mFilterConst = Vector.<Number>([mGradation, 0.005, 0.01, mGradation]);
             }
             else
             {
@@ -54,18 +54,18 @@ package mongoose.filter
                 "mov ft4, fc"+(mFragmentIndex+2)+"\n" +
                 "mov ft5, fc"+(mFragmentIndex+3)+"\n" +
                 "mov ft6, fc"+(mFragmentIndex+4)+"\n" +
-                "mov ft0, v0\n" +
-                "tex ft1, ft0, fs0<2d,linear,nomip>\n";
+                "tex ft1, v0, fs0<2d,nearest,nomip>\n";
             
             //对矩阵按中心等比缩小固定值
             //对采样点应用矩阵变换以向中心移动位置
             //对变换后的采样点进行采样，并将颜色值累计到中间变量
-            var fragmentProgram_1:String =   "sub ft3.x, ft3.x, fc"+mFragmentIndex+".z\n" +
+            var fragmentProgram_1:String =   
+				"sub ft3.x, ft3.x, fc"+mFragmentIndex+".z\n" +
                 "sub ft4.y, ft4.y, fc"+mFragmentIndex+".z\n" +
                 "add ft3.w, ft3.w, fc"+mFragmentIndex+".y\n" +
                 "add ft4.w, ft4.w, fc"+mFragmentIndex+".y\n" +
                 "m44 ft0, v0, ft3\n" +
-                "tex ft2, ft0, fs0<2d,linear,nomip>\n" +
+                "tex ft2, ft0, fs0<2d,nearest,nomip>\n" +
                 "add ft1, ft1, ft2\n";
             
             //对累计的颜色值除以采样次数得到采样平均值，输出颜色值
