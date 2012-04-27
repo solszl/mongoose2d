@@ -1,11 +1,13 @@
 package tools
 {
     import flash.display.BitmapData;
-
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
     
     import mongoose.display.TextureData;
-    import mongoose.geom.Point;
-    import mongoose.geom.Rectangle;
+
+//    import mongoose.geom.Point;
+//    import mongoose.geom.Rectangle;
  
  
 	/**
@@ -63,7 +65,7 @@ package tools
 				                         ]);*/
 				bmp=new TextureData();
 				bmp.bitmapData = bitmap;
-				bmp.setUVData(new Rectangle(hPos*wLen,wPos*hLen,wLen,hLen),new Point(0,0));
+				bmp.setUVData(new Rectangle(hPos*wLen,wPos*hLen,wLen,hLen));//,new Point(0,0));
 				data.push(bmp);
 			}
 		}

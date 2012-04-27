@@ -15,9 +15,10 @@ package mongoose.core
     import flash.display3D.Context3DTriangleFace;
     import flash.events.*;
     import flash.geom.Matrix3D;
+    import flash.geom.Rectangle;
     
     import mongoose.display.*;
-    import mongoose.geom.*;
+    import mongoose.geom.RemMatrix3D;
     
     import tools.*;
 
@@ -53,14 +54,14 @@ package mongoose.core
 			mChilds=new Vector.<DisplayObject>;
             this.initialize(stage, mRect);
           
-        }// end function
+        }
        
         public function set fullScreen(mRect:Boolean) : void
         {
             this.mFullScreen = mRect;
             this.onResize();
             return;
-        }// end function
+        }
 
         private function onResize(VERTEX:Event = null) : void
         {
@@ -92,12 +93,12 @@ package mongoose.core
             scale = height / width;
 			
             dispatchEvent(new Event(Event.CHANGE));
-        }// end function
+        }
 
         public function addCamera(camera:Camera) : void
         {
             return;
-        }// end function
+        }
 
         public function initialize(mRoot:Stage, viewPort:Rectangle) : void
         {
@@ -113,7 +114,7 @@ package mongoose.core
             mPerspective.perspectiveFieldOfViewLH(ra, width / height, near, far);
             stage.addEventListener(Event.RESIZE, onResize);
    
-        }// end function
+        }
 
         public function start() : void
         {
@@ -122,7 +123,7 @@ package mongoose.core
             mStage3D.requestContext3D();
             STAGE_USED++;
 
-        }// end function
+        }
 
         protected function onCreate(VERTEX:Event) : void
         {
@@ -139,11 +140,13 @@ package mongoose.core
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			
+			_initMouseListener(stage);
+			
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
 
-        }// end function
+        }
 
         protected function onRender(VERTEX:Event=null) : void
         {
@@ -152,7 +155,7 @@ package mongoose.core
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
             render();
             context3d.present();
-        }// end function
+        }
 
         public function showFps(mRect:Boolean) : void
         {
@@ -165,13 +168,13 @@ package mongoose.core
                 stage.removeChild(mFps);
             }
             return;
-        }// end function
+        }
 
         public function addChild(object:DisplayObject) : void
         {
 			Image.INSTANCE_NUM++;
             mChilds.push(object);
-        }// end function
+        }
         
 		
         public function render() : void
@@ -184,10 +187,44 @@ package mongoose.core
 				step++;
             }
 			mFps.uints=Image.INSTANCE_NUM;
-        }// end function
+        }
+		
         public function getMatrix3D():Matrix3D
 		{
 			return null;
+		}
+		
+		protected function _initMouseListener( root:Stage ):void
+		{
+			if (root)
+			{
+				root.addEventListener(MouseEvent.CLICK, _mouseEventHandler);
+				root.addEventListener(MouseEvent.MOUSE_DOWN, _mouseEventHandler);
+				//				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
+				root.addEventListener(MouseEvent.MOUSE_UP, _mouseEventHandler);
+			}
+		}
+		
+		protected function _removeMouseListener( root:Stage ):void
+		{
+			if (root)
+			{
+				root.removeEventListener(MouseEvent.CLICK, _mouseEventHandler);
+				root.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseEventHandler);
+				root.addEventListener(MouseEvent.MOUSE_MOVE, _mouseEventHandler);
+				root.removeEventListener(MouseEvent.MOUSE_UP, _mouseEventHandler);
+			}
+		}
+		
+		protected function _mouseEventHandler(evt:MouseEvent):void
+		{
+			var i:int;
+			var len:uint= mChilds.length;
+			while (i < len)
+			{
+				InteractiveObject(mChilds[i]).triggerMouseEvent(evt);
+				i++;
+			}
 		}
     }
 }

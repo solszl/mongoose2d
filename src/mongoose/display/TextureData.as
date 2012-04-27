@@ -3,19 +3,20 @@ package mongoose.display
     import flash.display.*;
     import flash.display3D.*;
     import flash.display3D.textures.*;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
     import flash.utils.*;
     
-    import mongoose.geom.*;
     import mongoose.utils.TextureHelper;
 
     public class TextureData extends Object
     {
         public var texture:Texture;
         
-        public var width:Number;
-        public var height:Number;
-        public var offsetX:Number;
-        public var offsetY:Number;
+        public var width:Number = 0.0;
+        public var height:Number = 0.0;
+        public var offsetX:Number = 0.0;
+        public var offsetY:Number = 0.0;
 		public var uvVector:Vector.<Number>;
        
         protected var mBitmapData:BitmapData;
@@ -28,7 +29,7 @@ package mongoose.display
 		 */        
         public function TextureData(useDefault:Boolean=false)
         {
-			uvVector = new Vector.<Number>(4);
+			uvVector = Vector.<Number>([0.0, 0.0, 1.0, 1.0]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
