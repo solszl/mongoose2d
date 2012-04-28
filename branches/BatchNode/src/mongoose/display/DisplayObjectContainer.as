@@ -27,7 +27,7 @@ package mongoose.display
             dispatchEvent(new Event(Event.ADDED));
         }
 
-        private function hasChild(child:DisplayObject) : Boolean
+        public function hasChild(child:DisplayObject) : Boolean
         {
             var step:int;
             var total:uint = mChilds.length;

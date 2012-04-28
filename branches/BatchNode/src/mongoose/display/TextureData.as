@@ -54,8 +54,15 @@ package mongoose.display
             }
             else
             {
-                texture = TextureHelper.generateTextureFromBitmap(context3d,bmp,false);
-				cache[bmp]=texture;
+                if(bmp != null)
+                {
+                    texture = TextureHelper.generateTextureFromBitmap(context3d,bmp,false);
+				    cache[bmp]=texture;
+                }
+                else
+                {
+                    texture = null;
+                }
             }
             
             return;
