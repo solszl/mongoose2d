@@ -139,7 +139,7 @@ package mongoose.display
             return null;
         }
 
-        public function getChildByIndex(index:uint) : DisplayObject
+        public function getChildAt(index:uint) : DisplayObject
         {
             return mChilds[index];
         }
