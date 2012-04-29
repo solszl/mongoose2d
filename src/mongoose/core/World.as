@@ -179,7 +179,7 @@ package mongoose.core
         public function render() : void
         {
             var step:uint;
-            var total:* = mChilds.length;
+            var total:uint = mChilds.length;
             while (step< total)
             {
                 mChilds[step].render();

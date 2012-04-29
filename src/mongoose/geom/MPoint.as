@@ -1,7 +1,6 @@
 package mongoose.geom
 {
-
-    public class MPoint extends Object
+    public class MPoint
     {
         public var x:Number;
         public var y:Number;
@@ -11,6 +10,5 @@ package mongoose.geom
             this.x = x;
             this.y = y;
         }// end function
-
     }
 }
