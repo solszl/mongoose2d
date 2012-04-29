@@ -111,11 +111,11 @@ package mongoose.display
 		{
 			if (program3d == null)
 			{
-                var vg:AGALMiniAssembler;
-                var fg:AGALMiniAssembler;
-                var vs:String;
-                var fs:String;
-                
+				var vg:AGALMiniAssembler;
+				var fg:AGALMiniAssembler;
+				var vs:String;
+				var fs:String;
+				
 				vg = new AGALMiniAssembler();
 				fg = new AGALMiniAssembler();
 				vs ="m44 vt0, va0,vc[va2.x]\n"+
@@ -153,39 +153,39 @@ package mongoose.display
 		override protected function draw() : void
 		{
 			//trace("start",this);
-			if(mTexture == null || mTexture.texture == null)
-				return;
-			
-			if(CURRENT_TEXTURE!=mTexture.texture)
+			if(mTexture)
 			{
-				if(CURRENT_TEXTURE!=null)
+				if(CURRENT_TEXTURE!=mTexture.texture)
 				{
-					//trace("draw cache..");
-					//trace(CURRENT_REND,LAST_DRAW,CURRENT_TEMP);
-					context3d.drawTriangles(indexBuffer,0,CURRENT_TEMP*2);
-					LAST_DRAW=CURRENT_REND;
-					CURRENT_TEMP=0;
+					if(CURRENT_TEXTURE!=null)
+					{
+						//trace("draw cache..");
+						//trace(CURRENT_REND,LAST_DRAW,CURRENT_TEMP);
+						context3d.drawTriangles(indexBuffer,0,CURRENT_TEMP*2);
+						LAST_DRAW=CURRENT_REND;
+						CURRENT_TEMP=0;
+					}
+					context3d.setTextureAt(0, mTexture.texture);
+					CURRENT_TEXTURE=mTexture.texture;
 				}
-				context3d.setTextureAt(0, mTexture.texture);
-				CURRENT_TEXTURE=mTexture.texture;
+				
+				if(CURRENT_VERTEXT_BUFFER!=vertexBuffer)
+				{
+					context3d.setVertexBufferAt(0, vertexBuffer, 0, "float3");
+					context3d.setVertexBufferAt(1, vertexBuffer, 3, "float2");
+					context3d.setVertexBufferAt(2, vertexBuffer, 5, "float1");
+					context3d.setVertexBufferAt(3, vertexBuffer, 6, "float1");
+					context3d.setVertexBufferAt(4, vertexBuffer, 7, "float1");
+					CURRENT_VERTEXT_BUFFER=vertexBuffer;
+				}
+				var mid:uint=REG_INDEX+CURRENT_TEMP*4;
+				var uid:uint=BATCH_NUM*4+REG_INDEX+CURRENT_TEMP;
+				var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+CURRENT_TEMP;
+				//trace("数据:",mid,uid,cid);
+				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
+				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mTexture.uvVector,1);
+				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,cid,mColorData,1);
 			}
-			if(CURRENT_VERTEXT_BUFFER!=vertexBuffer)
-			{
-				context3d.setVertexBufferAt(0, vertexBuffer, 0, "float3");
-				context3d.setVertexBufferAt(1, vertexBuffer, 3, "float2");
-				context3d.setVertexBufferAt(2, vertexBuffer, 5, "float1");
-				context3d.setVertexBufferAt(3, vertexBuffer, 6, "float1");
-				context3d.setVertexBufferAt(4, vertexBuffer, 7, "float1");
-				CURRENT_VERTEXT_BUFFER=vertexBuffer;
-			}
-			var mid:uint=REG_INDEX+CURRENT_TEMP*4;
-			var uid:uint=BATCH_NUM*4+REG_INDEX+CURRENT_TEMP;
-			var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+CURRENT_TEMP;
-			//trace("数据:",mid,uid,cid);
-			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
-			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mTexture.uvVector,1);
-			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,cid,mColorData,1);
-			
 			//trace(mid,CURRENT_REND);
 			//trace("控制",CURRENT_TEMP,BATCH_NUM)
 			if(CURRENT_TEMP==BATCH_NUM-1)
