@@ -52,7 +52,9 @@ package mongoose.display
 				{
 					mChilds.splice(step,1);
 					INSTANCE_NUM--;
-				}	
+				}
+				
+				step++;
 			}
             return;
         }
