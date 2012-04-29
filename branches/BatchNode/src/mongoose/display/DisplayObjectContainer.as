@@ -149,7 +149,7 @@ package mongoose.display
         override public function render() : void
         {
             var step:uint;
-            var total:* = this.mChilds.length;
+            var total:int = this.mChilds.length;
 			
             while (step< total)
             {
