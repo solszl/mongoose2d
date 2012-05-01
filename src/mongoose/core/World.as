@@ -40,6 +40,7 @@ package mongoose.core
 		public var context3d:Context3D;
 		public var x:Number=0,y:Number=0;
 		protected var mChilds:Vector.<DisplayObject>;
+        
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -111,8 +112,8 @@ package mongoose.core
             y = mRect.y;
             var ra:Number = Math.atan(stage.stageHeight / stage.stageWidth) * 2;
             mPerspective.perspectiveFieldOfViewLH(ra, width / height, near, far);
+            
             stage.addEventListener(Event.RESIZE, onResize);
-   
         }
 
         public function start() : void
@@ -153,6 +154,7 @@ package mongoose.core
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
             render();
+            
             context3d.present();
         }
 
@@ -219,9 +221,12 @@ package mongoose.core
 		{
 			var i:int;
 			var len:uint= mChilds.length;
+            var child:DisplayObject;
 			while (i < len)
 			{
-				InteractiveObject(mChilds[i]).triggerMouseEvent(evt);
+                child = mChilds[i];
+                if(child is InteractiveObject)
+				    InteractiveObject(child).triggerMouseEvent(evt);
 				i++;
 			}
 		}

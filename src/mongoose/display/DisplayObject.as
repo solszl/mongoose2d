@@ -64,8 +64,9 @@ package mongoose.display
         {
            
             _rotPivot = new Vector3D(0, 0, 1);
-			pivot=new Vector3D(-.5,.5,0);
-			
+//			pivot=new Vector3D(-.5,.5,0);
+            pivot=new Vector3D(0,0,0);
+            
             mBaseMtx = new Matrix3D();
             mMatrix3D = new Matrix3D();
 			mMyMatrix =new Matrix3D;
