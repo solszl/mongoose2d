@@ -157,10 +157,11 @@ package mongoose.display
 				step++;
             }
         }
-        override internal function onMouseEvent(type:String, x:Number, y:Number,view:Number):Boolean
+        override internal function onMouseEvent(type:String, x:Number, y:Number,view:Number):InteractiveObject
 		{
 			var hit:Boolean;
 			//var obj:DisplayObject;
+			iTestObject=null;
 			var index:uint;
 			if(mouseChildren)
 			{
@@ -172,28 +173,21 @@ package mongoose.display
 					obj=mChilds[step] as InteractiveObject;
 					if(obj!=null)
 					{
-						hit=obj.onMouseEvent(type,x,y,view);
-						if(hit)
-						{
-							oop=obj;
-						}
+						iTestObject=obj.onMouseEvent(type,x,y,view);
+						
 					}
 					step++;
 				}
 			}
 			//记录当前被点中的对象
-			iTestObject=oop;
-			if(mouseEnabled)
-			{
-				hit=super.onMouseEvent(type,x,y,view);
-				if(iTestObject==null&&hit)
-				{
-					//如果子对象没有被点中,且自身被点中则记录自己
-					iTestObject=this;
-				}
-			}
 			
-			return hit;
+			if(mouseEnabled&&iTestObject==null)
+			{
+				iTestObject=super.onMouseEvent(type,x,y,view);
+				
+			}
+			//trace(iTestObject)
+			return iTestObject;
 		}
 		
 		/*override internal function _passMouseEvent(event:MouseEvent, isBubbled:Boolean=false):Boolean

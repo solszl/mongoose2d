@@ -41,6 +41,7 @@ package mongoose.display
 		public var x:Number=0,y:Number=0;
 	
 		protected var mViewAngle:Number;
+		protected var hitObj:InteractiveObject;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -147,7 +148,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.CLICK,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
+			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -157,21 +158,18 @@ package mongoose.display
 		{
 			var step:uint=0;
 			var obj:InteractiveObject,oop:InteractiveObject;
-			var hit:Boolean;
+			var hit:InteractiveObject;
 			while(step<mChilds.length)
 			{
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
 					hit=obj.onMouseEvent(e.type,e.stageX,e.stageY,mViewAngle);
-					if(hit)
-					{
-						oop=obj;
-					}
+					
 				}
 				step++;
 			}
-			if(oop!=null)oop.triggerEvent(e.type);
+			if(hit!=null)hit.triggerEvent(e.type);
 		}
         protected function onRender(VERTEX:Event=null) : void
         {
