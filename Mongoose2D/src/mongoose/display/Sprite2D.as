@@ -88,7 +88,8 @@ package mongoose.display
 		
        override protected function draw():void
         {
-		   
+		    if(mTexture==null)return;
+		    
 		    if(mFilters!=null)
 			{
 				if(BATCH_INDEX>0)
