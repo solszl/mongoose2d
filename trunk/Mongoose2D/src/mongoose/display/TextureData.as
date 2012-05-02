@@ -3,6 +3,7 @@ package mongoose.display
     import flash.display.*;
     import flash.display3D.*;
     import flash.display3D.textures.*;
+    import flash.geom.Point;
     import flash.utils.*;
     
     import mongoose.geom.MPoint;
@@ -17,11 +18,12 @@ package mongoose.display
         public var height:Number = 0.0;
         public var offsetX:Number = 0.0;
         public var offsetY:Number = 0.0;
-		public var uvVector:Vector.<Number>;
-		
 		//UV值空间
-        public var uValue:Number;
-		public var vValue:Number;
+		public var uValue:Number = 0.0;
+		public var vValue:Number = 0.0;
+		
+		public var uvVector:Vector.<Number>;
+       
         protected var mBitmapData:BitmapData;
         public static var context3d:Context3D;
         private static var cache:Dictionary;
@@ -41,7 +43,7 @@ package mongoose.display
 			if(useDefault)
 			{
 				if (defaultBmp == null)
-					defaultBmp = new BitmapData(32, 32, true, 4294967295);
+					defaultBmp = new BitmapData(16, 16, true, 4294967295);
 				
 				mBitmapData = defaultBmp;
 				bitmapData = defaultBmp;
@@ -60,6 +62,7 @@ package mongoose.display
                 if(bmp != null)
                 {
                     texture = TextureHelper.generateTextureFromBitmap(context3d,bmp,false);
+                    setUVData(new MRectangle(0,0,bmp.width,bmp.height));
 				    cache[bmp]=texture;
                 }
                 else
@@ -81,24 +84,24 @@ package mongoose.display
             width = TextureData.width;
             height = TextureData.height;
 			
-			width%2==0?width:width++;
-			height%2==0?height:height++;
-			
+            var _quadRect:Point=TextureHelper.getTextureDimensionsFromSize(mBitmapData.width, mBitmapData.height);
+            
 			if(offsetPt)
 			{
 				offsetX = offsetPt.x;
 				offsetY = offsetPt.y;
 			}
             
-            var tx:Number = TextureData.x / mBitmapData.width;
-            var ty:Number = TextureData.y / mBitmapData.height;
-            var bx:Number = (TextureData.x + width) / mBitmapData.width;
-            var by:Number = (TextureData.y + height) / mBitmapData.height;
+            var tx:Number = TextureData.x / _quadRect.x;
+            var ty:Number = TextureData.y / _quadRect.y;
+            var bx:Number = (TextureData.x + width) / _quadRect.x;
+            var by:Number = (TextureData.y + height) / _quadRect.y;
            
 			uvVector[0]=tx;
 			uvVector[1]=ty;
 			uvVector[2]=bx;
 			uvVector[3]=by;
+			
 			uValue=bx-tx;
 			vValue=by-ty;
         }
