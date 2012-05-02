@@ -22,6 +22,7 @@ package mongoose.display
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
+		internal var r:Number,g:Number,b:Number;
        
 		protected var mMatrix3D:Matrix3D;
 		protected var mMyMatrix:Matrix3D;
@@ -61,7 +62,7 @@ package mongoose.display
 					_rz:Number=0;
 		
 		private var _color:uint;
-		private var _alpha:uint;
+		private var _alpha:Number;
 		private var _colTem:Number=1/255;
         public function DisplayObject()
         {
@@ -89,12 +90,14 @@ package mongoose.display
         override protected function preRender() : void
         {
 			var col:uint=color-_color;
+			//var ala:uint=alpha-_alpha;
 			_color=color;
+			_alpha=alpha;
 			if(col!=0)
 			{
-				mConstrants[4]=(color>>16)*_colTem;
-				mConstrants[5]=(color>>8&0xff)*_colTem;
-				mConstrants[6]=(color&0xff)*_colTem;
+				r=mConstrants[4]=(color>>16)*_colTem;
+				g=mConstrants[5]=(color>>8&0xff)*_colTem;
+				b=mConstrants[6]=(color&0xff)*_colTem;
 			}
 			mConstrants[7]=alpha;
         }// end function
@@ -237,9 +240,19 @@ package mongoose.display
             mOutMatrix.append(mMatrix3D);
             if (parent != null)
             {
+				//this.alpha=_alpha*parent.alpha;
+				mConstrants[4]=r*parent.r;
+				mConstrants[5]=g*parent.g;
+				mConstrants[6]=b*parent.b;
+				mConstrants[7]=alpha*parent.alpha;
                 mParentMatrix3D=parent.getMatrix3D();
 				mOutMatrix.append(mParentMatrix3D);
             }
+			else
+			{
+				this.alpha=_alpha;
+				//mConstrants[7]=this.alpha;
+			}
         }// end function
         public function getMatrix3D():Matrix3D
 		{

@@ -54,6 +54,7 @@ package mongoose.display
 					mChilds.splice(step,1);
 					
 				}	
+				step++;
 			}
             return;
         }
@@ -94,10 +95,11 @@ package mongoose.display
         {
             if( beginIndex<0 ) beginIndex = 0;
             if( endIndex > mChilds.length-1 ) endIndex = mChilds.length-1;
-            
-            for( var i:int=beginIndex; i<=endIndex; ++i )
+            var step:uint=0;
+            while(step<mChilds.length)
             {
-                mChilds[i].parent = null;
+                mChilds[step].parent = null;
+				step++;
             }
             
             mChilds.splice( beginIndex, endIndex-beginIndex );
@@ -148,7 +150,7 @@ package mongoose.display
         override public function render() : void
         {
             var step:uint;
-            var total:* = this.mChilds.length;
+            var total:uint = this.mChilds.length;
 			super.render();
             while (step< total)
             {

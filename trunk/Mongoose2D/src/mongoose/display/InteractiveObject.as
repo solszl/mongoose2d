@@ -50,6 +50,7 @@ package mongoose.display
 		}
 		internal function onMouseEvent(type:String,x:Number,y:Number,view:Number):InteractiveObject
 		{
+			if(mTexture==null)return null;
 			var pass:Boolean=false;
 			//trace(this,"event:"+type,x,y,view)
 			var dx:Number=(x*mFx-1);
@@ -182,7 +183,7 @@ package mongoose.display
 		}
 		private function checkMoreEvent():void
 		{
-			_over
+			
 		}
     }
 }

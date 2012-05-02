@@ -190,7 +190,7 @@ package mongoose.display
 				
 				
 				fs ="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
-					"mul ft0.xyz,ft0.xyz,v1.xyz\n" + 
+					"mul ft0,ft0,v1\n" + 
 					//"dp3 ft2,v2.xyz,fc1.xyz\n"+
 					//"mul ft3,ft2,fc0\n"+
 					//"sub ft1.x,ft0.x,fc0.x\n"+

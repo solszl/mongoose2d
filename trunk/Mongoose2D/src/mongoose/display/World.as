@@ -164,11 +164,13 @@ package mongoose.display
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
-					hit=obj.onMouseEvent(e.type,e.stageX,e.stageY,mViewAngle);
+					obj=obj.onMouseEvent(e.type,e.stageX,e.stageY,mViewAngle);
+					if(obj!=null)hit=obj;
 					
 				}
 				step++;
 			}
+			//trace(hit);
 			if(hit!=null)hit.triggerEvent(e.type);
 		}
         protected function onRender(VERTEX:Event=null) : void
@@ -211,7 +213,7 @@ package mongoose.display
         public function render() : void
         {
             var step:uint;
-            var total:* = mChilds.length;
+            var total:uint = mChilds.length;
             while (step< total)
             {
                 mChilds[step].render();
