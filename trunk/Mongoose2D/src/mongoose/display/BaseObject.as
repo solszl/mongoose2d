@@ -17,6 +17,8 @@ package mongoose.display
                    y:Number = 0,
                    z:Number = 0;
         public var data:Object;
+		public var name:String;
+		public var visible:Boolean = true;
         public static var context3d:Context3D;
         public static var stage:Stage;
         public static var world:World;

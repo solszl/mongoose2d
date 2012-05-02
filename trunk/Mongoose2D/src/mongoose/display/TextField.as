@@ -12,7 +12,6 @@ package mongoose.display
 	
 	public class TextField extends Image
 	{
-		public var text:String;
 		protected var mTextField:flash.text.TextField;
 		public var textWidth:Number,textHeight:Number;
 		public var autoSize:String;
@@ -42,7 +41,7 @@ package mongoose.display
 			mTextField.multiline=value;
 		
 		}
-		public function setText(value:String):void
+		public function set text(value:String):void
 		{
 			if(_text!=value)
 			{
