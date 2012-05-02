@@ -38,7 +38,7 @@ package mongoose.display
                 //vg = new AGALMiniAssembler();
                 fg = new AGALMiniAssembler();
                 
-                var temp:String = _generateFilterShader();
+                var temp:String = generateFilterShader();
                 if(temp == "")
                 {
                     fs ="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
@@ -59,7 +59,7 @@ package mongoose.display
   
         }
         
-        private function _generateFilterShader():String
+        private function generateFilterShader():String
         {
             var tempfs:String = "";
             if(mFilters)
@@ -103,16 +103,25 @@ package mongoose.display
 					CURRENT_PROGRAM=mProgram3d;
 				}	
 				    
+				if(CURRENT_TEXTURE!=mTexture.texture)
+				{
+					context3d.setTextureAt(0,mTexture.texture);
+					CURRENT_TEXTURE=mTexture.texture;
+				}
 				
 				var len:uint = mFilters.length;
-				for(var i:int=0; i<len; ++i)
-					IFilter(mFilters[i]).apply(context3d);
-				BATCH_INDEX=0;
+				var step:uint=0;
+				while(step<len)
+				{
+					IFilter(mFilters[step]).apply(context3d);
+					step++;
+				}
+					
+				
 				var mid:uint=REG_INDEX+BATCH_INDEX*4;
 				var uid:uint=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
-				//var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+BATCH_INDEX;
-				//trace("数据:",mid,uid);
-				context3d.setTextureAt(0,mTexture.texture);
+				
+				
 				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
 				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mConstrants,2);
 				context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,2);
