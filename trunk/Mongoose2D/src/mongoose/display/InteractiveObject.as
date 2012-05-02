@@ -20,6 +20,8 @@ package mongoose.display
 		protected var mouseMoveEventHandle:Array=[];
 		
 		private var _u:Number,_v:Number;
+		
+		private var _over:Boolean=false;
         public function InteractiveObject(texture:TextureData)
         {
 			super(texture)
@@ -46,9 +48,9 @@ package mongoose.display
 				step++;
 			}
 		}
-		internal function onMouseEvent(type:String,x:Number,y:Number,view:Number):Boolean
+		internal function onMouseEvent(type:String,x:Number,y:Number,view:Number):InteractiveObject
 		{
-			//var pass:Boolean=true;
+			var pass:Boolean=false;
 			//trace(this,"event:"+type,x,y,view)
 			var dx:Number=(x*mFx-1);
 			var dy:Number=(1-y*mFy)*world.scale;
@@ -88,13 +90,12 @@ package mongoose.display
 				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
 				if(pixel>0)
 				{
-					return true
+					return this;
 				}
-				else
-					return false;
 				//trace(_u,_v,pixel.toString(16));
 			}
-			return false
+			
+			return null;
 		}
 		public function addClickEvent(handle:Function):void
 		{
@@ -178,6 +179,10 @@ package mongoose.display
 					break;
 				
 			}
+		}
+		private function checkMoreEvent():void
+		{
+			_over
 		}
     }
 }
