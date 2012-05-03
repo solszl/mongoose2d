@@ -23,7 +23,7 @@ package mongoose.display
 		
 		private var _ff:int;
 		private var _tf:int;
-		public function MovieClip(frames:Vector.<TextureData>,fps:uint)
+		public function MovieClip(frames:Vector.<TextureData>,fps:uint=60)
 		{
 			super();
 			mFrameData=frames;
@@ -88,6 +88,15 @@ package mongoose.display
 		public function gotoAndStop(value:uint):void
 		{
 			mCurrentFrame=value;
+			if(mCurrentFrame<1)
+			{
+				mCurrentFrame=1;
+			}
+			if(mCurrentFrame>mTotalFrames)
+			{
+				mCurrentFrame=1;
+			}
+			setTexture(mFrameData[mCurrentFrame-1]);
 			mPause=true;
 			
 		}
