@@ -5,12 +5,17 @@ package mongoose.display
 
     public class DisplayObjectContainer extends InteractiveObject
     {
-        protected var mChilds:Vector.<DisplayObject>;
+        protected var mChilds:Array;
         public var mouseChildren:Boolean=true;
 		internal var iTestObject:InteractiveObject;
+		
+		
+		private var _sortBy:String="z";
+		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
+		public var enableSort:Boolean;
         public function DisplayObjectContainer(texture:TextureData = null)
         {
-            mChilds = new Vector.<DisplayObject>;
+            mChilds = [];
             
             super(texture);
            
@@ -146,12 +151,23 @@ package mongoose.display
         {
             return mChilds[index];
         }
-
+		/**
+		 *参照Array.sortOn 
+		 * @param name 
+		 * @param param
+		 * 
+		 */		
+        public function sortOn(name:String,param:int):void
+		{
+			_sortBy=name;
+			_sortParam=param;
+		}
         override public function render() : void
         {
             var step:uint;
             var total:uint = this.mChilds.length;
 			super.render();
+			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
             while (step< total)
             {
                 
