@@ -29,23 +29,23 @@ package mongoose.filter
         {
             var fs:String = 
                 
-                "tex ft1, v0, fs0 <2d,nearest,nomip>\n" +
+                "tex ft1, v0, fs0 <2d,linear,nomip>\n" +
                 "mov ft3, ft1\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xx\n" +
-                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yx\n" +
-                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yy\n" +
-                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xy\n" +
-                "tex ft2, ft1, fs0 <2d,nearest,nomip>\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
                 "add ft3, ft3, ft2\n" +
                 
                 "mul ft3, ft3, fc"+(mFragmentIndex+1)+"\n";
