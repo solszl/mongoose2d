@@ -9,7 +9,7 @@ package mongoose.display
 
     public class DisplayObject extends BaseObject
     {
-		
+		public var visible:Boolean=true;
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
         public var scaleZ:Number = 1;
@@ -18,7 +18,7 @@ package mongoose.display
         public var alpha:Number = 1;
         public var width:Number = 0;
         public var height:Number = 0;
-		public var pivot:Vector3D;
+		protected var mPivot:Vector3D;
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
@@ -69,7 +69,7 @@ package mongoose.display
            
             _rotPivot = new Vector3D(0, 0, 1);
 //			pivot=new Vector3D(-.5,.5,0);
-			pivot=new Vector3D(0,0,0);
+			mPivot=new Vector3D(0,0,0);
 			
             mBaseMtx = new Matrix3D();
             mMatrix3D = new Matrix3D();
@@ -101,12 +101,26 @@ package mongoose.display
 				b=mConstrants[6]=(color&0xff)*_colTem;
 			}
 			mConstrants[7]=alpha;
-        }// end function
+        }
+		/**
+		 *设置显示对象的注册点 
+		 * @param x
+		 * @param y
+		 * @param z
+		 * 
+		 */		
+		public function setRegisterPoint(x:Number,y:Number,z:Number):void
+		{
+			mPivot.x=x;
+			mPivot.y=y;
+			mPivot.z=z;
+			init();
+		}
         protected function init():void
 		{
 			mBaseMtx.identity();
 			mMatrix3D.identity();
-			mBaseMtx.prependTranslation(pivot.x,pivot.y,pivot.z);
+			mBaseMtx.prependTranslation(mPivot.x,mPivot.y,mPivot.z);
 			_mx=_my=_mz=0;
 			
 			mSx=mOriginWidth;
