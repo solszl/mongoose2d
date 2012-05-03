@@ -27,7 +27,7 @@ package mongoose.display
         protected var mRect:MRectangle;
 		protected var mCamera:Camera;
 		protected var mFps:FrameRater;
-		protected var mChilds:Vector.<DisplayObject>;
+		protected var mChilds:Array;
         protected var mConstrants:Vector.<Number>=new Vector.<Number>(4);
 		protected var mLight:Vector.<Number>=new Vector.<Number>(8);
         private static var STAGE_USED:uint = 0;
@@ -42,13 +42,17 @@ package mongoose.display
 	
 		protected var mViewAngle:Number;
 		protected var hitObj:InteractiveObject;
+		
+		private var _sortBy:String="z";
+		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
+		public var enableSort:Boolean;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
             mConstrants[0]=1/1000;
 			mLight[0]=0
-			mLight[1]=.2
-			mLight[2]=.2
+			mLight[1]=.5
+			mLight[2]=0
 			mLight[3]=2
 			mLight[4]=0
 			mLight[5]=0
@@ -61,7 +65,7 @@ package mongoose.display
             mCamera = new Camera();
             mCamera.active = true;
             mFps = new FrameRater(65280, true,false);
-			mChilds=new Vector.<DisplayObject>;
+			mChilds=[];
             this.initialize(stage, mRect);
           
         }// end function
@@ -132,7 +136,7 @@ package mongoose.display
             STAGE_USED++;
 
         }// end function
-
+   
         protected function onCreate(VERTEX:Event) : void
         {
             context3d = mStage3D.context3D;
@@ -184,9 +188,10 @@ package mongoose.display
 			{
 				//trace("结束输出缓冲区",Image.BATCH_INDEX)
 				context3d.drawTriangles(Image.CURRENT_INDEX_BUFFER,0,Image.BATCH_INDEX*2);
+				Image.BATCH_INDEX=0;
 			}
 			  
-			Image.BATCH_INDEX=0;
+			
             context3d.present();
         }// end function
 
@@ -209,11 +214,16 @@ package mongoose.display
             mChilds.push(object);
         }// end function
         
-		
+		public function sortOn(name:String,param:int):void
+		{
+			_sortBy=name;
+			_sortParam=param;
+		}
         public function render() : void
         {
             var step:uint;
             var total:uint = mChilds.length;
+			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
             while (step< total)
             {
                 mChilds[step].render();
