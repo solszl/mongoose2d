@@ -22,6 +22,7 @@ package mongoose.display
 		private var _u:Number,_v:Number;
 		
 		private var _over:Boolean=false;
+		private var _listen:Boolean;
         public function InteractiveObject(texture:TextureData)
         {
 			super(texture)
@@ -50,6 +51,8 @@ package mongoose.display
 		}
 		internal function onMouseEvent(type:String,x:Number,y:Number,view:Number):InteractiveObject
 		{
+			if(!mouseEnabled)return null;
+			if(!_listen)return null;
 			if(mTexture==null)return null;
 			var pass:Boolean=false;
 			//trace(this,"event:"+type,x,y,view)
@@ -101,14 +104,17 @@ package mongoose.display
 		public function addClickEvent(handle:Function):void
 		{
 			clickEventHandle.push(handle);
+			_listen=true;
 		}
 		public function addMouseOverEvent(handle:Function):void
 		{
 			mouseOverEventHandle.push(handle);
+			_listen=true;
 		}
 		public function addMouseMoveEvent(handle:Function):void
 		{
 			mouseMoveEventHandle.push(handle);
+			_listen=true;
 		}
 		protected function instric(p0:Vector3D,p1:Vector3D,p2:Vector3D):Boolean
 		{
