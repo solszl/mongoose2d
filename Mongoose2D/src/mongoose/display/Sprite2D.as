@@ -88,7 +88,7 @@ package mongoose.display
 		
        override protected function draw():void
         {
-		    if(mTexture==null)return;
+		    if(mTexture==null||!visible||alpha==0)return;
 		    
 		    if(mFilters!=null)
 			{
@@ -133,7 +133,6 @@ package mongoose.display
 				//如果没有任何变化走batch路线
 				super.draw();
 			}
-			
         }
     }
 }
