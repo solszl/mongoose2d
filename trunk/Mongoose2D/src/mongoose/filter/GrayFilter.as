@@ -28,13 +28,13 @@ package mongoose.filter
             if(regIndex>0)
             {
                 fs =
-                    "tex ft1, v0, fs0 <2d,clamp,nearest> \n" + 
+                    "tex ft1, v0, fs0 <2d,clamp,linear> \n" + 
                     "add ft0, ft0, ft1\n" +
                     "dp3 ft0, ft0, fc"+ regIndex +"\n";
             }
             else
             {
-                fs = "tex ft0, v0, fs0 <2d,clamp,nearest> \n" + 
+                fs = "tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
                     "dp3 ft0, ft0, fc"+ regIndex +"\n";
             }
             
