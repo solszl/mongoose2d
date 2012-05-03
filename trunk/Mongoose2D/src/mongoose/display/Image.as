@@ -224,19 +224,14 @@ package mongoose.display
 		override protected function draw() : void
 		{
 			//贴图不一样
-			if(!visible)
-				return;
-			
-			if(mTexture == null)
-				return;
-			
+			if(mTexture==null||!visible||alpha==0)return;
 			if(CURRENT_TEXTURE!=mTexture.texture)
 			{
 				//贴图不为空
 				if(CURRENT_TEXTURE!=null)
 				{
 					//输出缓冲区渲染数据
-//					trace("提前缓冲区输出",BATCH_INDEX,this);
+					//trace("提前缓冲区输出",BATCH_INDEX,this);
 					if(BATCH_INDEX>0)
 					{
 						context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,BATCH_INDEX*2);
