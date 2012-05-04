@@ -9,7 +9,7 @@ package mongoose.display
     public class Sprite2D extends DisplayObjectContainer
     {
         protected var mFilters:Array;
-        
+        protected var mSpriteProgram:Program3D;
         public function Sprite2D(texture:TextureData = null)
         {
 			super(texture);
@@ -53,10 +53,10 @@ package mongoose.display
                
                 fg.assemble(Context3DProgramType.FRAGMENT, fs);
                 
-				mProgram3d = context3d.createProgram();
-				mProgram3d.upload(VERTEX_SHADER, fg.agalcode);
-				context3d.setProgram(mProgram3d);
-  
+				mSpriteProgram = context3d.createProgram();
+				mSpriteProgram.upload(VERTEX_SHADER, fg.agalcode);
+				//context3d.setProgram(mSpriteProgram);
+                //CURRENT_PROGRAM=mSpriteProgram;
         }
         
         private function generateFilterShader():String
@@ -94,14 +94,21 @@ package mongoose.display
 			{
 				if(BATCH_INDEX>0)
 				{
+					if(CURRENT_PROGRAM!=IMAGE_PROGRAM)
+					{
+						context3d.setProgram(IMAGE_PROGRAM);
+						CURRENT_PROGRAM=IMAGE_PROGRAM;
+					}
+						
 					//trace("如果Batch缓冲还有数据，输出batch缓冲",BATCH_INDEX)
 					context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,BATCH_INDEX*2);
 					BATCH_INDEX=0;
 				}
-				if(CURRENT_PROGRAM!=mProgram3d)
+				if(CURRENT_PROGRAM!=mSpriteProgram)
 				{
-					context3d.setProgram(mProgram3d);
-					CURRENT_PROGRAM=mProgram3d;
+					context3d.setProgram(mSpriteProgram);
+					CURRENT_PROGRAM=mSpriteProgram;
+					//trace("更换Shader为Sprite Shader")
 				}	
 				    
 				if(CURRENT_TEXTURE!=mTexture.texture)
@@ -126,7 +133,7 @@ package mongoose.display
 				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
 				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mConstrants,2);
 				context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,2);
-				//trace("独立渲染一次")
+				//trace("Sprite2D独立渲染一次")
 			}
 			else
 			{

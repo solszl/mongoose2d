@@ -13,14 +13,18 @@ package mongoose.display
 		private var _sortBy:String="z";
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		public var enableSort:Boolean;
+		private var _eventObject:Array=[];
         public function DisplayObjectContainer(texture:TextureData = null)
         {
             mChilds = [];
             
             super(texture);
-           
+			
         }
-
+		private function onListenClick(e:MouseEvent):void
+		{
+			trace(this,_eventObject);
+		}
         public function addChild(child:DisplayObject) : void
         {
 			
@@ -31,8 +35,19 @@ package mongoose.display
             }
             child.parent = this;
             dispatchEvent(new Event(Event.ADDED));
+			stage.addEventListener(MouseEvent.CLICK,onListenClick);
         }
-
+		private function checkObject(obj:DisplayObject):Boolean
+		{
+			var step:uint=0;
+			while(step<mChilds.length)
+			{
+				if(mChilds[step]==obj)
+					return true;
+				step++;
+			}
+			return false;
+		}
         public function hasChild(child:DisplayObject) : Boolean
         {
             var step:int;
@@ -175,117 +190,26 @@ package mongoose.display
 				step++;
             }
         }
-        override internal function onMouseEvent(type:String, x:Number, y:Number,view:Number):InteractiveObject
+        internal function changeEventObject(obj:InteractiveObject,todo:uint):void
 		{
-			var hit:Boolean;
-			//var obj:DisplayObject;
-			iTestObject=null;
-			var index:uint;
-			if(mouseChildren)
+			
+			if(todo==0)
+			    _eventObject.push(obj);
+			else
 			{
-				var step:uint=0;
-				var obj:InteractiveObject,oop:InteractiveObject;
 				
-				while(step<mChilds.length)
+				var step:uint=0;
+				while(step<_eventObject.length)
 				{
-					obj=mChilds[step] as InteractiveObject;
-					if(obj!=null)
+					if(_eventObject[step]==obj)
 					{
-						iTestObject=obj.onMouseEvent(type,x,y,view);
-						
+						_eventObject.splice(step,1);
+						break;
 					}
 					step++;
 				}
 			}
-			//记录当前被点中的对象
-			
-			if(mouseEnabled&&iTestObject==null)
-			{
-				iTestObject=super.onMouseEvent(type,x,y,view);
 				
-			}
-			//trace(iTestObject)
-			return iTestObject;
 		}
-		
-		/*override internal function _passMouseEvent(event:MouseEvent, isBubbled:Boolean=false):Boolean
-		{
-			//假如是禁止鼠标的，那直接向上冒泡
-			if(!mMouseEnabled)
-			{
-				return false;
-			}
-			
-			//假如是冒泡上来的 只需要继续向上冒泡
-			if(isBubbled)
-			{
-				switch(event.type)
-				{
-					case 'click':
-					{
-						_mouseClick(event);
-						break;
-					}
-					case 'mouseDown':
-					{
-						_mouseDown(event);
-						break;
-					}
-					case 'mouseUp':
-					{
-						_mouseUp(event);
-						break;
-					}
-				}
-				
-				if(parent)
-					parent._passMouseEvent(event, true);
-				
-			}
-			else
-			{
-				//是否有孩子响应了鼠标事件
-				var hasTriggerChild:Boolean = false;
-				
-				if(mMouseChildren)
-				{
-					var len:uint = mChilds.length;
-					//倒序检测
-					for( var i:int = len-1; i >= 0;  --i )
-					{
-						if( mChilds[i] is InteractiveObject )
-						{
-							if( InteractiveObject(mChilds[i])._passMouseEvent( event ) )
-							{
-								hasTriggerChild = true;
-								break;
-							}
-							else
-								continue;
-						}
-					}
-				}
-				
-				//没有孩子响应，就检测是否点在自己身上
-				if( !hasTriggerChild )
-				{
-					if( super._passMouseEvent( event ) && parent )
-					{
-						parent._passMouseEvent( event, true );
-						return true;
-					}
-					return false;
-					
-					//                    return super._passMouseEvent( event );
-				}
-				else
-				{
-					return true;
-				}   
-				
-			}
-			
-			return false;
-		}*/
     }
 }

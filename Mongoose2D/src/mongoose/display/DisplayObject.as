@@ -27,7 +27,7 @@ package mongoose.display
 		protected var mMatrix3D:Matrix3D;
 		protected var mMyMatrix:Matrix3D;
         protected var mParent:DisplayObject;
-        protected var mProgram3d:Program3D;
+        
         protected var mOriginWidth:Number = 0;
         protected var mOriginHeight:Number = 0;
         //protected var mColorData:Vector.<Number>;
@@ -66,7 +66,7 @@ package mongoose.display
 		private var _colTem:Number=1/255;
         public function DisplayObject()
         {
-           
+			if(context3d==null)return;
             _rotPivot = new Vector3D(0, 0, 1);
 //			pivot=new Vector3D(-.5,.5,0);
 			mPivot=new Vector3D(0,0,0);
@@ -253,7 +253,7 @@ package mongoose.display
 			
             mOutMatrix.append(mBaseMtx);
             mOutMatrix.append(mMatrix3D);
-            if (parent != null)
+            if (parent != null&&!(parent is World))
             {
 				//this.alpha=_alpha*parent.alpha;
 				mConstrants[4]=r*parent.r;

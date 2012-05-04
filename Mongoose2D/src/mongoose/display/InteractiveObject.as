@@ -10,52 +10,107 @@ package mongoose.display
 
     public class InteractiveObject extends Image
     {
-		public var mouseEnabled:Boolean=true;
+		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
 		protected var mDir:Vector3D;
-        protected var enterHandle:Array=[];
-		protected var clickEventHandle:Array=[];
-		protected var mouseOverEventHandle:Array=[];
-		protected var mouseMoveEventHandle:Array=[];
+        protected var enterFrameHandles:Array=[];
+		protected var clickEventHandles:Array=[];
+		protected var mouseOverEventHandles:Array=[];
+		protected var mouseMoveEventHandles:Array=[];
 		
 		private var _u:Number,_v:Number;
 		
 		private var _over:Boolean=false;
 		private var _listen:Boolean;
+		private var _useMove:Boolean;
+		private var _mouseEnabled:Boolean;
+		internal var iHit:Boolean;
         public function InteractiveObject(texture:TextureData)
         {
-			super(texture)
+			
+			super(texture);
+			
             
         }// end function
-        
-       
-        public function enterFrameEvent(handle:Function):void
+		
+        public function set mouseEnabled(value:Boolean):void
 		{
-			enterHandle.push(handle);
+			_mouseEnabled=value;
+			if(value)
+			{
+				if(parent)
+				parent.changeEventObject(this,0);
+			}
+			else
+			{
+				if(parent)
+				parent.changeEventObject(this,1);
+			}
 		}
-		public function removeFrameEvent(name:String,handle:Function):void
+		/**
+		 *注册handle之后,会在每次渲染之前执行。参照flash中的Event.ENTER_FRAME 
+		 * @param handle
+		 * 
+		 */        
+        public function addEventHandle(type:String,handle:Function):void
 		{
+			switch(type)
+			{
+				case MouseEvent.CLICK:
+					stage.addEventListener(MouseEvent.CLICK,onEventTest,false,1);
+					addHandle(handle,clickEventHandles);
+					break;
+				case MouseEvent.MOUSE_DOWN:
+					break;
+				case MouseEvent.MOUSE_OVER:
+					_useMove=true;
+					addHandle(handle,mouseOverEventHandles);
+					break;
+				case Event.ENTER_FRAME:
+					addHandle(handle,enterFrameHandles);
+					break;
+				
+			}
+		}
+		public function removeEventHandle(type:String,handle:Function):void
+		{
+			switch(type)
+			{
+				case MouseEvent.CLICK:
+					removeHandle(handle,clickEventHandles);
+					break;
+				case MouseEvent.MOUSE_DOWN:
+					break;
+				case Event.ENTER_FRAME:
+					removeHandle(handle,enterFrameHandles);
+					break;
+			}
+		}
+		private function onEventTest(e:MouseEvent):void
+		{
+			iHit=false;
+			var x:Number=e.stageX;
+			var y:Number=e.stageY;
+			if(visible&&_mouseEnabled)
+			   iHit=hitTest(x,y);
 			
+			trace(this,iHit);
 		}
 		override protected function preRender():void
 		{
 			super.preRender();
 			var step:uint,item:Object;
-			var len:uint=enterHandle.length;
+			var len:uint=enterFrameHandles.length;
 			while(step<len)
 			{
-				enterHandle[step](this);
+				enterFrameHandles[step](this);
 				step++;
 			}
 		}
-		internal function onMouseEvent(type:String,x:Number,y:Number,view:Number):InteractiveObject
+		internal function hitTest(x:Number,y:Number):Boolean
 		{
-			if(!mouseEnabled)return null;
-			if(!_listen)return null;
-			if(mTexture==null)return null;
-			var pass:Boolean=false;
-			//trace(this,"event:"+type,x,y,view)
+			var pass:Boolean;
 			var dx:Number=(x*mFx-1);
 			var dy:Number=(1-y*mFy)*world.scale;
 			
@@ -94,28 +149,39 @@ package mongoose.display
 				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
 				if(pixel>0)
 				{
-					return this;
+					pass=true;
 				}
 				//trace(_u,_v,pixel.toString(16));
 			}
 			
-			return null;
+			return pass;
 		}
-		public function addClickEvent(handle:Function):void
+		
+		private function addHandle(handle:Function,handles:Array):void
 		{
-			clickEventHandle.push(handle);
-			_listen=true;
+			var step:uint=0;
+			while(step<handles.length)
+			{
+				if(handles[step]==handle)
+					return;
+				step++;
+			}
+			clickEventHandles.push(handle);
 		}
-		public function addMouseOverEvent(handle:Function):void
+		private function removeHandle(handle:Function,handles:Array):void
 		{
-			mouseOverEventHandle.push(handle);
-			_listen=true;
+			var step:uint=0;
+			while(step<handles.length)
+			{
+				if(handles[step]==handle)
+				{
+					handles.splice(step,1);
+					return;
+				}
+				step++;
+			}
 		}
-		public function addMouseMoveEvent(handle:Function):void
-		{
-			mouseMoveEventHandle.push(handle);
-			_listen=true;
-		}
+		
 		protected function instric(p0:Vector3D,p1:Vector3D,p2:Vector3D):Boolean
 		{
 		    var pass:Boolean=true;
@@ -160,33 +226,34 @@ package mongoose.display
 			var step:int;
 			switch(type)
 			{
-				case "click":
+				case MouseEvent.CLICK:
 					step=0;
-					while(step<clickEventHandle.length)
+					while(step<clickEventHandles.length)
 					{
-						clickEventHandle[step](this);
+						clickEventHandles[step](this);
 						step++;
 					}
 					break;
-				case "mouseOver":
+				case MouseEvent.MOUSE_OVER:
 					step=0;
-					while(step<mouseOverEventHandle.length)
+					while(step<mouseOverEventHandles.length)
 					{
-						mouseOverEventHandle[step](this);
+						mouseOverEventHandles[step](this);
 						step++;
 					}
 					break;
-				case "mouseMove":
+				case MouseEvent.MOUSE_MOVE:
 					step=0;
-					while(step<mouseMoveEventHandle.length)
+					while(step<mouseMoveEventHandles.length)
 					{
-						mouseMoveEventHandle[step](this);
+						mouseMoveEventHandles[step](this);
 						step++;
 					}
 					break;
 				
 			}
 		}
+		
 		private function checkMoreEvent():void
 		{
 			
