@@ -34,6 +34,7 @@ package mongoose.display
 		//cache...
 		static protected var CURRENT_TEXTURE:Texture;
 		static protected var CURRENT_PROGRAM:Program3D;
+		static protected var IMAGE_PROGRAM:Program3D;
 		static private var CURRENT_VERTEXT_BUFFER:VertexBuffer3D;
 		//可用Batch数量
 		static protected var BATCH_NUM:uint;
@@ -44,6 +45,7 @@ package mongoose.display
 		static protected var v3:Vector3D;
 		public function Image(texture:TextureData = null)
 		{
+			if(context3d==null)return;
 			INSTANCE_NUM++;
 			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
 			
@@ -183,7 +185,7 @@ package mongoose.display
 			var fg:AGALMiniAssembler;
 			var vs:String;
 			var fs:String;
-			if (CURRENT_PROGRAM == null)
+			if (IMAGE_PROGRAM == null)
 			{
 				//vg = new AGALMiniAssembler();
 				fg = new AGALMiniAssembler();
@@ -212,13 +214,10 @@ package mongoose.display
 					"mov oc ft0\n";
 				//vg.assemble(Context3DProgramType.VERTEX, vs);
 				fg.assemble(Context3DProgramType.FRAGMENT, fs);
-				CURRENT_PROGRAM = context3d.createProgram();
-				CURRENT_PROGRAM.upload(VERTEX_SHADER, fg.agalcode);
+				IMAGE_PROGRAM = context3d.createProgram();
+				IMAGE_PROGRAM.upload(VERTEX_SHADER, fg.agalcode);
 				
 			}
-			mProgram3d=CURRENT_PROGRAM;
-			context3d.setProgram(mProgram3d);
-			
 		}// end function
 		
 		override protected function draw() : void
@@ -227,25 +226,22 @@ package mongoose.display
 			if(mTexture==null||!visible||alpha==0)return;
 			if(CURRENT_TEXTURE!=mTexture.texture)
 			{
-				//贴图不为空
-				if(CURRENT_TEXTURE!=null)
+				//输出缓冲区渲染数据
+				//trace("提前缓冲区输出",BATCH_INDEX,this);
+				if(BATCH_INDEX>0)
 				{
-					//输出缓冲区渲染数据
-					//trace("提前缓冲区输出",BATCH_INDEX,this);
-					if(BATCH_INDEX>0)
-					{
-						context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,BATCH_INDEX*2);
-						BATCH_INDEX=0;
-					}
-				
+					context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,BATCH_INDEX*2);
+					BATCH_INDEX=0;
 				}
 				context3d.setTextureAt(0, mTexture.texture);
 				CURRENT_TEXTURE=mTexture.texture;
 			}
-			if(CURRENT_PROGRAM!=mProgram3d)
+			if(CURRENT_PROGRAM!=IMAGE_PROGRAM)
 			{
-				context3d.setProgram(mProgram3d);
-				CURRENT_PROGRAM=mProgram3d;
+				context3d.setProgram(IMAGE_PROGRAM);
+				CURRENT_PROGRAM=IMAGE_PROGRAM;
+				context3d.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT,0,world.lights);
+				trace("Image:更换Shader为IMAGE_PROGRAME");
 			}
 			
 			var mid:uint=REG_INDEX+BATCH_INDEX*4;
