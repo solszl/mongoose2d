@@ -13,18 +13,14 @@ package mongoose.display
 		private var _sortBy:String="z";
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		public var enableSort:Boolean;
-		private var _eventObject:Array=[];
         public function DisplayObjectContainer(texture:TextureData = null)
         {
             mChilds = [];
             
             super(texture);
-			
+           
         }
-		private function onListenClick(e:MouseEvent):void
-		{
-			trace(this,_eventObject);
-		}
+
         public function addChild(child:DisplayObject) : void
         {
 			
@@ -35,19 +31,8 @@ package mongoose.display
             }
             child.parent = this;
             dispatchEvent(new Event(Event.ADDED));
-			stage.addEventListener(MouseEvent.CLICK,onListenClick);
         }
-		private function checkObject(obj:DisplayObject):Boolean
-		{
-			var step:uint=0;
-			while(step<mChilds.length)
-			{
-				if(mChilds[step]==obj)
-					return true;
-				step++;
-			}
-			return false;
-		}
+
         public function hasChild(child:DisplayObject) : Boolean
         {
             var step:int;
@@ -190,26 +175,38 @@ package mongoose.display
 				step++;
             }
         }
-        internal function changeEventObject(obj:InteractiveObject,todo:uint):void
+        override internal function hitTest(type:String, x:Number, y:Number):InteractiveObject
 		{
-			
-			if(todo==0)
-			    _eventObject.push(obj);
-			else
+			var hit:Boolean;
+			//var obj:DisplayObject;
+			iTestObject=null;
+			var index:uint;
+			if(mouseChildren)
 			{
-				
 				var step:uint=0;
-				while(step<_eventObject.length)
+				var obj:InteractiveObject,oop:InteractiveObject;
+				
+				while(step<mChilds.length)
 				{
-					if(_eventObject[step]==obj)
+					obj=mChilds[step] as InteractiveObject;
+					if(obj!=null)
 					{
-						_eventObject.splice(step,1);
-						break;
+						iTestObject=obj.hitTest(type,x,y);
+						
 					}
 					step++;
 				}
 			}
+			//记录当前被点中的对象
+			
+			if(mouseEnabled&&iTestObject==null)
+			{
+				iTestObject=super.hitTest(type,x,y);
 				
+			}
+			//trace(iTestObject)
+			return iTestObject;
 		}
+		
     }
 }
