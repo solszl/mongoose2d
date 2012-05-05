@@ -10,6 +10,7 @@ package mongoose.display
 
     public class InteractiveObject extends Image
     {
+		public var mouseEnabled:Boolean;
 		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
@@ -34,20 +35,7 @@ package mongoose.display
             
         }// end function
 		
-        public function set mouseEnabled(value:Boolean):void
-		{
-			_mouseEnabled=value;
-			if(value)
-			{
-				if(parent)
-				parent.changeEventObject(this,0);
-			}
-			else
-			{
-				if(parent)
-				parent.changeEventObject(this,1);
-			}
-		}
+       
 		/**
 		 *注册handle之后,会在每次渲染之前执行。参照flash中的Event.ENTER_FRAME 
 		 * @param handle
@@ -58,7 +46,7 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					stage.addEventListener(MouseEvent.CLICK,onEventTest,false,1);
+					
 					addHandle(handle,clickEventHandles);
 					break;
 				case MouseEvent.MOUSE_DOWN:
@@ -87,16 +75,7 @@ package mongoose.display
 					break;
 			}
 		}
-		private function onEventTest(e:MouseEvent):void
-		{
-			iHit=false;
-			var x:Number=e.stageX;
-			var y:Number=e.stageY;
-			if(visible&&_mouseEnabled)
-			   iHit=hitTest(x,y);
-			
-			trace(this,iHit);
-		}
+		
 		override protected function preRender():void
 		{
 			super.preRender();
@@ -108,9 +87,8 @@ package mongoose.display
 				step++;
 			}
 		}
-		internal function hitTest(x:Number,y:Number):Boolean
+		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
-			var pass:Boolean;
 			var dx:Number=(x*mFx-1);
 			var dy:Number=(1-y*mFy)*world.scale;
 			
@@ -149,12 +127,10 @@ package mongoose.display
 				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
 				if(pixel>0)
 				{
-					pass=true;
+					return this;
 				}
-				//trace(_u,_v,pixel.toString(16));
 			}
-			
-			return pass;
+			return null;
 		}
 		
 		private function addHandle(handle:Function,handles:Array):void
@@ -250,13 +226,7 @@ package mongoose.display
 						step++;
 					}
 					break;
-				
 			}
-		}
-		
-		private function checkMoreEvent():void
-		{
-			
 		}
     }
 }
