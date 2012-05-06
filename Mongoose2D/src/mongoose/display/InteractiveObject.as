@@ -109,6 +109,9 @@ package mongoose.display
 		}
 		internal function hitTest(type:String,x:Number,y:Number):Boolean
 		{
+            if(!mouseEnabled)
+                return false;
+            
 			//trace(type,x,y)
 			_useMove=_useOut||_useOut;
 			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)
