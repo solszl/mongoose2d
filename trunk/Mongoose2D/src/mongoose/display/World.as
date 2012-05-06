@@ -47,6 +47,7 @@ package mongoose.display
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		public var enableSort:Boolean;
 		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
+		private var _prevObj:InteractiveObject;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -185,28 +186,36 @@ package mongoose.display
 			var step:uint=0;
 			var obj:InteractiveObject,oop:InteractiveObject;
 			var hit:InteractiveObject;
-			var prevObj:InteractiveObject;
+			
 			while(step<mChilds.length)
 			{
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
 					
-					obj=obj.hitTest(type,x,y);
+					var re:Boolean=obj.hitTest(type,x,y);
 					//if(obj!=null&&prevObj!=null&&type==MouseEvent.MOUSE_MOVE)prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-					if(obj!=null)hit=obj;
+					if(re)hit=obj.iHitObj;
+					
 					
 				}
 				step++;
 			}
-			//trace(hit);
-			
+			//trace(_prevObj,_prevObj!=hit)
+			if(_prevObj!=hit&&_prevObj!=null)
+			{
+				//trace(_prevObj.iHit)
+				if(_prevObj.iHit==false)
+					_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
+				
+			}
 			if(hit!=null)
 			{
-				if(hit!=prevObj&&prevObj!=null){prevObj.triggerEvent(MouseEvent.MOUSE_OUT);prevObj=hit;}
-				hit.triggerEvent(type);
-				
-			};
+				_prevObj=hit;
+				if(type==MouseEvent.CLICK||type==MouseEvent.MOUSE_DOWN)hit.triggerEvent(type);
+				else
+					hit.triggerEvent(MouseEvent.MOUSE_OVER);
+			};	
 		}
         protected function onRender(VERTEX:Event=null) : void
         {
