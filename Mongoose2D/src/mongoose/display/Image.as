@@ -18,7 +18,7 @@ package mongoose.display
 		static public var BATCH_INDEX:uint=0;
 		static public var CURRENT_VERTEX_BUFFER:VertexBuffer3D;
 		static public var CURRENT_INDEX_BUFFER:IndexBuffer3D;
-		static public var INSTANCE_NUM:uint;
+		
 		static protected const TOTAL_REGISTER:uint=128;
 		//系统占用8个,包括透视和相机
 		static protected const SYSTEM_USED_REG:uint=8;
@@ -43,26 +43,25 @@ package mongoose.display
 		static protected var v1:Vector3D;
 		static protected var v2:Vector3D;
 		static protected var v3:Vector3D;
+		
+		
 		public function Image(texture:TextureData = null)
 		{
-			if(context3d==null)return;
-			INSTANCE_NUM++;
+			
+			
 			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
-			
-			
-			this.mTexture = texture;
-			if (this.mTexture != null)
-			{
-				this.setTexture(this.mTexture);
-			}
-			else
-			{
-				init();
-			}
+			this.setTexture(texture);
+			world.addEventListener(Event.CHANGE,onChange);
+			initBuffer();
+			initProgram();
+		}// end function
+		override protected function init():void
+		{
+			super.init();
 			if(VERTEX_SHADER==null)
 			{
-			  var vs:String =
-				    "m44 vt0, va0,vc[va2.x]\n"+
+				var vs:String =
+					"m44 vt0, va0,vc[va2.x]\n"+
 					"m44 vt0, vt0,vc0\n"+
 					"m44 vt0, vt0,vc4\n"+
 					"mov op,vt0\n"+
@@ -91,20 +90,18 @@ package mongoose.display
 					//"m44 vt4, vt4,vc4\n"+
 					//输出法线坐标
 					"mov v2,vt4";
-			   var vsa:AGALMiniAssembler=new AGALMiniAssembler;
-			       vsa.assemble("vertex",vs);
-				   VERTEX_SHADER=vsa.agalcode;
+				var vsa:AGALMiniAssembler=new AGALMiniAssembler;
+				vsa.assemble("vertex",vs);
+				VERTEX_SHADER=vsa.agalcode;
 			}
-			world.addEventListener(Event.CHANGE,onChange);
-			initBuffer();
-			initProgram();
-		}// end function
+		}
 		private function onChange(e:Event):void
 		{
 			init();
 		}
 		protected function initBuffer():void
 		{
+			if(context3d==null)return;
 			if (CURRENT_VERTEX_BUFFER == null)
 			{
 				var vertexBufferData:Vector.<Number>;
@@ -157,6 +154,11 @@ package mongoose.display
 		}
 		public function setTexture(texture:TextureData) : void
 		{
+			if(texture==null)
+			{
+				init();
+				return;
+			}
 			mTexture = texture;
 			width = mTexture.width;
 			height = mTexture.height;
@@ -181,6 +183,7 @@ package mongoose.display
 		
 		protected function initProgram() : void
 		{
+			if(context3d==null)return;
 			//var vg:AGALMiniAssembler;
 			var fg:AGALMiniAssembler;
 			var vs:String;

@@ -18,6 +18,7 @@ package mongoose.display
         protected var enterFrameHandles:Array=[];
 		protected var clickEventHandles:Array=[];
 		protected var mouseOverEventHandles:Array=[];
+		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
 		
 		private var _u:Number,_v:Number;
@@ -25,8 +26,10 @@ package mongoose.display
 		private var _over:Boolean=false;
 		private var _listen:Boolean;
 		private var _useMove:Boolean;
+		private var _useOver:Boolean,_useOut:Boolean;
 		private var _mouseEnabled:Boolean;
 		internal var iHit:Boolean;
+		
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -52,8 +55,16 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					break;
 				case MouseEvent.MOUSE_OVER:
-					_useMove=true;
+					_useOver=true;
 					addHandle(handle,mouseOverEventHandles);
+					break;
+				case MouseEvent.MOUSE_OUT:
+					_useOut=true;
+					addHandle(handle,mouseOutEventHandles);
+					break;
+				case MouseEvent.MOUSE_MOVE:
+					
+					addHandle(handle,mouseMoveEventHandles);
 					break;
 				case Event.ENTER_FRAME:
 					addHandle(handle,enterFrameHandles);
@@ -89,6 +100,14 @@ package mongoose.display
 		}
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
+			//trace(type,mouseMoveEventHandles.length)
+			_useMove=_useOut||_useOut;
+			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)
+			{
+				//trace("over")
+				return null;
+			}
+			iHit=false;	
 			var dx:Number=(x*mFx-1);
 			var dy:Number=(1-y*mFy)*world.scale;
 			
@@ -127,9 +146,29 @@ package mongoose.display
 				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
 				if(pixel>0)
 				{
-					return this;
+					iHit=true;
 				}
 			}
+			
+			if(type==MouseEvent.MOUSE_MOVE)
+			{
+				if(iHit==true)
+				{
+					
+					if(_over==false)
+					triggerEvent(MouseEvent.MOUSE_OVER);
+					_over=true;
+					
+				}
+				else if(iHit==false)
+				{
+					
+					if(_over==true)
+					triggerEvent(MouseEvent.MOUSE_OUT);
+					_over=false;
+				}
+			}
+			if(iHit)return this;
 			return null;
 		}
 		
@@ -142,7 +181,7 @@ package mongoose.display
 					return;
 				step++;
 			}
-			clickEventHandles.push(handle);
+			handles.push(handle);
 		}
 		private function removeHandle(handle:Function,handles:Array):void
 		{
@@ -212,19 +251,31 @@ package mongoose.display
 					break;
 				case MouseEvent.MOUSE_OVER:
 					step=0;
+					
 					while(step<mouseOverEventHandles.length)
 					{
 						mouseOverEventHandles[step](this);
 						step++;
 					}
 					break;
+				case MouseEvent.MOUSE_OUT:
+					step=0;
+					
+					while(step<mouseOutEventHandles.length)
+					{
+						mouseOutEventHandles[step](this);
+						step++;
+					}
+					break;
 				case MouseEvent.MOUSE_MOVE:
 					step=0;
+					
 					while(step<mouseMoveEventHandles.length)
 					{
 						mouseMoveEventHandles[step](this);
 						step++;
 					}
+					//triggerEvent(MouseEvent.MOUSE_OVER);
 					break;
 			}
 		}

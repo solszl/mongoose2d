@@ -28,7 +28,7 @@ package mongoose.display
 		protected var mCamera:Camera;
 		protected var mFps:FrameRater;
 		protected var mChilds:Array;
-        protected var mConstrants:Vector.<Number>=new Vector.<Number>(4);
+        
 		public var lights:Vector.<Number>=new Vector.<Number>(8);
         private static var STAGE_USED:uint = 0;
 		
@@ -49,7 +49,7 @@ package mongoose.display
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
-            mConstrants[0]=1/1000;
+           
 			lights[0]=0
 			lights[1]=.5
 			lights[2]=0
@@ -152,7 +152,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.CLICK,onStageClick);
-			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -220,13 +220,15 @@ package mongoose.display
         {
             var step:uint;
             var total:uint = mChilds.length;
-			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
+			if(enableSort)mChilds.sortOn(["depth"],Array.NUMERIC | Array.DESCENDING);
             while (step< total)
             {
+				//trace(mChilds[step].z);
                 mChilds[step].render();
 				step++;
             }
-			mFps.uints=Image.INSTANCE_NUM;
+			//trace("over")
+			mFps.uints=DisplayObject.INSTANCE_NUM;
         }// end function
         public function getMatrix3D():Matrix3D
 		{
