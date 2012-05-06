@@ -19,6 +19,7 @@ package mongoose.display
         public var data:Object;
 		public var name:String;
 		
+		public var id:uint;
         public static var context3d:Context3D;
         public static var stage:Stage;
         public static var world:World;

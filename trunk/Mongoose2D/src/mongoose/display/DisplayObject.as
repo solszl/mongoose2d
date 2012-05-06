@@ -1,14 +1,20 @@
 package mongoose.display
 {
+    import com.adobe.utils.AGALMiniAssembler;
+    
     import flash.display3D.*;
     import flash.events.*;
     import flash.geom.*;
+    import flash.utils.ByteArray;
     
     import mongoose.core.*;
     import mongoose.geom.RemMatrix3D;
 
     public class DisplayObject extends BaseObject
     {
+		static public var INSTANCE_NUM:uint;
+		
+		public var depth:Number;
 		public var visible:Boolean=true;
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
@@ -18,20 +24,21 @@ package mongoose.display
         public var alpha:Number = 1;
         public var width:Number = 0;
         public var height:Number = 0;
-		protected var mPivot:Vector3D;
+		
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
+		
 		internal var r:Number,g:Number,b:Number;
        
+		protected var mPivot:Vector3D;
 		protected var mMatrix3D:Matrix3D;
 		protected var mMyMatrix:Matrix3D;
         protected var mParent:DisplayObject;
         protected var mProgram3d:Program3D;
         protected var mOriginWidth:Number = 0;
         protected var mOriginHeight:Number = 0;
-        //protected var mColorData:Vector.<Number>;
-		//包含UV坐标,颜色
+      
 		protected var mConstrants:Vector.<Number>;
         protected var mBaseMtx:Matrix3D;
         protected var mOutMatrix:Matrix3D;
@@ -64,34 +71,30 @@ package mongoose.display
 		private var _color:uint;
 		private var _alpha:Number;
 		private var _colTem:Number=1/255;
+		private var _depth:Number;
+		
+		
         public function DisplayObject()
         {
-           
+			id=INSTANCE_NUM++;
+			_depth=.00001/id;
             _rotPivot = new Vector3D(0, 0, 1);
-//			pivot=new Vector3D(-.5,.5,0);
 			mPivot=new Vector3D(0,0,0);
-			
             mBaseMtx = new Matrix3D();
             mMatrix3D = new Matrix3D();
 			mMyMatrix =new Matrix3D;
-			
             mOutMatrix = new Matrix3D();
-            //mColorData = new Vector.<Number>;
-            //mColorData.push(1,1,1,1);
 			mConstrants=new Vector.<Number>(8);
 			mConstrants[4]=1;
 			mConstrants[5]=1;
 			mConstrants[6]=1;
 			mConstrants[7]=1;
-      
-			
-        }// end function
-
+        }
 		
         override protected function preRender() : void
         {
+			depth=z+_depth;
 			var col:uint=color-_color;
-			//var ala:uint=alpha-_alpha;
 			_color=color;
 			_alpha=alpha;
 			if(col!=0)
@@ -261,7 +264,8 @@ package mongoose.display
 				mConstrants[6]=b*parent.b;
 				mConstrants[7]=alpha*parent.alpha;
                 mParentMatrix3D=parent.getMatrix3D();
-				mOutMatrix.append(mParentMatrix3D);
+				if(mParentMatrix3D!=null)
+				    mOutMatrix.append(mParentMatrix3D);
             }
 			else
 			{
