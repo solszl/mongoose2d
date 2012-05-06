@@ -10,7 +10,7 @@ package mongoose.display
 
     public class InteractiveObject extends Image
     {
-		public var mouseEnabled:Boolean;
+		public var mouseEnabled:Boolean = true;
 		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
@@ -20,7 +20,9 @@ package mongoose.display
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
-		
+        protected var mouseDownEventHandles:Array=[];
+        protected var mouseUpEventHandles:Array=[];
+        
 		private var _u:Number,_v:Number;
 		
 		internal var iOver:Boolean=false;
@@ -63,9 +65,14 @@ package mongoose.display
 					addHandle(handle,mouseOutEventHandles);
 					break;
 				case MouseEvent.MOUSE_MOVE:
-					
 					addHandle(handle,mouseMoveEventHandles);
 					break;
+                case MouseEvent.MOUSE_DOWN:
+                    addHandle(handle,mouseDownEventHandles);
+                    break;
+                case MouseEvent.MOUSE_UP:
+                    addHandle(handle,mouseUpEventHandles);
+                    break;
 				case Event.ENTER_FRAME:
 					addHandle(handle,enterFrameHandles);
 					break;
@@ -80,7 +87,11 @@ package mongoose.display
 					removeHandle(handle,clickEventHandles);
 					break;
 				case MouseEvent.MOUSE_DOWN:
+                    removeHandle(handle,mouseDownEventHandles);
 					break;
+                case MouseEvent.MOUSE_UP:
+                    removeHandle(handle,mouseUpEventHandles);
+                    break;
 				case Event.ENTER_FRAME:
 					removeHandle(handle,enterFrameHandles);
 					break;
@@ -265,9 +276,27 @@ package mongoose.display
 						step++;
 					}
 					
-					
-					
 					break;
+                case MouseEvent.MOUSE_DOWN:
+                    step=0;
+                    
+                    while(step<mouseDownEventHandles.length)
+                    {
+                        mouseDownEventHandles[step](this);
+                        step++;
+                    }
+                    
+                    break;
+                case MouseEvent.MOUSE_UP:
+                    step=0;
+                    
+                    while(step<mouseUpEventHandles.length)
+                    {
+                        mouseUpEventHandles[step](this);
+                        step++;
+                    }
+                    
+                    break;
 			}
 		}
     }

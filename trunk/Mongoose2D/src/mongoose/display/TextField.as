@@ -89,6 +89,9 @@ package mongoose.display
 			//this.setTexture(mTextTexture);
 		}
 		
-		
+		public function get text():String
+        {
+            return _text;
+        }
 	}
 }

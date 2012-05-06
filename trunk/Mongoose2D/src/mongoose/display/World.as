@@ -154,6 +154,8 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.CLICK,onStageClick);
+            stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
+            stage.addEventListener(MouseEvent.MOUSE_UP,onStageClick);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
@@ -212,9 +214,16 @@ package mongoose.display
 			if(hit!=null)
 			{
 				_prevObj=hit;
-				if(type==MouseEvent.CLICK||type==MouseEvent.MOUSE_DOWN)hit.triggerEvent(type);
+				if(type==MouseEvent.CLICK ||
+                    type==MouseEvent.MOUSE_DOWN ||
+                    type==MouseEvent.MOUSE_UP)
+                {
+                    hit.triggerEvent(type);
+                }
 				else
+                {
 					hit.triggerEvent(MouseEvent.MOUSE_OVER);
+                }
 			};	
 		}
         protected function onRender(VERTEX:Event=null) : void
