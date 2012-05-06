@@ -46,6 +46,7 @@ package mongoose.display
 		private var _sortBy:String="z";
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		public var enableSort:Boolean;
+		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -152,35 +153,73 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.CLICK,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
 
         }// end function
-        private function onStageClick(e:MouseEvent):void
+		private function onStageClick(e:MouseEvent):void
+		{
+			hitTest(e.type,e.stageX,e.stageY);
+		}
+		private function onStageMove(e:MouseEvent):void
+		{
+			//trace(_x,e.stageX,_y,e.stageY)
+			if(_x!=e.stageX||_y!=e.stageY)
+			{
+				_isMove=true;
+				
+				_x=e.stageX;
+				_y=e.stageY;
+			}
+			else
+			{
+				_isMove=false;
+			}
+			//trace("_--------------------",_isMove)
+			
+		}
+        private function hitTest(type:String,x:Number,y:Number):void
 		{
 			var step:uint=0;
 			var obj:InteractiveObject,oop:InteractiveObject;
 			var hit:InteractiveObject;
+			var prevObj:InteractiveObject;
 			while(step<mChilds.length)
 			{
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
-					obj=obj.hitTest(e.type,e.stageX,e.stageY);
+					
+					obj=obj.hitTest(type,x,y);
+					//if(obj!=null&&prevObj!=null&&type==MouseEvent.MOUSE_MOVE)prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
 					if(obj!=null)hit=obj;
+					
 				}
 				step++;
 			}
 			//trace(hit);
-			if(hit!=null)hit.triggerEvent(e.type);
+			
+			if(hit!=null)
+			{
+				if(hit!=prevObj&&prevObj!=null){prevObj.triggerEvent(MouseEvent.MOUSE_OUT);prevObj=hit;}
+				hit.triggerEvent(type);
+				
+			};
 		}
         protected function onRender(VERTEX:Event=null) : void
         {
             context3d.clear();
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
+			if(_isMove)
+			{
+				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
+				//trace("test",_isMove);
+				_isMove=false;
+				
+			}
             render();
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
