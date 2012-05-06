@@ -29,7 +29,7 @@ package mongoose.display
 		private var _useOver:Boolean,_useOut:Boolean;
 		private var _mouseEnabled:Boolean;
 		internal var iHit:Boolean;
-		
+		internal var iHitObj:InteractiveObject;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -98,14 +98,14 @@ package mongoose.display
 				step++;
 			}
 		}
-		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
+		internal function hitTest(type:String,x:Number,y:Number):Boolean
 		{
 			//trace(type,x,y)
 			_useMove=_useOut||_useOut;
 			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)
 			{
 				//trace("over")
-				return null;
+				return false;
 			}
 			iHit=false;	
 			var dx:Number=(x*mFx-1);
@@ -147,21 +147,10 @@ package mongoose.display
 				if(pixel>0)
 				{
 					iHit=true;
+					return true;
 				}
 			}
-			
-			if(type==MouseEvent.MOUSE_MOVE)
-			{
-				if(iHit==false)
-				{
-					
-					if(iOver==true)
-						triggerEvent(MouseEvent.MOUSE_OUT);
-					iOver=false;
-				}
-			}
-			if(iHit)return this;
-			return null;
+			return false;
 		}
 		
 		private function addHandle(handle:Function,handles:Array):void
@@ -243,22 +232,29 @@ package mongoose.display
 					break;
 				case MouseEvent.MOUSE_OVER:
 					step=0;
-					
-					while(step<mouseOverEventHandles.length)
+					if(iOver==false)
 					{
-						mouseOverEventHandles[step](this);
-						step++;
+						while(step<mouseOverEventHandles.length)
+						{
+							mouseOverEventHandles[step](this);
+							step++;
+						}
+						iOver=true;
 					}
+					
 					break;
 				case MouseEvent.MOUSE_OUT:
 					step=0;
-					
-					while(step<mouseOutEventHandles.length)
+					if(iOver==true)
 					{
-						mouseOutEventHandles[step](this);
-						step++;
+						while(step<mouseOutEventHandles.length)
+						{
+							mouseOutEventHandles[step](this);
+							step++;
+						}
+						iOver=false;
 					}
-					iOver=false;
+					
 					break;
 				case MouseEvent.MOUSE_MOVE:
 					step=0;
@@ -268,13 +264,7 @@ package mongoose.display
 						mouseMoveEventHandles[step](this);
 						step++;
 					}
-					if(iHit==true)
-					{
-						
-						if(iOver==false)
-							triggerEvent(MouseEvent.MOUSE_OVER);
-						iOver=true;
-					}
+					
 					
 					
 					break;

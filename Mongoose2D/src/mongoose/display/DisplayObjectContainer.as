@@ -13,6 +13,8 @@ package mongoose.display
 		private var _sortBy:String="z";
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		public var enableSort:Boolean;
+		private var _prevObj:InteractiveObject;
+		
         public function DisplayObjectContainer(texture:TextureData = null)
         {
             mChilds = [];
@@ -175,37 +177,42 @@ package mongoose.display
 				step++;
             }
         }
-        override internal function hitTest(type:String, x:Number, y:Number):InteractiveObject
+		override internal function hitTest(type:String,x:Number,y:Number):Boolean
 		{
-			var hit:Boolean;
-			//var obj:DisplayObject;
-			iTestObject=null;
-			var index:uint;
-			if(mouseChildren)
+			iHitObj=null;
+			var step:uint=0;
+			var obj:InteractiveObject,oop:InteractiveObject;
+			var hit:InteractiveObject;
+			
+			while(step<mChilds.length)
 			{
-				var step:uint=0;
-				var obj:InteractiveObject,oop:InteractiveObject;
-				
-				while(step<mChilds.length)
+				obj=mChilds[step] as InteractiveObject;
+				if(obj!=null)
 				{
-					obj=mChilds[step] as InteractiveObject;
-					if(obj!=null)
-					{
-						iTestObject=obj.hitTest(type,x,y);
-						
-					}
-					step++;
+					
+					var re:Boolean=obj.hitTest(type,x,y);
+					//if(obj!=null&&prevObj!=null&&type==MouseEvent.MOUSE_MOVE)prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
+					if(re)hit=obj.iHitObj;
+					
+					
+				}
+				step++;
+			}
+			if(hit!=null)
+			{
+				iHitObj=hit;
+			}
+			else
+			{
+				if(super.hitTest(type,x,y))
+				{
+					iHitObj=this;
 				}
 			}
-			//记录当前被点中的对象
-			
-			if(mouseEnabled&&iTestObject==null)
-			{
-				iTestObject=super.hitTest(type,x,y);
-				
-			}
-			//trace(iTestObject)
-			return iTestObject;
+			if(iHitObj==null)
+			    return false;
+			else
+				return true;
 		}
 		
     }
