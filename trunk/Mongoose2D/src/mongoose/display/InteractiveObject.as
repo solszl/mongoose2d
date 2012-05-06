@@ -54,8 +54,6 @@ package mongoose.display
 					
 					addHandle(handle,clickEventHandles);
 					break;
-				case MouseEvent.MOUSE_DOWN:
-					break;
 				case MouseEvent.MOUSE_OVER:
 					_useOver=true;
 					addHandle(handle,mouseOverEventHandles);
