@@ -23,7 +23,7 @@ package mongoose.display
 		
 		private var _u:Number,_v:Number;
 		
-		private var _over:Boolean=false;
+		internal var iOver:Boolean=false;
 		private var _listen:Boolean;
 		private var _useMove:Boolean;
 		private var _useOver:Boolean,_useOut:Boolean;
@@ -100,7 +100,7 @@ package mongoose.display
 		}
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
-			//trace(type,mouseMoveEventHandles.length)
+			//trace(type,x,y)
 			_useMove=_useOut||_useOut;
 			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)
 			{
@@ -152,20 +152,12 @@ package mongoose.display
 			
 			if(type==MouseEvent.MOUSE_MOVE)
 			{
-				if(iHit==true)
+				if(iHit==false)
 				{
 					
-					if(_over==false)
-					triggerEvent(MouseEvent.MOUSE_OVER);
-					_over=true;
-					
-				}
-				else if(iHit==false)
-				{
-					
-					if(_over==true)
-					triggerEvent(MouseEvent.MOUSE_OUT);
-					_over=false;
+					if(iOver==true)
+						triggerEvent(MouseEvent.MOUSE_OUT);
+					iOver=false;
 				}
 			}
 			if(iHit)return this;
@@ -266,6 +258,7 @@ package mongoose.display
 						mouseOutEventHandles[step](this);
 						step++;
 					}
+					iOver=false;
 					break;
 				case MouseEvent.MOUSE_MOVE:
 					step=0;
@@ -275,7 +268,15 @@ package mongoose.display
 						mouseMoveEventHandles[step](this);
 						step++;
 					}
-					//triggerEvent(MouseEvent.MOUSE_OVER);
+					if(iHit==true)
+					{
+						
+						if(iOver==false)
+							triggerEvent(MouseEvent.MOUSE_OVER);
+						iOver=true;
+					}
+					
+					
 					break;
 			}
 		}
