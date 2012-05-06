@@ -205,7 +205,7 @@ package mongoose.display
 			if(_prevObj!=hit&&_prevObj!=null)
 			{
 				//trace(_prevObj.iHit)
-				if(_prevObj.iHit==false)
+				//if(_prevObj.iHit==false)
 					_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
 				
 			}
