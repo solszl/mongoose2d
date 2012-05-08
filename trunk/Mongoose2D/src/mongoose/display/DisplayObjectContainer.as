@@ -177,42 +177,36 @@ package mongoose.display
 				step++;
             }
         }
-		override internal function hitTest(type:String,x:Number,y:Number):Boolean
+		override internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
-			iHitObj=null;
+			
 			var step:uint=0;
 			var obj:InteractiveObject,oop:InteractiveObject;
 			var hit:InteractiveObject;
-			
+			var last:InteractiveObject;
 			while(step<mChilds.length)
 			{
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
 					
-					var re:Boolean=obj.hitTest(type,x,y);
-					//if(obj!=null&&prevObj!=null&&type==MouseEvent.MOUSE_MOVE)prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-					if(re)hit=obj.iHitObj;
-					
-					
+					hit=obj.hitTest(type,x,y);
+					if(hit!=null)
+					{
+						last=hit;
+					}
 				}
 				step++;
 			}
-			if(hit!=null)
+			//trace(last)
+			if(last!=null)
 			{
-				iHitObj=hit;
+				return last;
 			}
 			else
 			{
-				if(super.hitTest(type,x,y))
-				{
-					iHitObj=this;
-				}
+				return super.hitTest(type,x,y);
 			}
-			if(iHitObj==null)
-			    return false;
-			else
-				return true;
 		}
 		
     }

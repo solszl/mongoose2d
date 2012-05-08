@@ -10,28 +10,27 @@ package mongoose.display
 
     public class InteractiveObject extends Image
     {
-		public var mouseEnabled:Boolean = true;
+		public var mouseEnabled:Boolean=false;
 		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
 		protected var mDir:Vector3D;
         protected var enterFrameHandles:Array=[];
-		protected var clickEventHandles:Array=[];
+		protected var mouseClickEventHandles:Array=[];
+		protected var mouseDownEventHandles:Array=[];
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
-        protected var mouseDownEventHandles:Array=[];
-        protected var mouseUpEventHandles:Array=[];
-        
+		
 		private var _u:Number,_v:Number;
 		
 		internal var iOver:Boolean=false;
 		private var _listen:Boolean;
-		private var _useMove:Boolean;
-		private var _useOver:Boolean,_useOut:Boolean;
+		
+		
 		private var _mouseEnabled:Boolean;
 		internal var iHit:Boolean;
-		internal var iHitObj:InteractiveObject;
+		
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -52,25 +51,23 @@ package mongoose.display
 			{
 				case MouseEvent.CLICK:
 					
-					addHandle(handle,clickEventHandles);
+					addHandle(handle,mouseClickEventHandles);
+					break;
+				case MouseEvent.MOUSE_DOWN:
+					addHandle(handle,mouseDownEventHandles);
 					break;
 				case MouseEvent.MOUSE_OVER:
-					_useOver=true;
+					
 					addHandle(handle,mouseOverEventHandles);
 					break;
 				case MouseEvent.MOUSE_OUT:
-					_useOut=true;
+					
 					addHandle(handle,mouseOutEventHandles);
 					break;
 				case MouseEvent.MOUSE_MOVE:
+					
 					addHandle(handle,mouseMoveEventHandles);
 					break;
-                case MouseEvent.MOUSE_DOWN:
-                    addHandle(handle,mouseDownEventHandles);
-                    break;
-                case MouseEvent.MOUSE_UP:
-                    addHandle(handle,mouseUpEventHandles);
-                    break;
 				case Event.ENTER_FRAME:
 					addHandle(handle,enterFrameHandles);
 					break;
@@ -82,14 +79,10 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					removeHandle(handle,clickEventHandles);
+					removeHandle(handle,mouseClickEventHandles);
 					break;
 				case MouseEvent.MOUSE_DOWN:
-                    removeHandle(handle,mouseDownEventHandles);
 					break;
-                case MouseEvent.MOUSE_UP:
-                    removeHandle(handle,mouseUpEventHandles);
-                    break;
 				case Event.ENTER_FRAME:
 					removeHandle(handle,enterFrameHandles);
 					break;
@@ -107,19 +100,12 @@ package mongoose.display
 				step++;
 			}
 		}
-		internal function hitTest(type:String,x:Number,y:Number):Boolean
+		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
-            if(!mouseEnabled)
-                return false;
-            
-			//trace(type,x,y)
-			_useMove=_useOut||_useOut;
-			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)
-			{
-				//trace("over")
-				return false;
-			}
-			iHit=false;	
+			if(!mouseEnabled)return null;
+			if(mouseOverEventHandles.length==0||
+			   mouseOutEventHandles.length==0)
+			return null;
 			var dx:Number=(x*mFx-1);
 			var dy:Number=(1-y*mFy)*world.scale;
 			
@@ -134,6 +120,8 @@ package mongoose.display
 			mTarget.y=dy*World.far;
 			mTarget.z=World.far;
 			
+			
+			
 			mOrigin=mOutMatrix.transformVector(mOrigin);
 			//trace(p2)
 			mTarget=mOutMatrix.transformVector(mTarget);
@@ -141,28 +129,41 @@ package mongoose.display
 			mDir=mTarget.subtract(mOrigin);
 			
 			
-			var a:Boolean=instric(v0,v1,v2);
-			var u1:Number=_u,
-				v1:Number=_v;
-			var b:Boolean=instric(v0,v2,v3);
-			var u2:Number=_u,
-				v2:Number=_v;
+			var a:Boolean=instric(v0,edge1,edge2);
+			var uu1:Number=_u,
+				vv1:Number=_v;
+			var b:Boolean=instric(v0,edge2,edge3);
+			var uu2:Number=_u,
+				vv2:Number=_v;
 			if(a||b)
 			{
-				_u=Math.max(u1,u2);
-				_v=Math.max(v1,v2);
+				_u=Math.max(uu1,uu2);
+				_v=Math.max(vv1,vv2);
 				_u=mTexture.uValue*_u+mTexture.uvVector[0];
 				_v=mTexture.vValue*_v+mTexture.uvVector[1];
 				var w:Number=this.mTexture.bitmapData.width;
 				var h:Number=this.mTexture.bitmapData.height;
 				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
-				if(pixel>0)
-				{
-					iHit=true;
-					return true;
-				}
+				pixel>0?iHit=true:iHit=false;
 			}
-			return false;
+			else
+			{
+				iHit=false;
+			}
+			if(iHit)
+			{
+				
+				return this;
+			}
+			else
+			{
+				if(iOver==true)
+				{
+					triggerEvent(MouseEvent.MOUSE_OUT);
+					iOver=false;
+				}
+				return null;
+			}
 		}
 		
 		private function addHandle(handle:Function,handles:Array):void
@@ -190,15 +191,15 @@ package mongoose.display
 			}
 		}
 		
-		protected function instric(p0:Vector3D,p1:Vector3D,p2:Vector3D):Boolean
+		protected function instric(p0:Vector3D,ed1:Vector3D,ed2:Vector3D):Boolean
 		{
 		    var pass:Boolean=true;
 			var edge1:Vector3D,edge2:Vector3D;
 			var pvec:Vector3D,tvec:Vector3D,qvec:Vector3D,det:Number;
 			var t:Number,temp:Number,u:Number,v:Number;
 			//----------------------------------------------------			
-			edge1=p1.subtract(p0);
-			edge2=p2.subtract(p0);
+			edge1=ed1;
+			edge2=ed2;
 			pvec=mDir.crossProduct(edge2);
 			det=edge1.dotProduct(pvec);
 			if(det>0)
@@ -229,16 +230,24 @@ package mongoose.display
 			
 		    return pass;
 		}
-		internal function triggerEvent(type:String):void
+		internal function triggerEvent(type:String,last:InteractiveObject=null):void
 		{
 			var step:int;
 			switch(type)
 			{
+				case MouseEvent.MOUSE_DOWN:
+					step=0;
+					while(step<mouseDownEventHandles.length)
+					{
+						mouseDownEventHandles[step](this);
+						step++;
+					}
+					break;
 				case MouseEvent.CLICK:
 					step=0;
-					while(step<clickEventHandles.length)
+					while(step<mouseClickEventHandles.length)
 					{
-						clickEventHandles[step](this);
+						mouseClickEventHandles[step](this);
 						step++;
 					}
 					break;
@@ -267,37 +276,22 @@ package mongoose.display
 						iOver=false;
 					}
 					
+					
 					break;
 				case MouseEvent.MOUSE_MOVE:
 					step=0;
 					
+					if(iOver==false&&iHit)
+					{
+						triggerEvent(MouseEvent.MOUSE_OVER);
+						iOver=true;
+					};
 					while(step<mouseMoveEventHandles.length)
 					{
 						mouseMoveEventHandles[step](this);
 						step++;
 					}
-					
 					break;
-                case MouseEvent.MOUSE_DOWN:
-                    step=0;
-                    
-                    while(step<mouseDownEventHandles.length)
-                    {
-                        mouseDownEventHandles[step](this);
-                        step++;
-                    }
-                    
-                    break;
-                case MouseEvent.MOUSE_UP:
-                    step=0;
-                    
-                    while(step<mouseUpEventHandles.length)
-                    {
-                        mouseUpEventHandles[step](this);
-                        step++;
-                    }
-                    
-                    break;
 			}
 		}
     }

@@ -48,6 +48,7 @@ package mongoose.display
 		public var enableSort:Boolean;
 		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
 		private var _prevObj:InteractiveObject;
+		private var _click:Boolean;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -153,10 +154,8 @@ package mongoose.display
 			BaseObject.world=this;
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
-			stage.addEventListener(MouseEvent.CLICK,onStageClick);
-            stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-            stage.addEventListener(MouseEvent.MOUSE_UP,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
+			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -164,7 +163,9 @@ package mongoose.display
         }// end function
 		private function onStageClick(e:MouseEvent):void
 		{
+			_click=false;
 			hitTest(e.type,e.stageX,e.stageY);
+			
 		}
 		private function onStageMove(e:MouseEvent):void
 		{
@@ -183,62 +184,53 @@ package mongoose.display
 			//trace("_--------------------",_isMove)
 			
 		}
-        private function hitTest(type:String,x:Number,y:Number):void
+		internal function hitTest(type:String,x:Number,y:Number):void
 		{
+			
 			var step:uint=0;
 			var obj:InteractiveObject,oop:InteractiveObject;
 			var hit:InteractiveObject;
-			
+			var last:InteractiveObject;
 			while(step<mChilds.length)
 			{
 				obj=mChilds[step] as InteractiveObject;
 				if(obj!=null)
 				{
 					
-					var re:Boolean=obj.hitTest(type,x,y);
-					//if(obj!=null&&prevObj!=null&&type==MouseEvent.MOUSE_MOVE)prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-					if(re)hit=obj.iHitObj;
-					
-					
+					hit=obj.hitTest(type,x,y);
+					if(hit!=null)
+					{
+						last=hit;
+					}
 				}
 				step++;
 			}
-			//trace(_prevObj,_prevObj!=hit)
-			if(_prevObj!=hit&&_prevObj!=null)
+			if(last!=null)
 			{
-				//trace(_prevObj.iHit)
-				//if(_prevObj.iHit==false)
-					_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-				
+				//上一个选中对象设置mouseOut
+				if(_prevObj)_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
+				last.triggerEvent(type,_prevObj);
+				if(_prevObj!=last)
+				{
+					_prevObj=last;
+				}
 			}
-			if(hit!=null)
-			{
-				_prevObj=hit;
-				if(type==MouseEvent.CLICK ||
-                    type==MouseEvent.MOUSE_DOWN ||
-                    type==MouseEvent.MOUSE_UP)
-                {
-                    hit.triggerEvent(type);
-                }
-				else
-                {
-					hit.triggerEvent(MouseEvent.MOUSE_OVER);
-                }
-			};	
 		}
         protected function onRender(VERTEX:Event=null) : void
         {
             context3d.clear();
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
-			if(_isMove)
+			if(_isMove&&_click)
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
 				//trace("test",_isMove);
 				_isMove=false;
 				
 			}
+			_click=true;
             render();
+			
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
 			{
