@@ -155,7 +155,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
+			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -221,6 +221,7 @@ package mongoose.display
             context3d.clear();
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
+			render();
 			if(_isMove&&_click)
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
@@ -229,7 +230,7 @@ package mongoose.display
 				
 			}
 			_click=true;
-            render();
+           
 			
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
