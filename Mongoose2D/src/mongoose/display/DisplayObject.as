@@ -40,7 +40,7 @@ package mongoose.display
         protected var mOriginHeight:Number = 0;
       
 		protected var mConstrants:Vector.<Number>;
-        protected var mBaseMtx:Matrix3D;
+        internal var iSelftMatrix:Matrix3D;
         protected var mOutMatrix:Matrix3D;
 		protected var mParentMatrix3D:Matrix3D
 		
@@ -73,14 +73,15 @@ package mongoose.display
 		private var _colTem:Number=1/255;
 		private var _depth:Number;
 		
-		
+		private var _twidth:Number,_theight:Number;
         public function DisplayObject()
         {
 			id=INSTANCE_NUM++;
 			_depth=.00001/id;
             _rotPivot = new Vector3D(0, 0, 1);
 			mPivot=new Vector3D(0,0,0);
-            mBaseMtx = new Matrix3D();
+            iSelftMatrix = new Matrix3D();
+			
             mMatrix3D = new Matrix3D();
 			mMyMatrix =new Matrix3D;
             mOutMatrix = new Matrix3D();
@@ -121,9 +122,9 @@ package mongoose.display
 		}
         protected function init():void
 		{
-			mBaseMtx.identity();
+			iSelftMatrix.identity();
 			mMatrix3D.identity();
-			mBaseMtx.prependTranslation(mPivot.x,mPivot.y,mPivot.z);
+			iSelftMatrix.prependTranslation(mPivot.x,mPivot.y,mPivot.z);
 			_mx=_my=_mz=0;
 			
 			mSx=mOriginWidth;
@@ -146,13 +147,13 @@ package mongoose.display
 			{
 				var tx:Number=mOriginWidth*mFx;
 				
-				mBaseMtx.appendScale(tx,1,1);
+				iSelftMatrix.appendScale(tx,1,1);
 				//trace("原始缩放x")
 			}	
 			if(mOriginHeight!=0)
 			{
 				var ty:Number=mOriginHeight*mFy*world.scale;
-				mBaseMtx.appendScale(1,ty, 1);
+				iSelftMatrix.appendScale(1,ty, 1);
 				//trace("原始缩放y")
 			}  
 			
@@ -254,7 +255,7 @@ package mongoose.display
 				//trace("位移z")
 			} 
 			
-            mOutMatrix.append(mBaseMtx);
+           // mOutMatrix.append(mBaseMtx);
             mOutMatrix.append(mMatrix3D);
             if (parent != null)
             {
