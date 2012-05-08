@@ -255,7 +255,7 @@ package mongoose.display
 				//trace("位移z")
 			} 
 			
-           // mOutMatrix.append(mBaseMtx);
+            mOutMatrix.append(iSelftMatrix);
             mOutMatrix.append(mMatrix3D);
             if (parent != null)
             {
