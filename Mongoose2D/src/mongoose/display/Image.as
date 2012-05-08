@@ -25,7 +25,7 @@ package mongoose.display
 		//预留寄存器数量
 		static protected const REG_SAVE:uint=0;
 		//每个角色使用的寄存器数量.4个矩阵，一个颜色，一个UV
-		static protected const REG_PER_ROLS:uint=10;
+		static protected const REG_PER_ROLS:uint=6;
 		//当前使用的Program3D
 		static protected var VERTEX_SHADER:ByteArray;
 		//static protected var CURRENT_PROGRAME:Program3D;
@@ -47,9 +47,9 @@ package mongoose.display
 		static protected var edge1:Vector3D;
 		static protected var edge2:Vector3D;
 		static protected var edge3:Vector3D;
-		//static protected var edge4:Vector3D;
 		public function Image(texture:TextureData = null)
 		{
+			
 			if(edge1==null)
 			{
 				v0=new Vector3D(0,0,1);
@@ -61,7 +61,6 @@ package mongoose.display
 				
 				edge3=v3.subtract(v0);
 			}
-			
 			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
 			this.setTexture(texture);
 			world.addEventListener(Event.CHANGE,onChange);
@@ -74,14 +73,13 @@ package mongoose.display
 			if(VERTEX_SHADER==null)
 			{
 				var vs:String =
-					"m44 vt0, va0,vc[va3.x]\n"+
-					"m44 vt0, vt0,vc[va2.x]\n"+
+					"m44 vt0, va0,vc[va2.x]\n"+
 					"m44 vt0, vt0,vc0\n"+
 					"m44 vt0, vt0,vc4\n"+
 					"mov op,vt0\n"+
 					
 					//根据UV索引获得UV坐标,va1->vertex,vt0->UV
-					"mov vt0,vc[va4.x]\n"+
+					"mov vt0,vc[va3.x]\n"+
 					
 					"mul vt1.x,va1.x,vt0.z\n"+
 					"mul vt2.x,va1.x,vt0.x\n"+
@@ -93,14 +91,13 @@ package mongoose.display
 					"sub vt3.y,vt1.y,vt2.y\n"+
 					"add vt3.y,vt3.y,vt0.y\n"+
 					//输出颜色
-					"mov v1,vc[va5.x]\n"+
+					"mov v1,vc[va4.x]\n"+
 					//输出UV坐标
 					"mov v0,vt3.xy\n"+
 					//输出顶点坐标
 					"mov v3,vt0\n"+
 					
-					"m44 vt4, va6,vc[va3.x]\n"+
-					"m44 vt4, va6,vc[va2.x]\n"+
+					"m44 vt4, va5,vc[va2.x]\n"+
 					"m44 vt4, vt4,vc0\n"+
 					//"m44 vt4, vt4,vc4\n"+
 					//输出法线坐标
@@ -121,43 +118,33 @@ package mongoose.display
 			{
 				var vertexBufferData:Vector.<Number>;
 				BATCH_NUM=int((TOTAL_REGISTER-REG_INDEX)/REG_PER_ROLS);
-				var step:uint,mid:uint,uid:uint,cid:uint,sid:uint;
+				var step:uint,mid:uint,uid:uint,cid:uint;
 				vertexBufferData=new Vector.<Number>;
 				while(step<BATCH_NUM)
 				{
 					mid=step*4+REG_INDEX;
-					sid=BATCH_NUM*4+step*4+REG_INDEX;
-					uid=BATCH_NUM*4+BATCH_NUM*4+REG_INDEX+step*2;
-					
-					cid=BATCH_NUM*4+BATCH_NUM*4+REG_INDEX+step*2+1;
-					trace(mid,sid,uid,cid);
+					uid=BATCH_NUM*4+REG_INDEX+step*2;
+					cid=BATCH_NUM*4+REG_INDEX+step*2+1;
+					//trace(mid,uid,cid);
 					
 					vertexBufferData.push(
-						0, 0, 1, 0, 0, mid,sid, uid, cid,0,0,1,
-						1, 0, 1, 1, 0, mid,sid, uid, cid,0,0,1,
-						1,-1, 1, 1, 1, mid,sid, uid, cid,0,0,1,
-						0,-1, 1, 0, 1, mid,sid, uid, cid,0,0,1
+						0, 0, 1, 0, 0, mid, uid, cid,0,0,1,
+						1, 0, 1, 1, 0, mid, uid, cid,0,0,1,
+						1,-1, 1, 1, 1, mid, uid, cid,0,0,1,
+						0,-1, 1, 0, 1, mid, uid, cid,0,0,1
 					);
 					step++;
 				}
 				//trace("顶点的数量:",vertexBufferData.length/4)
 				
-				CURRENT_VERTEX_BUFFER = context3d.createVertexBuffer(BATCH_NUM*4,12);
+				CURRENT_VERTEX_BUFFER = context3d.createVertexBuffer(BATCH_NUM*4,11);
 				CURRENT_VERTEX_BUFFER.uploadFromVector(vertexBufferData, 0, BATCH_NUM*4);
-				//顶点
 				context3d.setVertexBufferAt(0, CURRENT_VERTEX_BUFFER, 0, "float3");
-				//uv
 				context3d.setVertexBufferAt(1, CURRENT_VERTEX_BUFFER, 3, "float2");
-				//mid
 				context3d.setVertexBufferAt(2, CURRENT_VERTEX_BUFFER, 5, "float1");
-				//sid
 				context3d.setVertexBufferAt(3, CURRENT_VERTEX_BUFFER, 6, "float1");
-				//uid
 				context3d.setVertexBufferAt(4, CURRENT_VERTEX_BUFFER, 7, "float1");
-				//cid
-				context3d.setVertexBufferAt(5, CURRENT_VERTEX_BUFFER, 8, "float1");
-				//normal
-				context3d.setVertexBufferAt(6, CURRENT_VERTEX_BUFFER, 9, "float3");
+				context3d.setVertexBufferAt(5, CURRENT_VERTEX_BUFFER, 8, "float3");
 			}
 			if (CURRENT_INDEX_BUFFER == null)
 			{
@@ -223,17 +210,17 @@ package mongoose.display
 					//"sub ft1.x,ft0.x,fc0.x\n"+
 					//"kil ft1.x\n"+
 					//求方向向量
-					//"sub ft1.xyz,fc1.xyz,v2.xyz\n"+
+					"sub ft1.xyz,fc1.xyz,v2.xyz\n"+
 					//求向量长度
-					//"dp3 ft1.xyz,ft1.xyz,ft1.xyz\n"+
+					"dp3 ft1.xyz,ft1.xyz,ft1.xyz\n"+
 					//缩放长度,光晕大小
-					//"mul ft1.xyz,ft1.xyz,fc1.w\n"+
+					"mul ft1.xyz,ft1.xyz,fc1.w\n"+
 					//计算颜色与长度关系
-					//"div ft3,fc0.xyz,ft1.xyz\n"+
+					"div ft3,fc0.xyz,ft1.xyz\n"+
 					//颜色强度
-					//"pow ft3.xyz,ft3.xyz,fc0.w\n"+
+					"pow ft3.xyz,ft3.xyz,fc0.w\n"+
 					//"nrm ft3.xyz,ft3,xyz\n"+
-					//"sat ft3,ft3\n"+
+					"sat ft3,ft3\n"+
 					
 					//"mul ft0.xyz,ft3.xyz,ft0.xyz\n"+
 					"mov oc ft0\n";
@@ -270,13 +257,10 @@ package mongoose.display
 			}
 			
 			var mid:uint=REG_INDEX+BATCH_INDEX*4;
-			var sid:uint=REG_INDEX+BATCH_NUM*4+BATCH_INDEX*4;
-			var uid:uint=BATCH_NUM*4+BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
+			var uid:uint=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
 			//var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+BATCH_INDEX;
 			//trace("数据:",mid,uid);
-			//trace(sid)
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
-			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,sid, iSelftMatrix, true);
 			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mConstrants,2);
 			
 			if(BATCH_INDEX==BATCH_NUM-1)
