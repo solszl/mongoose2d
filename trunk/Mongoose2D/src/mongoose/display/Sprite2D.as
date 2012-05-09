@@ -10,6 +10,9 @@ package mongoose.display
     {
         protected var mFilters:Array;
         protected var mSpriteProgram:Program3D;
+		
+		private var _step:uint,_len:uint;
+		private var _mid:uint,_uid:uint;
         public function Sprite2D(texture:TextureData = null)
         {
 			super(texture);
@@ -117,21 +120,21 @@ package mongoose.display
 					CURRENT_TEXTURE=mTexture.texture;
 				}
 				
-				var len:uint = mFilters.length;
-				var step:uint=0;
-				while(step<len)
+				_len = mFilters.length;
+				_step=0;
+				while(_step<_len)
 				{
-					IFilter(mFilters[step]).apply(context3d);
-					step++;
+					IFilter(mFilters[_step]).apply(context3d);
+					_step++;
 				}
 					
 				
-				var mid:uint=REG_INDEX+BATCH_INDEX*4;
-				var uid:uint=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
+				_mid=REG_INDEX+BATCH_INDEX*4;
+				_uid=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
 				
 				
-				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
-				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mConstrants,2);
+				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,_mid, mOutMatrix, true);
+				context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,_uid,mConstrants,2);
 				context3d.drawTriangles(CURRENT_INDEX_BUFFER,0,2);
 				//trace("Sprite2D独立渲染一次")
 			}

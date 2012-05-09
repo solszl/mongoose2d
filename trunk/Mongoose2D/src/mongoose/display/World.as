@@ -21,6 +21,8 @@ package mongoose.display
 
     public class World extends EventDispatcher
     {
+		internal var iwidthRecipDble:Number;
+		internal var iheightRecipDbl:Number;
         protected var mFullScreen:Boolean;
         public var perspective:PerspectiveMatrix3D;
         protected var mStage3D:Stage3D;
@@ -50,6 +52,9 @@ package mongoose.display
 		private var _prevObj:InteractiveObject;
 		private var _click:Boolean;
 		private var _lock:Boolean;
+		
+		private var _obj:InteractiveObject;
+		private var _last:InteractiveObject;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -107,7 +112,8 @@ package mongoose.display
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, perspective, true);
             }
             scale = height / width;
-			
+			iwidthRecipDble=1/width*2;
+			iheightRecipDbl=1/height*2;
             dispatchEvent(new Event(Event.CHANGE));
         }// end function
         public function removeChild(obj:DisplayObject):void
@@ -205,31 +211,31 @@ package mongoose.display
 		{
 			
 			var step:uint=0;
-			var obj:InteractiveObject,oop:InteractiveObject;
-			var hit:InteractiveObject;
-			var last:InteractiveObject;
+			//var obj:InteractiveObject,oop:InteractiveObject;
+			//var hit:InteractiveObject;
+			//var last:InteractiveObject;
 			while(step<mChilds.length)
 			{
-				obj=mChilds[step] as InteractiveObject;
-				if(obj!=null)
+				_obj=mChilds[step] as InteractiveObject;
+				if(_obj!=null)
 				{
 					
-					hit=obj.hitTest(type,x,y);
-					if(hit!=null)
+					_obj=_obj.hitTest(type,x,y);
+					if(_obj!=null)
 					{
-						last=hit;
+						_last=_obj;
 					}
 				}
 				step++;
 			}
-			if(last!=null)
+			if(_last!=null)
 			{
 				//上一个选中对象设置mouseOut
 				if(_prevObj)_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-				last.triggerEvent(type,_prevObj);
-				if(_prevObj!=last)
+				_last.triggerEvent(type,_prevObj);
+				if(_prevObj!=_last)
 				{
-					_prevObj=last;
+					_prevObj=_last;
 				}
 			}
 		}

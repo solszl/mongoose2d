@@ -15,6 +15,9 @@ package mongoose.display
 		public var enableSort:Boolean;
 		private var _prevObj:InteractiveObject;
 		
+		private var _step:uint,_len:uint;
+		private var _object:InteractiveObject;
+		private var _hitObj:InteractiveObject;
         public function DisplayObjectContainer(texture:TextureData = null)
         {
             mChilds = [];
@@ -37,31 +40,31 @@ package mongoose.display
 
         public function hasChild(child:DisplayObject) : Boolean
         {
-            var step:int;
-            var total:uint = mChilds.length;
-            while (step<total)
+			_step=0;
+			_len = mChilds.length;
+            while (_step<_len)
             {
                 
-                if (mChilds[step] == child)
+                if (mChilds[_step] == child)
                 {
                     return true;
                 }
-				step++;
+				_step++;
             }
             return false;
         }
 		
         public function removeChild(object:DisplayObject) : void
         {
-			var step:uint=0;
-			while(step<mChilds.length)
+			_step=0;
+			while(_step<mChilds.length)
 			{
-				if(mChilds[step]==object)
+				if(mChilds[_step]==object)
 				{
-					mChilds.splice(step,1);
+					mChilds.splice(_step,1);
 					
 				}	
-				step++;
+				_step++;
 			}
             return;
         }
@@ -166,37 +169,36 @@ package mongoose.display
 		}
         override public function render() : void
         {
-            var step:uint;
-            var total:uint = this.mChilds.length;
+			_step=0;
+            _len = this.mChilds.length;
 			super.render();
 			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
-            while (step< total)
+            while (_step< _len)
             {
                 
-                mChilds[step].render();
-				step++;
+                mChilds[_step].render();
+				_step++;
             }
         }
 		override internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			
-			var step:uint=0;
-			var obj:InteractiveObject,oop:InteractiveObject;
-			var hit:InteractiveObject;
+			_step=0;
+			
 			var last:InteractiveObject;
-			while(step<mChilds.length)
+			while(_step<mChilds.length)
 			{
-				obj=mChilds[step] as InteractiveObject;
-				if(obj!=null)
+				_object=mChilds[_step] as InteractiveObject;
+				if(_object!=null)
 				{
 					
-					hit=obj.hitTest(type,x,y);
-					if(hit!=null)
+					_hitObj=_object.hitTest(type,x,y);
+					if(_hitObj!=null)
 					{
-						last=hit;
+						last=_hitObj;
 					}
 				}
-				step++;
+				_step++;
 			}
 			//trace(last)
 			if(last!=null)

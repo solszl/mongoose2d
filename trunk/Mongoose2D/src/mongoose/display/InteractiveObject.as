@@ -29,8 +29,17 @@ package mongoose.display
 		
 		
 		private var _mouseEnabled:Boolean;
+		private var dx:Number,dy:Number;
+		private var _passA:Boolean;
+		private var _passB:Boolean;
+		private var uu1:Number,
+					uu2:Number,
+					vv1:Number,
+					vv2:Number;
 		internal var iHit:Boolean;
 		
+		private var _triAnglePass:Boolean;
+		private var _step:uint;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -140,12 +149,12 @@ package mongoose.display
 		override protected function preRender():void
 		{
 			super.preRender();
-			var step:uint,item:Object;
-			var len:uint=enterFrameHandles.length;
-			while(step<len)
+			_step=0;
+			
+			while(_step<enterFrameHandles.length)
 			{
-				enterFrameHandles[step](this);
-				step++;
+				enterFrameHandles[_step](this);
+				_step++;
 			}
 		}
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
@@ -154,8 +163,8 @@ package mongoose.display
 			if(mouseOverEventHandles.length==0||
 			   mouseOutEventHandles.length==0)
 			return null;
-			var dx:Number=(x*mFx-1);
-			var dy:Number=(1-y*mFy)*world.scale;
+			dx=(x*mWidthRecipDbl-1);
+			dy=(1-y*mHeightRecipDbl)*world.scale;
 			
 			mOutMatrix.appendTranslation(-1, world.scale, 0);
 			mOutMatrix.invert();
@@ -177,13 +186,13 @@ package mongoose.display
 			mDir=mTarget.subtract(mOrigin);
 			
 			
-			var a:Boolean=instric(v0,edge1,edge2);
-			var uu1:Number=_u,
-				vv1:Number=_v;
-			var b:Boolean=instric(v0,edge2,edge3);
-			var uu2:Number=_u,
-				vv2:Number=_v;
-			if(a||b)
+			_passA=instric(v0,edge1,edge2);
+			uu1=_u,
+			vv1=_v;
+			_passB=instric(v0,edge2,edge3);
+			uu2=_u,
+			vv2=_v;
+			if(_passA||_passB)
 			{
 				_u=Math.max(uu1,uu2);
 				_v=Math.max(vv1,vv2);
@@ -239,15 +248,14 @@ package mongoose.display
 			}
 		}
 		
-		protected function instric(p0:Vector3D,ed1:Vector3D,ed2:Vector3D):Boolean
+		protected function instric(p0:Vector3D,edge1:Vector3D,edge2:Vector3D):Boolean
 		{
-		    var pass:Boolean=true;
-			var edge1:Vector3D,edge2:Vector3D;
+			_triAnglePass=true;
+			//var edge1:Vector3D,edge2:Vector3D;
 			var pvec:Vector3D,tvec:Vector3D,qvec:Vector3D,det:Number;
 			var t:Number,temp:Number,u:Number,v:Number;
 			//----------------------------------------------------			
-			edge1=ed1;
-			edge2=ed2;
+			
 			pvec=mDir.crossProduct(edge2);
 			det=edge1.dotProduct(pvec);
 			if(det>0)
@@ -260,14 +268,14 @@ package mongoose.display
 				det=-det;
 			}
 			if(det<0.0001)
-				pass= false;
+				_triAnglePass= false;
 			u=tvec.dotProduct(pvec);
 			if(u<0||u>det)
-				pass= false;
+				_triAnglePass= false;
 			qvec=tvec.crossProduct(edge1);
 			v=mDir.dotProduct(qvec);
 			if(v<0||u+v>det)
-				pass= false;
+				_triAnglePass= false;
 			t=edge2.dotProduct(qvec);
 			temp=1/det;
 			t*=temp;
@@ -276,7 +284,7 @@ package mongoose.display
 			_u=u;
 			_v=v;
 			
-		    return pass;
+		    return _triAnglePass;
 		}
 		internal function triggerEvent(type:String,last:InteractiveObject=null):void
 		{
