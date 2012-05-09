@@ -105,7 +105,7 @@ package mongoose.display
 					break;
 			}
 		}
-		public function removeEventHandle(type:String,handle:Function):void
+		/*public function removeEventHandle(type:String,handle:Function):void
 		{
 			switch(type)
 			{
@@ -118,8 +118,25 @@ package mongoose.display
 					removeHandle(handle,enterFrameHandles);
 					break;
 			}
+		}*/
+		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
+		{
+			switch(type)
+			{
+				case MouseEvent.CLICK:
+					removeHandle(listener,mouseClickEventHandles);
+					break;
+				case MouseEvent.MOUSE_DOWN:
+					removeHandle(listener,mouseDownEventHandles);
+					break;
+				case Event.ENTER_FRAME:
+					removeHandle(listener,enterFrameHandles);
+					break;
+				default:
+					super.removeEventListener(type,listener,useCapture);
+					break;
+			}
 		}
-		
 		override protected function preRender():void
 		{
 			super.preRender();
