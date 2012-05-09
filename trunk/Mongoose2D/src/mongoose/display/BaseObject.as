@@ -16,7 +16,7 @@ package mongoose.display
         public var x:Number = 0,
                    y:Number = 0,
                    z:Number = 0;
-        public var data:Object;
+        public var data:Object={};
 		public var name:String;
 		
 		public var id:uint;

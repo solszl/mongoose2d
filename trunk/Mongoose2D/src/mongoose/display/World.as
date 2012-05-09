@@ -49,6 +49,7 @@ package mongoose.display
 		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
 		private var _prevObj:InteractiveObject;
 		private var _click:Boolean;
+		private var _lock:Boolean;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -109,7 +110,23 @@ package mongoose.display
 			
             dispatchEvent(new Event(Event.CHANGE));
         }// end function
-
+        public function removeChild(obj:DisplayObject):void
+		{
+			
+			var step:uint=0;
+			while(step<mChilds.length)
+			{
+				var r:Boolean=mChilds[step]==obj;
+				if(r)
+				{
+					mChilds.splice(step,1);
+					
+					return;
+				}
+				step++;
+			}
+			
+		}
         public function addCamera(camera:Camera) : void
         {
             return;
@@ -221,7 +238,7 @@ package mongoose.display
             context3d.clear();
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
-			render();
+			
 			if(_isMove&&_click)
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
@@ -231,6 +248,7 @@ package mongoose.display
 			}
 			_click=true;
            
+			render();
 			
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
@@ -271,7 +289,7 @@ package mongoose.display
             var step:uint;
             var total:uint = mChilds.length;
 			if(enableSort)mChilds.sortOn(["depth"],Array.NUMERIC | Array.DESCENDING);
-            while (step< total)
+            while (step< mChilds.length)
             {
 				//trace(mChilds[step].z);
                 mChilds[step].render();
