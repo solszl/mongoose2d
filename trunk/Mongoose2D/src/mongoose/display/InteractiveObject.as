@@ -10,7 +10,7 @@ package mongoose.display
 
     public class InteractiveObject extends Image
     {
-		public var mouseEnabled:Boolean=false;
+		public var mouseEnabled:Boolean=true;
 		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
@@ -18,6 +18,7 @@ package mongoose.display
         protected var enterFrameHandles:Array=[];
 		protected var mouseClickEventHandles:Array=[];
 		protected var mouseDownEventHandles:Array=[];
+        protected var mouseUpEventHandles:Array=[];
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
@@ -94,6 +95,9 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					addHandle(listener,mouseDownEventHandles);
 					break;
+                case MouseEvent.MOUSE_UP:
+                    addHandle(listener,mouseUpEventHandles);
+                    break;
 				case MouseEvent.MOUSE_OVER:
 					
 					addHandle(listener,mouseOverEventHandles);
@@ -138,6 +142,9 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					removeHandle(listener,mouseDownEventHandles);
 					break;
+                case MouseEvent.MOUSE_UP:
+                    removeHandle(listener,mouseUpEventHandles);
+                    break;
 				case Event.ENTER_FRAME:
 					removeHandle(listener,enterFrameHandles);
 					break;
@@ -160,9 +167,9 @@ package mongoose.display
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			if(!mouseEnabled)return null;
-			if(mouseOverEventHandles.length==0||
-			   mouseOutEventHandles.length==0)
-			return null;
+//			if(mouseOverEventHandles.length==0||
+//			   mouseOutEventHandles.length==0)
+//			return null;
 			dx=(x*mWidthRecipDbl-1);
 			dy=(1-y*mHeightRecipDbl)*world.scale;
 			
@@ -299,6 +306,14 @@ package mongoose.display
 						step++;
 					}
 					break;
+                case MouseEvent.MOUSE_UP:
+                    step=0;
+                    while(step<mouseUpEventHandles.length)
+                    {
+                        mouseUpEventHandles[step](this);
+                        step++;
+                    }
+                    break;
 				case MouseEvent.CLICK:
 					step=0;
 					while(step<mouseClickEventHandles.length)
