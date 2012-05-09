@@ -47,6 +47,8 @@ package mongoose.display
 		static protected var edge1:Vector3D;
 		static protected var edge2:Vector3D;
 		static protected var edge3:Vector3D;
+		
+		private var _mid:uint,_uid:uint;
 		public function Image(texture:TextureData = null)
 		{
 			
@@ -173,8 +175,8 @@ package mongoose.display
 			height = mTexture.height;
 			if(mOriginWidth!=width||mOriginHeight!=height)
 			{
-				mOriginWidth = mSx=width;
-			    mOriginHeight = mSy=height;
+				mOriginWidth = mRemOrignWidth=width;
+			    mOriginHeight = mRemOrignHeight=height;
 				init();
 			}
 			
@@ -256,12 +258,12 @@ package mongoose.display
 				trace("Image:更换Shader为IMAGE_PROGRAME");
 			}
 			
-			var mid:uint=REG_INDEX+BATCH_INDEX*4;
-			var uid:uint=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
+			_mid=REG_INDEX+BATCH_INDEX*4;
+			_uid=BATCH_NUM*4+REG_INDEX+BATCH_INDEX*2;
 			//var cid:uint=BATCH_NUM*4+BATCH_NUM+REG_INDEX+BATCH_INDEX;
 			//trace("数据:",mid,uid);
-			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,mid, mOutMatrix, true);
-			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,uid,mConstrants,2);
+			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,_mid, mOutMatrix, true);
+			context3d.setProgramConstantsFromVector(Context3DProgramType.VERTEX,_uid,mConstrants,2);
 			
 			if(BATCH_INDEX==BATCH_NUM-1)
 			{
