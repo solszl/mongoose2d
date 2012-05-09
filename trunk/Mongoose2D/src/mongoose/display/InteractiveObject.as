@@ -45,7 +45,7 @@ package mongoose.display
 		 * @param handle
 		 * 
 		 */        
-        public function addEventHandle(type:String,handle:Function):void
+        /*public function addEventHandle(type:String,handle:Function):void
 		{
 			switch(type)
 			{
@@ -72,6 +72,37 @@ package mongoose.display
 					addHandle(handle,enterFrameHandles);
 					break;
 				
+			}
+		}*/
+		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+		{
+			switch(type)
+			{
+				case MouseEvent.CLICK:
+					
+					addHandle(listener,mouseClickEventHandles);
+					break;
+				case MouseEvent.MOUSE_DOWN:
+					addHandle(listener,mouseDownEventHandles);
+					break;
+				case MouseEvent.MOUSE_OVER:
+					
+					addHandle(listener,mouseOverEventHandles);
+					break;
+				case MouseEvent.MOUSE_OUT:
+					
+					addHandle(listener,mouseOutEventHandles);
+					break;
+				case MouseEvent.MOUSE_MOVE:
+					
+					addHandle(listener,mouseMoveEventHandles);
+					break;
+				case Event.ENTER_FRAME:
+					addHandle(listener,enterFrameHandles);
+					break;
+				default:
+					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
+					break;
 			}
 		}
 		public function removeEventHandle(type:String,handle:Function):void
