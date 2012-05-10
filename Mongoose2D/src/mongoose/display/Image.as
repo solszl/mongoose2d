@@ -255,7 +255,7 @@ package mongoose.display
 				context3d.setProgram(IMAGE_PROGRAM);
 				CURRENT_PROGRAM=IMAGE_PROGRAM;
 				context3d.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT,0,world.lights);
-				trace("Image:更换Shader为IMAGE_PROGRAME");
+				//trace("Image:更换Shader为IMAGE_PROGRAME");
 			}
 			
 			_mid=REG_INDEX+BATCH_INDEX*4;

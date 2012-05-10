@@ -38,7 +38,7 @@ package mongoose.display
             dispatchEvent(new Event(Event.ADDED));
         }
 
-        public function hasChild(child:DisplayObject) : Boolean
+        private function hasChild(child:DisplayObject) : Boolean
         {
 			_step=0;
 			_len = mChilds.length;
