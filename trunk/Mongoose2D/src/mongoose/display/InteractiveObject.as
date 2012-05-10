@@ -118,7 +118,7 @@ package mongoose.display
 					break;
 			}
 		}
-		/*public function removeEventHandle(type:String,handle:Function):void
+		public function removeEventHandle(type:String,handle:Function):void
 		{
 			switch(type)
 			{
@@ -131,7 +131,7 @@ package mongoose.display
 					removeHandle(handle,enterFrameHandles);
 					break;
 			}
-		}*/
+		}
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
 		{
 			switch(type)

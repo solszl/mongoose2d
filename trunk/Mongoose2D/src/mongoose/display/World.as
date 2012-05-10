@@ -55,6 +55,7 @@ package mongoose.display
 		
 		private var _obj:InteractiveObject;
 		private var _last:InteractiveObject;
+		private var _step:uint,_len:uint;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -254,9 +255,9 @@ package mongoose.display
 				
 			}
 			_click=true;
-           
-			render();
-			
+			if(enableSort)mChilds.sortOn(["depth"],Array.NUMERIC | Array.DESCENDING);
+			render(mChilds);
+			//context3d.drawTriangles(Image.CURRENT_INDEX_BUFFER);
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
 			{
@@ -282,25 +283,37 @@ package mongoose.display
 
         public function addChild(object:DisplayObject) : void
         {
-			
+			if(!hasChild(object))
             mChilds.push(object);
         }// end function
-        
+		private function hasChild(child:DisplayObject) : Boolean
+		{
+			_step=0;
+			_len = mChilds.length;
+			while (_step<_len)
+			{
+				
+				if (mChilds[_step] == child)
+				{
+					return true;
+				}
+				_step++;
+			}
+			return false;
+		}
 		public function sortOn(name:String,param:int):void
 		{
 			_sortBy=name;
 			_sortParam=param;
 		}
-        public function render() : void
+        public function render(objects:Array) : void
         {
-            var step:uint;
-            var total:uint = mChilds.length;
-			if(enableSort)mChilds.sortOn(["depth"],Array.NUMERIC | Array.DESCENDING);
-            while (step< mChilds.length)
+           _step=0;
+            while (_step< mChilds.length)
             {
 				//trace(mChilds[step].z);
-                mChilds[step].render();
-				step++;
+                mChilds[_step].render();
+				_step++;
             }
 			//trace("over")
 			mFps.uints=DisplayObject.INSTANCE_NUM;
