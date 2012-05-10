@@ -65,7 +65,7 @@ package mongoose.core
             this.matrix.identity();
             if (this.target != null)
             {
-				var mt:Matrix3D=this.target.getMatrix3D();
+				var mt:Matrix3D=this.target.matrix3d;
                 mt.invert();
                 this.matrix.append(mt);
             }
