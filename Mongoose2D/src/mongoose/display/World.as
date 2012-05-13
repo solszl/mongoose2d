@@ -249,7 +249,7 @@ package mongoose.display
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
 				//trace("test",_isMove);
-				//_isMove=false;
+				_isMove=false;
 				
 			}
 			_click=true;
