@@ -144,6 +144,8 @@ package mongoose.display
 			_dx=(x*mWidthRecipDbl-1);
 			_dy=(1-y*mHeightRecipDbl)*world.scale;
 			
+			
+			
 			mOutMatrix.append(Camera.current.matrix);
 			mOutMatrix.invert();
 			

@@ -178,7 +178,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
