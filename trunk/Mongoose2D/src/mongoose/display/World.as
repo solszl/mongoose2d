@@ -46,7 +46,7 @@ package mongoose.display
 		protected var hitObj:InteractiveObject;
 		
 		private var _sortBy:String="z";
-		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
+		private var _sortParam:int=Array.NUMERIC | Array.DESCENDING;
 		public var enableSort:Boolean;
 		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
 		private var _prevObj:InteractiveObject;
@@ -55,7 +55,6 @@ package mongoose.display
 		
 		private var _obj:InteractiveObject;
 		private var _last:InteractiveObject;
-		private var _step:uint,_len:uint;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -107,7 +106,7 @@ package mongoose.display
                     mStage3D.y = mRect.y;
                 }
 				mViewAngle = Math.atan(height / width) * 2;
-                perspective.perspectiveFieldOfViewLH(mViewAngle, width / height, near, far);
+                perspective.perspectiveFieldOfViewLH(mViewAngle, width/height, near, far);
                 context3d.configureBackBuffer(width, height, 8, false);
 				//context3d.setDepthTest(true,Context3DCompareMode.LESS);
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, perspective, true);
@@ -179,7 +178,6 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-            stage.addEventListener(MouseEvent.MOUSE_UP,onStageClick);
 			//stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
@@ -251,13 +249,13 @@ package mongoose.display
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
 				//trace("test",_isMove);
-				_isMove=false;
+				//_isMove=false;
 				
 			}
 			_click=true;
-			if(enableSort)mChilds.sortOn(["depth"],Array.NUMERIC | Array.DESCENDING);
-			render(mChilds);
-			//context3d.drawTriangles(Image.CURRENT_INDEX_BUFFER);
+           
+			render();
+			
 			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
 			{
@@ -283,37 +281,25 @@ package mongoose.display
 
         public function addChild(object:DisplayObject) : void
         {
-			if(!hasChild(object))
+			
             mChilds.push(object);
         }// end function
-		private function hasChild(child:DisplayObject) : Boolean
-		{
-			_step=0;
-			_len = mChilds.length;
-			while (_step<_len)
-			{
-				
-				if (mChilds[_step] == child)
-				{
-					return true;
-				}
-				_step++;
-			}
-			return false;
-		}
+        
 		public function sortOn(name:String,param:int):void
 		{
 			_sortBy=name;
 			_sortParam=param;
 		}
-        public function render(objects:Array) : void
+        public function render() : void
         {
-           _step=0;
-            while (_step< mChilds.length)
+            var step:uint;
+            var total:uint = mChilds.length;
+			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
+            while (step< mChilds.length)
             {
 				//trace(mChilds[step].z);
-                mChilds[_step].render();
-				_step++;
+                mChilds[step].render();
+				step++;
             }
 			//trace("over")
 			mFps.uints=DisplayObject.INSTANCE_NUM;

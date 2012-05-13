@@ -1,5 +1,6 @@
 package mongoose.display
 {
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -22,6 +23,7 @@ package mongoose.display
 		private var _text:String;
 		private var _rw:Number,_rh:Number;
 		private var _maxWidth:Number,_maxHeight:Number;
+		private var _format:TextFormat;
 		public function TextField()
 		{
 			
@@ -32,9 +34,9 @@ package mongoose.display
 		
 		public function setTextFormat(format:TextFormat):void
 		{
-
+			_format=format;
 			mTextField.defaultTextFormat=format;
-			
+			mTextField.setTextFormat(_format);
 		}
 		public function set multiline(value:Boolean):void
 		{
@@ -48,6 +50,7 @@ package mongoose.display
 				mTextField.text=value;
 				mTextField.wordWrap=wordWarp;
 				mTextField.autoSize=TextAlign.LEFT;
+				
 				//need redraw;
 				width=mTextField.width;
 				

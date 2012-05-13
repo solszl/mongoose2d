@@ -3,11 +3,16 @@ package mongoose.display
     import flash.events.*;
     import flash.geom.Matrix;
     import flash.geom.Matrix3D;
+    import flash.geom.Rectangle;
     import flash.geom.Vector3D;
     import flash.utils.Dictionary;
     
     import mongoose.core.Camera;
-
+    [Event(name="mouseClick", type="flash.events.MouseEvent")]
+	[Event(name="mouseOver", type="flash.events.MouseEvent")]
+	[Event(name="mouseOut", type="flash.events.MouseEvent")]
+	[Event(name="mouseDown", type="flash.events.MouseEvent")]
+	[Event(name="mouseMove", type="flash.events.MouseEvent")]
     public class InteractiveObject extends Image
     {
 		public var mouseEnabled:Boolean=true;
@@ -18,21 +23,20 @@ package mongoose.display
         protected var enterFrameHandles:Array=[];
 		protected var mouseClickEventHandles:Array=[];
 		protected var mouseDownEventHandles:Array=[];
-        protected var mouseUpEventHandles:Array=[];
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
 		
-		private var _u:Number,_v:Number;
+		
 		
 		internal var iOver:Boolean=false;
-		private var _listen:Boolean;
 		
-		
+		private var _u:Number,_v:Number;
 		private var _mouseEnabled:Boolean;
-		private var dx:Number,dy:Number;
+		private var _dx:Number,_dy:Number;
 		private var _passA:Boolean;
 		private var _passB:Boolean;
+		private var _xPos:Number,_yPos:Number,_pixel:uint;
 		private var uu1:Number,
 					uu2:Number,
 					vv1:Number,
@@ -41,6 +45,9 @@ package mongoose.display
 		
 		private var _triAnglePass:Boolean;
 		private var _step:uint;
+		private var _useMove:Boolean;
+		public var alphaTest:Boolean=true;
+		protected var mRectangle:Rectangle=new Rectangle;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -55,35 +62,7 @@ package mongoose.display
 		 * @param handle
 		 * 
 		 */        
-        /*public function addEventHandle(type:String,handle:Function):void
-		{
-			switch(type)
-			{
-				case MouseEvent.CLICK:
-					
-					addHandle(handle,mouseClickEventHandles);
-					break;
-				case MouseEvent.MOUSE_DOWN:
-					addHandle(handle,mouseDownEventHandles);
-					break;
-				case MouseEvent.MOUSE_OVER:
-					
-					addHandle(handle,mouseOverEventHandles);
-					break;
-				case MouseEvent.MOUSE_OUT:
-					
-					addHandle(handle,mouseOutEventHandles);
-					break;
-				case MouseEvent.MOUSE_MOVE:
-					
-					addHandle(handle,mouseMoveEventHandles);
-					break;
-				case Event.ENTER_FRAME:
-					addHandle(handle,enterFrameHandles);
-					break;
-				
-			}
-		}*/
+       
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
 			switch(type)
@@ -95,19 +74,16 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					addHandle(listener,mouseDownEventHandles);
 					break;
-                case MouseEvent.MOUSE_UP:
-                    addHandle(listener,mouseUpEventHandles);
-                    break;
 				case MouseEvent.MOUSE_OVER:
-					
+					_useMove=true;
 					addHandle(listener,mouseOverEventHandles);
 					break;
 				case MouseEvent.MOUSE_OUT:
-					
+					_useMove=true;
 					addHandle(listener,mouseOutEventHandles);
 					break;
 				case MouseEvent.MOUSE_MOVE:
-					
+					_useMove=true;
 					addHandle(listener,mouseMoveEventHandles);
 					break;
 				case Event.ENTER_FRAME:
@@ -118,20 +94,7 @@ package mongoose.display
 					break;
 			}
 		}
-		public function removeEventHandle(type:String,handle:Function):void
-		{
-			switch(type)
-			{
-				case MouseEvent.CLICK:
-					removeHandle(handle,mouseClickEventHandles);
-					break;
-				case MouseEvent.MOUSE_DOWN:
-					break;
-				case Event.ENTER_FRAME:
-					removeHandle(handle,enterFrameHandles);
-					break;
-			}
-		}
+	
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
 		{
 			switch(type)
@@ -142,9 +105,15 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					removeHandle(listener,mouseDownEventHandles);
 					break;
-                case MouseEvent.MOUSE_UP:
-                    removeHandle(listener,mouseUpEventHandles);
-                    break;
+				case MouseEvent.MOUSE_OUT:
+					removeHandle(listener,mouseOutEventHandles);
+					break;
+				case MouseEvent.MOUSE_OVER:
+					removeHandle(listener,mouseOverEventHandles);
+					break;
+				case MouseEvent.MOUSE_MOVE:
+					removeHandle(listener,mouseMoveEventHandles);
+					break;
 				case Event.ENTER_FRAME:
 					removeHandle(listener,enterFrameHandles);
 					break;
@@ -152,6 +121,10 @@ package mongoose.display
 					super.removeEventListener(type,listener,useCapture);
 					break;
 			}
+			if(mouseMoveEventHandles.length==0&&
+			   mouseOutEventHandles.length==0&&
+			   mouseOverEventHandles.length==0)
+				_useMove=false;
 		}
 		override protected function preRender():void
 		{
@@ -167,21 +140,19 @@ package mongoose.display
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			if(!mouseEnabled)return null;
-//			if(mouseOverEventHandles.length==0||
-//			   mouseOutEventHandles.length==0)
-//			return null;
-			dx=(x*mWidthRecipDbl-1);
-			dy=(1-y*mHeightRecipDbl)*world.scale;
+			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)return null;
+			_dx=(x*mWidthRecipDbl-1);
+			_dy=(1-y*mHeightRecipDbl)*world.scale;
 			
-			mOutMatrix.appendTranslation(-1, world.scale, 0);
+			mOutMatrix.append(Camera.current.matrix);
 			mOutMatrix.invert();
 			
-			mOrigin.x=dx*World.near;
-			mOrigin.y=dy*World.near;
+			mOrigin.x=_dx*World.near;
+			mOrigin.y=_dy*World.near;
 			mOrigin.z=World.near;
 
-			mTarget.x=dx*World.far;
-			mTarget.y=dy*World.far;
+			mTarget.x=_dx*World.far;
+			mTarget.y=_dy*World.far;
 			mTarget.z=World.far;
 			
 			
@@ -201,14 +172,22 @@ package mongoose.display
 			vv2=_v;
 			if(_passA||_passB)
 			{
-				_u=Math.max(uu1,uu2);
-				_v=Math.max(vv1,vv2);
-				_u=mTexture.uValue*_u+mTexture.uvVector[0];
-				_v=mTexture.vValue*_v+mTexture.uvVector[1];
-				var w:Number=this.mTexture.bitmapData.width;
-				var h:Number=this.mTexture.bitmapData.height;
-				var pixel:uint=this.mTexture.bitmapData.getPixel32(w*_u,h*_v);
-				pixel>0?iHit=true:iHit=false;
+				if(alphaTest)
+				{
+					_u=Math.max(uu1,uu2);
+					_v=Math.max(vv1,vv2);
+					_u=mTexture.uValue*_u+mTexture.uvVector[0];
+					_v=mTexture.vValue*_v+mTexture.uvVector[1];
+					_xPos=this.mTexture.bitmapData.width;
+					_yPos=this.mTexture.bitmapData.height;
+					_pixel=this.mTexture.bitmapData.getPixel32(_xPos*_u,_yPos*_v);
+					_pixel>0?iHit=true:iHit=false;
+				}
+				else
+				{
+					iHit=true;
+				}
+				
 			}
 			else
 			{
@@ -306,14 +285,6 @@ package mongoose.display
 						step++;
 					}
 					break;
-                case MouseEvent.MOUSE_UP:
-                    step=0;
-                    while(step<mouseUpEventHandles.length)
-                    {
-                        mouseUpEventHandles[step](this);
-                        step++;
-                    }
-                    break;
 				case MouseEvent.CLICK:
 					step=0;
 					while(step<mouseClickEventHandles.length)

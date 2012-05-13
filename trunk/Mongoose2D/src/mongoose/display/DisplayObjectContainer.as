@@ -38,7 +38,7 @@ package mongoose.display
             dispatchEvent(new Event(Event.ADDED));
         }
 
-        private function hasChild(child:DisplayObject) : Boolean
+        public function hasChild(child:DisplayObject) : Boolean
         {
 			_step=0;
 			_len = mChilds.length;
@@ -191,7 +191,6 @@ package mongoose.display
 				_object=mChilds[_step] as InteractiveObject;
 				if(_object!=null)
 				{
-					
 					_hitObj=_object.hitTest(type,x,y);
 					if(_hitObj!=null)
 					{
