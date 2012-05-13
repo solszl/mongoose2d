@@ -41,6 +41,13 @@ package mongoose.display
 					uu2:Number,
 					vv1:Number,
 					vv2:Number;
+					
+		private var _pvec:Vector3D,
+		            _tvec:Vector3D,
+					_qvec:Vector3D,
+					_det:Number;
+		private var _t:Number,_temp:Number,_tu:Number,_tv:Number;			
+					
 		internal var iHit:Boolean;
 		
 		private var _triAnglePass:Boolean;
@@ -240,37 +247,36 @@ package mongoose.display
 		{
 			_triAnglePass=true;
 			//var edge1:Vector3D,edge2:Vector3D;
-			var pvec:Vector3D,tvec:Vector3D,qvec:Vector3D,det:Number;
-			var t:Number,temp:Number,u:Number,v:Number;
+			
 			//----------------------------------------------------			
 			
-			pvec=mDir.crossProduct(edge2);
-			det=edge1.dotProduct(pvec);
-			if(det>0)
+			_pvec=mDir.crossProduct(edge2);
+			_det=edge1.dotProduct(_pvec);
+			if(_det>0)
 			{
-				tvec=mOrigin.subtract(p0);
+				_tvec=mOrigin.subtract(p0);
 			}
-			if(det<0)
+			if(_det<0)
 			{
-				tvec=p0.subtract(mOrigin);
-				det=-det;
+				_tvec=p0.subtract(mOrigin);
+				_det=-_det;
 			}
-			if(det<0.0001)
+			if(_det<0.0001)
 				_triAnglePass= false;
-			u=tvec.dotProduct(pvec);
-			if(u<0||u>det)
+			_tu=_tvec.dotProduct(_pvec);
+			if(_tu<0||_tu>_det)
 				_triAnglePass= false;
-			qvec=tvec.crossProduct(edge1);
-			v=mDir.dotProduct(qvec);
-			if(v<0||u+v>det)
+			_qvec=_tvec.crossProduct(edge1);
+			_tv=mDir.dotProduct(_qvec);
+			if(_tv<0||_tu+_tv>_det)
 				_triAnglePass= false;
-			t=edge2.dotProduct(qvec);
-			temp=1/det;
-			t*=temp;
-			u*=temp;
-			v*=temp;
-			_u=u;
-			_v=v;
+			_t=edge2.dotProduct(_qvec);
+			_temp=1/_det;
+			_t*=_temp;
+			_tu*=_temp;
+			_tv*=_temp;
+			_u=_tu;
+			_v=_tv;
 			
 		    return _triAnglePass;
 		}
