@@ -18,7 +18,8 @@ package mongoose.display
     import mongoose.core.Camera;
     import mongoose.geom.*;
     import mongoose.tools.*;
-
+    [Event(name="complete", type="flash.events.Event")]
+	[Event(name="change", type="flash.events.Event")]
     public class World extends EventDispatcher
     {
 		internal var iwidthRecipDble:Number;
