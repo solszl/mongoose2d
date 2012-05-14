@@ -231,12 +231,22 @@ package mongoose.display
 			if(_last!=null)
 			{
 				//上一个选中对象设置mouseOut
-				if(_prevObj)_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
+				if(_prevObj)
+				{
+					_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
+					_prevObj=null;
+				}
 				_last.triggerEvent(type,_prevObj);
+				
 				if(_prevObj!=_last)
 				{
 					_prevObj=_last;
 				}
+				_last=null;
+			}
+			else
+			{
+				_prevObj=null;
 			}
 		}
         protected function onRender(VERTEX:Event=null) : void
