@@ -14,16 +14,19 @@ package mongoose.display
     import flash.display3D.IndexBuffer3D;
     import flash.events.*;
     import flash.geom.Matrix3D;
+    import flash.ui.Multitouch;
+    import flash.ui.MultitouchInputMode;
     
     import mongoose.core.Camera;
     import mongoose.geom.*;
     import mongoose.tools.*;
+
     [Event(name="complete", type="flash.events.Event")]
 	[Event(name="change", type="flash.events.Event")]
     public class World extends EventDispatcher
     {
-		internal var iwidthRecipDble:Number;
-		internal var iheightRecipDbl:Number;
+		public var iwidthRecipDble:Number;
+		public var iheightRecipDbl:Number;
         protected var mFullScreen:Boolean;
         public var perspective:PerspectiveMatrix3D;
         protected var mStage3D:Stage3D;
@@ -180,14 +183,22 @@ package mongoose.display
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
+			stage.addEventListener(TouchEvent.TOUCH_TAP,onTabTouch);
+			Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
 
         }// end function
+		private function onTabTouch(e:TouchEvent):void
+		{
+			//_click=false;
+			
+			//hitTest(e.type,e.stageX,e.stageY);
+		}
 		private function onStageClick(e:MouseEvent):void
 		{
-			_click=false;
+			//_click=false;
 			hitTest(e.type,e.stageX,e.stageY);
 			
 		}
