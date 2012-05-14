@@ -26,6 +26,7 @@ package mongoose.display
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
+		protected var touchTabEventhandles:Array=[];
 		
 		
 		
@@ -96,6 +97,9 @@ package mongoose.display
 				case Event.ENTER_FRAME:
 					addHandle(listener,enterFrameHandles);
 					break;
+				case TouchEvent.TOUCH_TAP:
+					addHandle(listener,touchTabEventhandles);
+					break;
 				default:
 					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
 					break;
@@ -124,6 +128,9 @@ package mongoose.display
 				case Event.ENTER_FRAME:
 					removeHandle(listener,enterFrameHandles);
 					break;
+				case TouchEvent.TOUCH_TAP:
+					removeHandle(listener,touchTabEventhandles);
+					break;
 				default:
 					super.removeEventListener(type,listener,useCapture);
 					break;
@@ -148,6 +155,7 @@ package mongoose.display
 		{
 			if(!mouseEnabled)return null;
 			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
+			
 			_dx=(x*mWidthRecipDbl-1);
 			_dy=(1-y*mHeightRecipDbl)*world.scale;
 			
