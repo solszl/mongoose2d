@@ -189,6 +189,11 @@ package mongoose.display
 			while(_step<mChilds.length)
 			{
 				_object=mChilds[_step] as InteractiveObject;
+				if(_object.mouseEnabled==false||(_object.iuseMove&&type=="mouseMove"))
+				{
+					continue;
+					_step++;
+				}
 				if(_object!=null)
 				{
 					_hitObj=_object.hitTest(type,x,y);
