@@ -14,6 +14,8 @@ package mongoose.display
     import flash.display3D.IndexBuffer3D;
     import flash.events.*;
     import flash.geom.Matrix3D;
+    import flash.text.TextField;
+    import flash.text.TextFieldAutoSize;
     import flash.ui.Multitouch;
     import flash.ui.MultitouchInputMode;
     
@@ -45,11 +47,11 @@ package mongoose.display
 		public var width:Number,height:Number;
 		public var context3d:Context3D;
 		public var x:Number=0,y:Number=0;
-	
+	    private var _debugText:flash.text.TextField;
 		protected var mViewAngle:Number;
 		protected var hitObj:InteractiveObject;
 		
-		private var _sortBy:String="z";
+		private var _sortBy:String="depth";
 		private var _sortParam:int=Array.NUMERIC | Array.DESCENDING;
 		public var enableSort:Boolean;
 		private var _x:Number=0,_y:Number=0,_isMove:Boolean;
@@ -59,10 +61,16 @@ package mongoose.display
 		
 		private var _obj:InteractiveObject;
 		private var _last:InteractiveObject;
+		private var _step:uint;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
-           
+			_debugText=new flash.text.TextField;
+			_debugText.textColor=0x99cc00;
+			_debugText.text="wagaa";
+			_debugText.autoSize=TextFieldAutoSize.LEFT;
+			_debugText.y=22;
+			stage.addChild(_debugText);
 			lights[0]=0
 			lights[1]=.5
 			lights[2]=0
@@ -182,9 +190,11 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
 			stage.addEventListener(TouchEvent.TOUCH_TAP,onTabTouch);
+			stage.addEventListener(TouchEvent.TOUCH_BEGIN,onTabTouch);
 			Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
+			_debugText.text="是否支持:"+Multitouch.supportsTouchEvents.toString();
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -193,8 +203,8 @@ package mongoose.display
 		private function onTabTouch(e:TouchEvent):void
 		{
 			//_click=false;
-			
-			//hitTest(e.type,e.stageX,e.stageY);
+			_debugText.text=e.type;
+			hitTest(TouchEvent.TOUCH_TAP,e.stageX,e.stageY);
 		}
 		private function onStageClick(e:MouseEvent):void
 		{
@@ -221,6 +231,7 @@ package mongoose.display
 		}
 		internal function hitTest(type:String,x:Number,y:Number):void
 		{
+			_debugText.text=type+"_"+x.toString()+"_"+y.toString();
 			
 			var step:uint=0;
 			//var obj:InteractiveObject,oop:InteractiveObject;
@@ -229,7 +240,7 @@ package mongoose.display
 			while(step<mChilds.length)
 			{
 				_obj=mChilds[step] as InteractiveObject;
-				if(_obj.mouseEnabled==false||(_obj.iuseMove&&type=="mouseMove"))
+				if(_obj.mouseEnabled==false||_obj.visible==false||(_obj.iuseMove&&type=="mouseMove"))
 				{
 					step++;
 					continue;
@@ -320,14 +331,14 @@ package mongoose.display
 		}
         public function render() : void
         {
-            var step:uint;
-            var total:uint = mChilds.length;
+           _step=0;
+            //var total:uint = mChilds.length;
 			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
-            while (step< mChilds.length)
+            while (_step< mChilds.length)
             {
 				//trace(mChilds[step].z);
-                mChilds[step].render();
-				step++;
+                mChilds[_step].render();
+				_step++;
             }
 			//trace("over")
 			mFps.uints=DisplayObject.INSTANCE_NUM;
