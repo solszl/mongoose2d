@@ -171,12 +171,13 @@ package mongoose.display
 				return;
 			}
 			mTexture = texture;
-			width = mTexture.width;
-			height = mTexture.height;
-			if(mOriginWidth!=width||mOriginHeight!=height)
+			
+			if(mOriginWidth!=mTexture.width||mOriginHeight!=mTexture.height)
 			{
-				mOriginWidth = mRemOrignWidth=width;
-			    mOriginHeight = mRemOrignHeight=height;
+				mOriginWidth = mTexture.width;
+				mOriginHeight = mTexture.height;
+				if(width==0)width=mOriginWidth;
+				if(height==0)height=mOriginHeight;
 				init();
 			}
 			
