@@ -52,7 +52,7 @@ package mongoose.display
 		
 		private var _triAnglePass:Boolean;
 		private var _step:uint;
-		private var _useMove:Boolean;
+		internal var iuseMove:Boolean;
 		public var alphaTest:Boolean=true;
 		protected var mRectangle:Rectangle=new Rectangle;
         public function InteractiveObject(texture:TextureData)
@@ -82,15 +82,15 @@ package mongoose.display
 					addHandle(listener,mouseDownEventHandles);
 					break;
 				case MouseEvent.MOUSE_OVER:
-					_useMove=true;
+					iuseMove=true;
 					addHandle(listener,mouseOverEventHandles);
 					break;
 				case MouseEvent.MOUSE_OUT:
-					_useMove=true;
+					iuseMove=true;
 					addHandle(listener,mouseOutEventHandles);
 					break;
 				case MouseEvent.MOUSE_MOVE:
-					_useMove=true;
+					iuseMove=true;
 					addHandle(listener,mouseMoveEventHandles);
 					break;
 				case Event.ENTER_FRAME:
@@ -131,7 +131,7 @@ package mongoose.display
 			if(mouseMoveEventHandles.length==0&&
 			   mouseOutEventHandles.length==0&&
 			   mouseOverEventHandles.length==0)
-				_useMove=false;
+				iuseMove=false;
 		}
 		override protected function preRender():void
 		{
@@ -147,7 +147,7 @@ package mongoose.display
 		internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			if(!mouseEnabled)return null;
-			if(type==MouseEvent.MOUSE_MOVE&&!_useMove)return null;
+			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
 			_dx=(x*mWidthRecipDbl-1);
 			_dy=(1-y*mHeightRecipDbl)*world.scale;
 			
