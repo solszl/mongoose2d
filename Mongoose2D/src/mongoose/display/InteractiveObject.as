@@ -333,7 +333,14 @@ package mongoose.display
 						}
 						iOver=false;
 					}
-					
+					break;
+				case TouchEvent.TOUCH_TAP:
+					step=0;
+					while(step<touchTabEventhandles.length)
+					{
+						touchTabEventhandles[step](this);
+						step++;
+					}
 					
 					break;
 				case MouseEvent.MOUSE_MOVE:
