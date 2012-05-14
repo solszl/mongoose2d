@@ -191,8 +191,9 @@ package mongoose.display
 				_object=mChilds[_step] as InteractiveObject;
 				if(_object.mouseEnabled==false||(_object.iuseMove&&type=="mouseMove"))
 				{
-					continue;
 					_step++;
+					continue;
+					
 				}
 				if(_object!=null)
 				{
