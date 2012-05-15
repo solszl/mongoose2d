@@ -27,6 +27,8 @@ package mongoose.filter
         
         public function getPsCode(regIndex:uint):String
         {
+            mFragmentIndex = regIndex;
+            
             var fs:String = 
                 
                 "tex ft1, v0, fs0 <2d,linear,nomip>\n" +

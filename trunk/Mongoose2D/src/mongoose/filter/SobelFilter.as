@@ -2,16 +2,16 @@ package mongoose.filter
 {
     import flash.display3D.Context3D;
     
-    public class OutlineFilter implements IFilter
+    public class SobelFilter implements IFilter
     {
         protected var mFilterConst:Vector.<Number>;
         protected var mFilterConst2:Vector.<Number>;
         
         protected var mFragmentIndex:uint;
         
-        public function OutlineFilter()
+        public function SobelFilter()
         {
-            mFilterConst =  Vector.<Number>([0, 0, 2, 0.32]);
+            mFilterConst =  Vector.<Number>([1/521, 1/521, 2, 0.32]);
             mFilterConst2 = Vector.<Number>([0.3, 0.59, 0.11, 1]);
         }
         
@@ -23,6 +23,8 @@ package mongoose.filter
         
         public function getPsCode(regIndex:uint):String
         {
+            mFragmentIndex = regIndex;
+            
             var fs:String = 
                 
                 "mov ft0 v0 \n" +
@@ -64,7 +66,6 @@ package mongoose.filter
             {
                 fs = fs + "mov ft0, ft1\n";
             }
-            trace(fs)
             return fs;
         }
         
