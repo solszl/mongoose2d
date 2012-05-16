@@ -18,7 +18,7 @@ package mongoose.filter
         public function MotionBlurFilter()
         {
             super();
-//            motionBlurTexture = new Vector.<n3d_SimpleTexture>(7);
+//            motionBlurTexture = new Vector.<TextureData>(7);
             motionBlurIndex = new Vector.<int>(7);
             motionBlurTemp0 = Vector.<Number>([0.35, 0.2, 0.15, 0.15]);
             motionBlurTemp1 = Vector.<Number>([0.15, 0.15, 0.1, 0.1]);
