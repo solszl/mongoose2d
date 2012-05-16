@@ -27,16 +27,17 @@ package mongoose.display
 	[Event(name="change", type="flash.events.Event")]
     public class World extends EventDispatcher
     {
-		public var iwidthRecipDble:Number;
-		public var iheightRecipDbl:Number;
-        protected var mFullScreen:Boolean;
+		
+        
         public var perspective:PerspectiveMatrix3D;
         protected var mStage3D:Stage3D;
         protected var mRect:MRectangle;
 		protected var mCamera:Camera;
 		protected var mFps:FrameRater;
 		protected var mChilds:Array;
-        
+		protected var mViewAngle:Number;
+		protected var hitObj:InteractiveObject;
+		protected var mFullScreen:Boolean;
 		public var lights:Vector.<Number>=new Vector.<Number>(8);
         private static var STAGE_USED:uint = 0;
 		
@@ -47,9 +48,9 @@ package mongoose.display
 		public var width:Number,height:Number;
 		public var context3d:Context3D;
 		public var x:Number=0,y:Number=0;
-	    private var _debugText:flash.text.TextField;
-		protected var mViewAngle:Number;
-		protected var hitObj:InteractiveObject;
+		public var iwidthRecipDble:Number;
+		public var iheightRecipDbl:Number;
+		
 		
 		private var _sortBy:String="depth";
 		private var _sortParam:int=Array.NUMERIC | Array.DESCENDING;
@@ -65,12 +66,12 @@ package mongoose.display
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
-			_debugText=new flash.text.TextField;
+			/*_debugText=new flash.text.TextField;
 			_debugText.textColor=0x99cc00;
 			_debugText.text="wagaa";
 			_debugText.autoSize=TextFieldAutoSize.LEFT;
 			_debugText.y=22;
-			stage.addChild(_debugText);
+			stage.addChild(_debugText);*/
 			lights[0]=0
 			lights[1]=.5
 			lights[2]=0
@@ -194,7 +195,7 @@ package mongoose.display
 			stage.addEventListener(TouchEvent.TOUCH_TAP,onTabTouch);
 			stage.addEventListener(TouchEvent.TOUCH_BEGIN,onTabTouch);
 			Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
-			_debugText.text="是否支持:"+Multitouch.supportsTouchEvents.toString();
+			
             onResize();
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
@@ -202,8 +203,7 @@ package mongoose.display
         }// end function
 		private function onTabTouch(e:TouchEvent):void
 		{
-			//_click=false;
-			_debugText.text=e.type;
+			
 			hitTest(TouchEvent.TOUCH_TAP,e.stageX,e.stageY);
 		}
 		private function onStageClick(e:MouseEvent):void
@@ -214,7 +214,7 @@ package mongoose.display
 		}
 		private function onStageMove(e:MouseEvent):void
 		{
-			//trace(_x,e.stageX,_y,e.stageY)
+			
 			if(_x!=e.stageX||_y!=e.stageY)
 			{
 				_isMove=true;
@@ -226,23 +226,17 @@ package mongoose.display
 			{
 				_isMove=false;
 			}
-			//trace("_--------------------",_isMove)
-			
+		
 		}
 		internal function hitTest(type:String,x:Number,y:Number):void
 		{
-			_debugText.text=type+"_"+x.toString()+"_"+y.toString();
-			
-			var step:uint=0;
-			//var obj:InteractiveObject,oop:InteractiveObject;
-			//var hit:InteractiveObject;
-			//var last:InteractiveObject;
-			while(step<mChilds.length)
+			_step=0;
+			while(_step<mChilds.length)
 			{
-				_obj=mChilds[step] as InteractiveObject;
+				_obj=mChilds[_step] as InteractiveObject;
 				if(_obj.mouseEnabled==false||_obj.visible==false||(_obj.iuseMove&&type=="mouseMove"))
 				{
-					step++;
+					_step++;
 					continue;
 					
 				}
@@ -255,7 +249,7 @@ package mongoose.display
 						_last=_obj;
 					}
 				}
-				step++;
+				_step++;
 			}
 			if(_last!=null)
 			{
@@ -287,7 +281,7 @@ package mongoose.display
 			if(_isMove&&_click)
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
-				//trace("test",_isMove);
+				
 				_isMove=false;
 				
 			}
@@ -295,19 +289,18 @@ package mongoose.display
            
 			render();
 			
-			//trace("清空末尾缓冲区",Image.BATCH_INDEX);
 			if(Image.BATCH_INDEX>0)
 			{
-				//trace("结束输出缓冲区",Image.BATCH_INDEX)
+				
 				context3d.drawTriangles(Image.CURRENT_INDEX_BUFFER,0,Image.BATCH_INDEX*2);
 				Image.BATCH_INDEX=0;
 			}
             context3d.present();
-        }// end function
+        }
 
-        public function showFps(mRect:Boolean) : void
+        public function showFps(value:Boolean) : void
         {
-            if (mRect)
+            if (value)
             {
                 stage.addChild(mFps);
             }
@@ -315,15 +308,24 @@ package mongoose.display
             {
                 stage.removeChild(mFps);
             }
-            return;
-        }// end function
-
+           
+        }
+		/**
+		 *添加一个显示对象 
+		 * @param object 显示对象
+		 * 
+		 */        
         public function addChild(object:DisplayObject) : void
         {
 			
             mChilds.push(object);
         }// end function
-        
+		/**
+		 *制定排序索引，参考Array.sortOn ,默认Z排序
+		 * @param name 索引名称
+		 * @param param 排序参数
+		 * 
+		 */        
 		public function sortOn(name:String,param:int):void
 		{
 			_sortBy=name;
@@ -332,17 +334,17 @@ package mongoose.display
         public function render() : void
         {
            _step=0;
-            //var total:uint = mChilds.length;
+           
 			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
             while (_step< mChilds.length)
             {
-				//trace(mChilds[step].z);
+				
                 mChilds[_step].render();
 				_step++;
             }
-			//trace("over")
+			
 			mFps.uints=DisplayObject.INSTANCE_NUM;
-        }// end function
+        }
         public function getMatrix3D():Matrix3D
 		{
 			return null;

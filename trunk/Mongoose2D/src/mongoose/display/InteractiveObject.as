@@ -16,6 +16,7 @@ package mongoose.display
     public class InteractiveObject extends Image
     {
 		public var mouseEnabled:Boolean=true;
+		public var alphaTest:Boolean=true;
 		
 		protected var mOrigin:Vector3D=new Vector3D;
 		protected var mTarget:Vector3D=new Vector3D;
@@ -27,7 +28,7 @@ package mongoose.display
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
 		protected var touchTabEventhandles:Array=[];
-		
+		protected var mRectangle:Rectangle=new Rectangle;
 		
 		
 		internal var iOver:Boolean=false;
@@ -48,14 +49,14 @@ package mongoose.display
 					_qvec:Vector3D,
 					_det:Number;
 		private var _t:Number,_temp:Number,_tu:Number,_tv:Number;			
-					
+		private var _triAnglePass:Boolean;	
+		private var _step:uint,_len:uint;
+		
+		
+		
+		internal var iuseMove:Boolean;
 		internal var iHit:Boolean;
 		
-		private var _triAnglePass:Boolean;
-		private var _step:uint,_len:uint;
-		internal var iuseMove:Boolean;
-		public var alphaTest:Boolean=true;
-		protected var mRectangle:Rectangle=new Rectangle;
         public function InteractiveObject(texture:TextureData)
         {
 			
