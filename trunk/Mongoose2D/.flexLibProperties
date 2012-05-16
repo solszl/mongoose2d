@@ -3,6 +3,7 @@
   <includeClasses>
     <classEntry path="mongoose.geom.RemMatrix3D"/>
     <classEntry path="mongoose.PointLight"/>
+    <classEntry path="mongoose.tools.XMLTexture"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
