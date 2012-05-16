@@ -1,0 +1,1521 @@
+<asdoc>
+
+<classRec name='MPoint' fullname='mongoose.geom:MPoint' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\geom\MPoint.as' namespace='mongoose.geom' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='MPoint' fullname='mongoose.geom:MPoint/MPoint' isStatic='false' isFinal='false' isOverride='false'  param_names='x;y' param_types='Number;Number' param_defaults='undefined;undefined' result_type='*'>
+</method>
+<field name='x' fullname='mongoose.geom:MPoint/x' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='y' fullname='mongoose.geom:MPoint/y' type='Number' isStatic='false' isConst='false' >
+</field>
+<classRec name='MRectangle' fullname='mongoose.geom:MRectangle' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\geom\MRectangle.as' namespace='mongoose.geom' access='public' baseclass='mongoose.geom:MPoint' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='MRectangle' fullname='mongoose.geom:MRectangle/MRectangle' isStatic='false' isFinal='false' isOverride='false'  param_names='x;y;width;height' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='*'>
+</method>
+<field name='height' fullname='mongoose.geom:MRectangle/height' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='width' fullname='mongoose.geom:MRectangle/width' type='Number' isStatic='false' isConst='false' >
+</field>
+<classRec name='RemMatrix3D' fullname='mongoose.geom:RemMatrix3D' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\geom\RemMatrix3D.as' namespace='mongoose.geom' access='public' baseclass='flash.geom:Matrix3D' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='RemMatrix3D' fullname='mongoose.geom:RemMatrix3D/RemMatrix3D' isStatic='false' isFinal='false' isOverride='false'  param_names='v' param_types='Vector$Number' param_defaults='null' result_type='*'>
+</method>
+<method name='appendDirectScale' fullname='mongoose.geom:RemMatrix3D/appendDirectScale' isStatic='false' isFinal='false' isOverride='false'  param_names='xScale;yScale' param_types='Number;Number' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='appendRotation' fullname='mongoose.geom:RemMatrix3D/appendRotation' isStatic='false' isFinal='false' isOverride='true'  param_names='degrees;axis;pivotPoint' param_types='Number;flash.geom:Vector3D;flash.geom:Vector3D' param_defaults='undefined;undefined;null' result_type='void'>
+</method>
+<method name='appendScale' fullname='mongoose.geom:RemMatrix3D/appendScale' isStatic='false' isFinal='false' isOverride='true'  param_names='xScale;yScale;zScale' param_types='Number;Number;Number' param_defaults='undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='appendTranslation' fullname='mongoose.geom:RemMatrix3D/appendTranslation' isStatic='false' isFinal='false' isOverride='true'  param_names='x;y;z' param_types='Number;Number;Number' param_defaults='undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='updateConstant' fullname='mongoose.geom:RemMatrix3D/updateConstant' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<field name='_dsx' fullname='mongoose.geom:RemMatrix3D/private:_dsx' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_rotX' fullname='mongoose.geom:RemMatrix3D/private:_rotX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_xScale' fullname='mongoose.geom:RemMatrix3D/private:_xScale' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_x' fullname='mongoose.geom:RemMatrix3D/private:_x' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='fx' fullname='mongoose.geom:RemMatrix3D/fx' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='world' fullname='mongoose.geom:RemMatrix3D/world' type='mongoose.display:World' isStatic='false' isConst='false' >
+</field>
+<method name='getDownPower2' fullname='mongoose.math:getDownPower2' isStatic='false' isFinal='false' isOverride='false'  param_names='n' param_types='uint' param_defaults='undefined' result_type='uint'>
+<description><![CDATA[
+
+	 谢blueshell提供函数支持 
+
+	 向下取任意整数的最靠近的2的n次方数 
+
+	 ]]></description>
+</method>
+<method name='getUpPower2' fullname='mongoose.math:getUpPower2' isStatic='false' isFinal='false' isOverride='false'  param_names='n' param_types='uint' param_defaults='undefined' result_type='uint'>
+<description><![CDATA[
+
+	 谢blueshell提供函数支持
+
+	 向上取任意整数的最靠近的2的n次方数 
+
+	 ]]></description>
+</method>
+<classRec name='XMLTexture' fullname='mongoose.tools:XMLTexture' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\tools\XMLTexture.as' namespace='mongoose.tools' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='XMLTexture' fullname='mongoose.tools:XMLTexture/XMLTexture' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<classRec name='FormatFrame' fullname='mongoose.tools:FormatFrame' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\tools\FormatFrame.as' namespace='mongoose.tools' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+<description><![CDATA[
+
+	 定行列帧资源 格式化
+
+	 ]]></description>
+<author><![CDATA[popplecui
+
+	 
+
+	 ]]></author>
+</classRec>
+<method name='FormatFrame' fullname='mongoose.tools:FormatFrame/FormatFrame' isStatic='false' isFinal='false' isOverride='false'  param_names='bitmap;w;h;start;end' param_types='flash.display:BitmapData;uint;uint;int;int' param_defaults='undefined;undefined;undefined;undefined;undefined' result_type='*'>
+<description><![CDATA[
+
+		 
+
+		 ]]></description>
+<example><![CDATA[
+		   <listing version="3.0">
+
+		     
+
+		     var bd:BitmapData=new BitmapData(1024,128,true,0xffffffff);
+
+			
+
+             var formatFrame:FormatFrame=new FormatFrame(bd,8,4,1,32);
+
+			 var mc:MovieClip=new MovieClip(formatFrame.data,24);
+
+			
+
+			 //todo same as flash.display.MovieClip
+
+           </listing>
+
+		 ]]></example>
+<param><![CDATA[bitmap 帧动画所需位图
+
+		 ]]></param>
+<param><![CDATA[w 行数量
+
+		 ]]></param>
+<param><![CDATA[h 列数量
+
+		 ]]></param>
+<param><![CDATA[start 帧起点
+
+		 ]]></param>
+<param><![CDATA[end 帧结束点
+
+		 ]]></param>
+</method>
+<field name='data' fullname='mongoose.tools:FormatFrame/data' type='Vector$mongoose.display:TextureData' isStatic='false' isConst='false' >
+</field>
+<classRec name='FrameRater' fullname='mongoose.tools:FrameRater' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\tools\FrameRater.as' namespace='mongoose.tools' access='public' baseclass='flash.display:Sprite' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='FrameRater' fullname='mongoose.tools:FrameRater/FrameRater' isStatic='false' isFinal='false' isOverride='false'  param_names='textColor;drawShadow;showGraph;graphColor' param_types='uint;Boolean;Boolean;uint' param_defaults='0x000000;false;true;0xff0000' result_type='*'>
+</method>
+<method name='computeTime' fullname='mongoose.tools:FrameRater/computeTime' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='initGraph' fullname='mongoose.tools:FrameRater/private:initGraph' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='onFrame' fullname='mongoose.tools:FrameRater/private:onFrame' isStatic='false' isFinal='false' isOverride='false'  param_names='event' param_types='flash.events:Event' param_defaults='undefined' result_type='void'>
+</method>
+<method name='onTimer' fullname='mongoose.tools:FrameRater/private:onTimer' isStatic='false' isFinal='false' isOverride='false'  param_names='event' param_types='flash.events:TimerEvent' param_defaults='undefined' result_type='void'>
+</method>
+<method name='updateGraph' fullname='mongoose.tools:FrameRater/updateGraph' isStatic='false' isFinal='false' isOverride='false'  param_names='n' param_types='Number' param_defaults='undefined' result_type='void'>
+</method>
+<field name='_c' fullname='mongoose.tools:FrameRater/private:_c' type='uint' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_dropShadow' fullname='mongoose.tools:FrameRater/private:_dropShadow' type='flash.filters:DropShadowFilter' isStatic='false' isConst='false' >
+</field>
+<field name='_graphBox' fullname='mongoose.tools:FrameRater/private:_graphBox' type='flash.display:Sprite' isStatic='false' isConst='false' >
+</field>
+<field name='_graphColor' fullname='mongoose.tools:FrameRater/private:_graphColor' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_graphCounter' fullname='mongoose.tools:FrameRater/private:_graphCounter' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_graph' fullname='mongoose.tools:FrameRater/private:_graph' type='flash.display:Sprite' isStatic='false' isConst='false' >
+</field>
+<field name='_showGraph' fullname='mongoose.tools:FrameRater/private:_showGraph' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_text' fullname='mongoose.tools:FrameRater/private:_text' type='flash.text:TextField' isStatic='false' isConst='false' >
+</field>
+<field name='_tf' fullname='mongoose.tools:FrameRater/private:_tf' type='flash.text:TextFormat' isStatic='false' isConst='false' >
+</field>
+<field name='_timer' fullname='mongoose.tools:FrameRater/private:_timer' type='flash.utils:Timer' isStatic='false' isConst='false' >
+</field>
+<field name='uints' fullname='mongoose.tools:FrameRater/uints' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='PerspectiveMatrix3D' fullname='com.adobe.utils:PerspectiveMatrix3D' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\com\adobe\utils\PerspectiveMatrix3D.as' namespace='com.adobe.utils' access='public' baseclass='flash.geom:Matrix3D' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='PerspectiveMatrix3D' fullname='com.adobe.utils:PerspectiveMatrix3D/PerspectiveMatrix3D' isStatic='false' isFinal='false' isOverride='false'  param_names='v' param_types='Vector$Number' param_defaults='null' result_type='*'>
+</method>
+<method name='_crossProductTo' fullname='com.adobe.utils:PerspectiveMatrix3D/private:_crossProductTo' isStatic='false' isFinal='false' isOverride='false'  param_names='a;b' param_types='flash.geom:Vector3D;flash.geom:Vector3D' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='lookAtLH' fullname='com.adobe.utils:PerspectiveMatrix3D/lookAtLH' isStatic='false' isFinal='false' isOverride='false'  param_names='eye;at;up' param_types='flash.geom:Vector3D;flash.geom:Vector3D;flash.geom:Vector3D' param_defaults='undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='lookAtRH' fullname='com.adobe.utils:PerspectiveMatrix3D/lookAtRH' isStatic='false' isFinal='false' isOverride='false'  param_names='eye;at;up' param_types='flash.geom:Vector3D;flash.geom:Vector3D;flash.geom:Vector3D' param_defaults='undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='orthoLH' fullname='com.adobe.utils:PerspectiveMatrix3D/orthoLH' isStatic='false' isFinal='false' isOverride='false'  param_names='width;height;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='orthoOffCenterLH' fullname='com.adobe.utils:PerspectiveMatrix3D/orthoOffCenterLH' isStatic='false' isFinal='false' isOverride='false'  param_names='left;right;bottom;top;zNear;zFar' param_types='Number;Number;Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='orthoOffCenterRH' fullname='com.adobe.utils:PerspectiveMatrix3D/orthoOffCenterRH' isStatic='false' isFinal='false' isOverride='false'  param_names='left;right;bottom;top;zNear;zFar' param_types='Number;Number;Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='orthoRH' fullname='com.adobe.utils:PerspectiveMatrix3D/orthoRH' isStatic='false' isFinal='false' isOverride='false'  param_names='width;height;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveFieldOfViewLH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveFieldOfViewLH' isStatic='false' isFinal='false' isOverride='false'  param_names='fieldOfViewY;aspectRatio;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveFieldOfViewRH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveFieldOfViewRH' isStatic='false' isFinal='false' isOverride='false'  param_names='fieldOfViewY;aspectRatio;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveLH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveLH' isStatic='false' isFinal='false' isOverride='false'  param_names='width;height;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveOffCenterLH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveOffCenterLH' isStatic='false' isFinal='false' isOverride='false'  param_names='left;right;bottom;top;zNear;zFar' param_types='Number;Number;Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveOffCenterRH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveOffCenterRH' isStatic='false' isFinal='false' isOverride='false'  param_names='left;right;bottom;top;zNear;zFar' param_types='Number;Number;Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='perspectiveRH' fullname='com.adobe.utils:PerspectiveMatrix3D/perspectiveRH' isStatic='false' isFinal='false' isOverride='false'  param_names='width;height;zNear;zFar' param_types='Number;Number;Number;Number' param_defaults='undefined;undefined;undefined;undefined' result_type='void'>
+</method>
+<field name='_w' fullname='com.adobe.utils:PerspectiveMatrix3D/private:_w' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_x' fullname='com.adobe.utils:PerspectiveMatrix3D/private:_x' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_y' fullname='com.adobe.utils:PerspectiveMatrix3D/private:_y' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_z' fullname='com.adobe.utils:PerspectiveMatrix3D/private:_z' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<classRec name='AGALMiniAssembler' fullname='com.adobe.utils:AGALMiniAssembler' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\com\adobe\utils\AGALMiniAssembler.as' namespace='com.adobe.utils' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='AGALMiniAssembler' fullname='com.adobe.utils:AGALMiniAssembler/AGALMiniAssembler' isStatic='false' isFinal='false' isOverride='false'  param_names='debugging' param_types='Boolean' param_defaults='false' result_type='void'>
+</method>
+<method name='assemble' fullname='com.adobe.utils:AGALMiniAssembler/assemble' isStatic='false' isFinal='false' isOverride='false'  param_names='mode;source;verbose' param_types='String;String;Boolean' param_defaults='undefined;undefined;false' result_type='flash.utils:ByteArray'>
+</method>
+<method name='init' fullname='com.adobe.utils:AGALMiniAssembler/private:init' isStatic='true' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='agalcode' fullname='com.adobe.utils:AGALMiniAssembler/agalcode/get' isStatic='false' isFinal='false' isOverride='false'  result_type='flash.utils:ByteArray'>
+</method>
+<method name='error' fullname='com.adobe.utils:AGALMiniAssembler/error/get' isStatic='false' isFinal='false' isOverride='false'  result_type='String'>
+</method>
+<field name='ABS' fullname='com.adobe.utils:AGALMiniAssembler/private:ABS' type='String' isStatic='true' isConst='true' defaultValue='abs' >
+</field>
+<field name='ADD' fullname='com.adobe.utils:AGALMiniAssembler/private:ADD' type='String' isStatic='true' isConst='true' defaultValue='add' >
+</field>
+<field name='BRK' fullname='com.adobe.utils:AGALMiniAssembler/private:BRK' type='String' isStatic='true' isConst='true' defaultValue='brk' >
+</field>
+<field name='CENTROID' fullname='com.adobe.utils:AGALMiniAssembler/private:CENTROID' type='String' isStatic='true' isConst='true' defaultValue='centroid' >
+</field>
+<field name='CLAMP' fullname='com.adobe.utils:AGALMiniAssembler/private:CLAMP' type='String' isStatic='true' isConst='true' defaultValue='clamp' >
+</field>
+<field name='COS' fullname='com.adobe.utils:AGALMiniAssembler/private:COS' type='String' isStatic='true' isConst='true' defaultValue='cos' >
+</field>
+<field name='CRS' fullname='com.adobe.utils:AGALMiniAssembler/private:CRS' type='String' isStatic='true' isConst='true' defaultValue='crs' >
+</field>
+<field name='CUBE' fullname='com.adobe.utils:AGALMiniAssembler/private:CUBE' type='String' isStatic='true' isConst='true' defaultValue='cube' >
+</field>
+<field name='D2' fullname='com.adobe.utils:AGALMiniAssembler/private:D2' type='String' isStatic='true' isConst='true' defaultValue='2d' >
+</field>
+<field name='D3' fullname='com.adobe.utils:AGALMiniAssembler/private:D3' type='String' isStatic='true' isConst='true' defaultValue='3d' >
+</field>
+<field name='DEPTH' fullname='com.adobe.utils:AGALMiniAssembler/private:DEPTH' type='String' isStatic='true' isConst='true' defaultValue='depth' >
+</field>
+<field name='DIV' fullname='com.adobe.utils:AGALMiniAssembler/private:DIV' type='String' isStatic='true' isConst='true' defaultValue='div' >
+</field>
+<field name='DP3' fullname='com.adobe.utils:AGALMiniAssembler/private:DP3' type='String' isStatic='true' isConst='true' defaultValue='dp3' >
+</field>
+<field name='DP4' fullname='com.adobe.utils:AGALMiniAssembler/private:DP4' type='String' isStatic='true' isConst='true' defaultValue='dp4' >
+</field>
+<field name='EIF' fullname='com.adobe.utils:AGALMiniAssembler/private:EIF' type='String' isStatic='true' isConst='true' defaultValue='eif' >
+</field>
+<field name='ELS' fullname='com.adobe.utils:AGALMiniAssembler/private:ELS' type='String' isStatic='true' isConst='true' defaultValue='els' >
+</field>
+<field name='ERP' fullname='com.adobe.utils:AGALMiniAssembler/private:ERP' type='String' isStatic='true' isConst='true' defaultValue='erp' >
+</field>
+<field name='EXP' fullname='com.adobe.utils:AGALMiniAssembler/private:EXP' type='String' isStatic='true' isConst='true' defaultValue='exp' >
+</field>
+<field name='FC' fullname='com.adobe.utils:AGALMiniAssembler/private:FC' type='String' isStatic='true' isConst='true' defaultValue='fc' >
+</field>
+<field name='FRAGMENT' fullname='com.adobe.utils:AGALMiniAssembler/private:FRAGMENT' type='String' isStatic='true' isConst='true' defaultValue='fragment' >
+</field>
+<field name='FRC' fullname='com.adobe.utils:AGALMiniAssembler/private:FRC' type='String' isStatic='true' isConst='true' defaultValue='frc' >
+</field>
+<field name='FS' fullname='com.adobe.utils:AGALMiniAssembler/private:FS' type='String' isStatic='true' isConst='true' defaultValue='fs' >
+</field>
+<field name='FT' fullname='com.adobe.utils:AGALMiniAssembler/private:FT' type='String' isStatic='true' isConst='true' defaultValue='ft' >
+</field>
+<field name='IEG' fullname='com.adobe.utils:AGALMiniAssembler/private:IEG' type='String' isStatic='true' isConst='true' defaultValue='ieg' >
+</field>
+<field name='IEL' fullname='com.adobe.utils:AGALMiniAssembler/private:IEL' type='String' isStatic='true' isConst='true' defaultValue='iel' >
+</field>
+<field name='IFE' fullname='com.adobe.utils:AGALMiniAssembler/private:IFE' type='String' isStatic='true' isConst='true' defaultValue='ife' >
+</field>
+<field name='IFG' fullname='com.adobe.utils:AGALMiniAssembler/private:IFG' type='String' isStatic='true' isConst='true' defaultValue='ifg' >
+</field>
+<field name='IFL' fullname='com.adobe.utils:AGALMiniAssembler/private:IFL' type='String' isStatic='true' isConst='true' defaultValue='ifl' >
+</field>
+<field name='IFZ' fullname='com.adobe.utils:AGALMiniAssembler/private:IFZ' type='String' isStatic='true' isConst='true' defaultValue='ifz' >
+</field>
+<field name='INE' fullname='com.adobe.utils:AGALMiniAssembler/private:INE' type='String' isStatic='true' isConst='true' defaultValue='ine' >
+</field>
+<field name='INZ' fullname='com.adobe.utils:AGALMiniAssembler/private:INZ' type='String' isStatic='true' isConst='true' defaultValue='inz' >
+</field>
+<field name='KIL' fullname='com.adobe.utils:AGALMiniAssembler/private:KIL' type='String' isStatic='true' isConst='true' defaultValue='kil' >
+</field>
+<field name='LINEAR' fullname='com.adobe.utils:AGALMiniAssembler/private:LINEAR' type='String' isStatic='true' isConst='true' defaultValue='linear' >
+</field>
+<field name='LOG' fullname='com.adobe.utils:AGALMiniAssembler/private:LOG' type='String' isStatic='true' isConst='true' defaultValue='log' >
+</field>
+<field name='M33' fullname='com.adobe.utils:AGALMiniAssembler/private:M33' type='String' isStatic='true' isConst='true' defaultValue='m33' >
+</field>
+<field name='M34' fullname='com.adobe.utils:AGALMiniAssembler/private:M34' type='String' isStatic='true' isConst='true' defaultValue='m34' >
+</field>
+<field name='M44' fullname='com.adobe.utils:AGALMiniAssembler/private:M44' type='String' isStatic='true' isConst='true' defaultValue='m44' >
+</field>
+<field name='MAX_NESTING' fullname='com.adobe.utils:AGALMiniAssembler/private:MAX_NESTING' type='int' isStatic='true' isConst='true' defaultValue='4' >
+</field>
+<field name='MAX_OPCODES' fullname='com.adobe.utils:AGALMiniAssembler/private:MAX_OPCODES' type='int' isStatic='true' isConst='true' defaultValue='256' >
+</field>
+<field name='MAX' fullname='com.adobe.utils:AGALMiniAssembler/private:MAX' type='String' isStatic='true' isConst='true' defaultValue='max' >
+</field>
+<field name='MIN' fullname='com.adobe.utils:AGALMiniAssembler/private:MIN' type='String' isStatic='true' isConst='true' defaultValue='min' >
+</field>
+<field name='MIPLINEAR' fullname='com.adobe.utils:AGALMiniAssembler/private:MIPLINEAR' type='String' isStatic='true' isConst='true' defaultValue='miplinear' >
+</field>
+<field name='MIPNEAREST' fullname='com.adobe.utils:AGALMiniAssembler/private:MIPNEAREST' type='String' isStatic='true' isConst='true' defaultValue='mipnearest' >
+</field>
+<field name='MIPNONE' fullname='com.adobe.utils:AGALMiniAssembler/private:MIPNONE' type='String' isStatic='true' isConst='true' defaultValue='mipnone' >
+</field>
+<field name='MOV' fullname='com.adobe.utils:AGALMiniAssembler/private:MOV' type='String' isStatic='true' isConst='true' defaultValue='mov' >
+</field>
+<field name='MUL' fullname='com.adobe.utils:AGALMiniAssembler/private:MUL' type='String' isStatic='true' isConst='true' defaultValue='mul' >
+</field>
+<field name='NEAREST' fullname='com.adobe.utils:AGALMiniAssembler/private:NEAREST' type='String' isStatic='true' isConst='true' defaultValue='nearest' >
+</field>
+<field name='NEG' fullname='com.adobe.utils:AGALMiniAssembler/private:NEG' type='String' isStatic='true' isConst='true' defaultValue='neg' >
+</field>
+<field name='NOMIP' fullname='com.adobe.utils:AGALMiniAssembler/private:NOMIP' type='String' isStatic='true' isConst='true' defaultValue='nomip' >
+</field>
+<field name='NRM' fullname='com.adobe.utils:AGALMiniAssembler/private:NRM' type='String' isStatic='true' isConst='true' defaultValue='nrm' >
+</field>
+<field name='OC' fullname='com.adobe.utils:AGALMiniAssembler/private:OC' type='String' isStatic='true' isConst='true' defaultValue='oc' >
+</field>
+<field name='OPMAP' fullname='com.adobe.utils:AGALMiniAssembler/private:OPMAP' type='flash.utils:Dictionary' isStatic='true' isConst='true' defaultValue='unknown' >
+</field>
+<field name='OP_DEC_NEST' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_DEC_NEST' type='uint' isStatic='true' isConst='true' defaultValue='0x4' >
+</field>
+<field name='OP_FRAG_ONLY' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_FRAG_ONLY' type='uint' isStatic='true' isConst='true' defaultValue='0x20' >
+</field>
+<field name='OP_INC_NEST' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_INC_NEST' type='uint' isStatic='true' isConst='true' defaultValue='0x2' >
+</field>
+<field name='OP_NO_DEST' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_NO_DEST' type='uint' isStatic='true' isConst='true' defaultValue='0x80' >
+</field>
+<field name='OP_SCALAR' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_SCALAR' type='uint' isStatic='true' isConst='true' defaultValue='0x1' >
+</field>
+<field name='OP_SPECIAL_MATRIX' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_SPECIAL_MATRIX' type='uint' isStatic='true' isConst='true' defaultValue='0x10' >
+</field>
+<field name='OP_SPECIAL_TEX' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_SPECIAL_TEX' type='uint' isStatic='true' isConst='true' defaultValue='0x8' >
+</field>
+<field name='OP_VERT_ONLY' fullname='com.adobe.utils:AGALMiniAssembler/private:OP_VERT_ONLY' type='uint' isStatic='true' isConst='true' defaultValue='0x40' >
+</field>
+<field name='OP' fullname='com.adobe.utils:AGALMiniAssembler/private:OP' type='String' isStatic='true' isConst='true' defaultValue='op' >
+</field>
+<field name='POW' fullname='com.adobe.utils:AGALMiniAssembler/private:POW' type='String' isStatic='true' isConst='true' defaultValue='pow' >
+</field>
+<field name='RCP' fullname='com.adobe.utils:AGALMiniAssembler/private:RCP' type='String' isStatic='true' isConst='true' defaultValue='rcp' >
+</field>
+<field name='REGMAP' fullname='com.adobe.utils:AGALMiniAssembler/private:REGMAP' type='flash.utils:Dictionary' isStatic='true' isConst='true' defaultValue='unknown' >
+</field>
+<field name='REG_FRAG' fullname='com.adobe.utils:AGALMiniAssembler/private:REG_FRAG' type='uint' isStatic='true' isConst='true' defaultValue='0x20' >
+</field>
+<field name='REG_READ' fullname='com.adobe.utils:AGALMiniAssembler/private:REG_READ' type='uint' isStatic='true' isConst='true' defaultValue='0x2' >
+</field>
+<field name='REG_VERT' fullname='com.adobe.utils:AGALMiniAssembler/private:REG_VERT' type='uint' isStatic='true' isConst='true' defaultValue='0x40' >
+</field>
+<field name='REG_WRITE' fullname='com.adobe.utils:AGALMiniAssembler/private:REG_WRITE' type='uint' isStatic='true' isConst='true' defaultValue='0x1' >
+</field>
+<field name='REPEAT' fullname='com.adobe.utils:AGALMiniAssembler/private:REPEAT' type='String' isStatic='true' isConst='true' defaultValue='repeat' >
+</field>
+<field name='REP' fullname='com.adobe.utils:AGALMiniAssembler/private:REP' type='String' isStatic='true' isConst='true' defaultValue='rep' >
+</field>
+<field name='RSQ' fullname='com.adobe.utils:AGALMiniAssembler/private:RSQ' type='String' isStatic='true' isConst='true' defaultValue='rsq' >
+</field>
+<field name='SAMPLEMAP' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLEMAP' type='flash.utils:Dictionary' isStatic='true' isConst='true' defaultValue='unknown' >
+</field>
+<field name='SAMPLER_DIM_SHIFT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLER_DIM_SHIFT' type='uint' isStatic='true' isConst='true' defaultValue='12' >
+</field>
+<field name='SAMPLER_FILTER_SHIFT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLER_FILTER_SHIFT' type='uint' isStatic='true' isConst='true' defaultValue='28' >
+</field>
+<field name='SAMPLER_MIPMAP_SHIFT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLER_MIPMAP_SHIFT' type='uint' isStatic='true' isConst='true' defaultValue='24' >
+</field>
+<field name='SAMPLER_REPEAT_SHIFT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLER_REPEAT_SHIFT' type='uint' isStatic='true' isConst='true' defaultValue='20' >
+</field>
+<field name='SAMPLER_SPECIAL_SHIFT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAMPLER_SPECIAL_SHIFT' type='uint' isStatic='true' isConst='true' defaultValue='16' >
+</field>
+<field name='SAT' fullname='com.adobe.utils:AGALMiniAssembler/private:SAT' type='String' isStatic='true' isConst='true' defaultValue='sat' >
+</field>
+<field name='SGE' fullname='com.adobe.utils:AGALMiniAssembler/private:SGE' type='String' isStatic='true' isConst='true' defaultValue='sge' >
+</field>
+<field name='SGN' fullname='com.adobe.utils:AGALMiniAssembler/private:SGN' type='String' isStatic='true' isConst='true' defaultValue='sgn' >
+</field>
+<field name='SINGLE' fullname='com.adobe.utils:AGALMiniAssembler/private:SINGLE' type='String' isStatic='true' isConst='true' defaultValue='single' >
+</field>
+<field name='SIN' fullname='com.adobe.utils:AGALMiniAssembler/private:SIN' type='String' isStatic='true' isConst='true' defaultValue='sin' >
+</field>
+<field name='SLT' fullname='com.adobe.utils:AGALMiniAssembler/private:SLT' type='String' isStatic='true' isConst='true' defaultValue='slt' >
+</field>
+<field name='SQT' fullname='com.adobe.utils:AGALMiniAssembler/private:SQT' type='String' isStatic='true' isConst='true' defaultValue='sqt' >
+</field>
+<field name='SUB' fullname='com.adobe.utils:AGALMiniAssembler/private:SUB' type='String' isStatic='true' isConst='true' defaultValue='sub' >
+</field>
+<field name='TEX' fullname='com.adobe.utils:AGALMiniAssembler/private:TEX' type='String' isStatic='true' isConst='true' defaultValue='tex' >
+</field>
+<field name='VA' fullname='com.adobe.utils:AGALMiniAssembler/private:VA' type='String' isStatic='true' isConst='true' defaultValue='va' >
+</field>
+<field name='VC' fullname='com.adobe.utils:AGALMiniAssembler/private:VC' type='String' isStatic='true' isConst='true' defaultValue='vc' >
+</field>
+<field name='VERTEX' fullname='com.adobe.utils:AGALMiniAssembler/private:VERTEX' type='String' isStatic='true' isConst='true' defaultValue='vertex' >
+</field>
+<field name='VT' fullname='com.adobe.utils:AGALMiniAssembler/private:VT' type='String' isStatic='true' isConst='true' defaultValue='vt' >
+</field>
+<field name='V' fullname='com.adobe.utils:AGALMiniAssembler/private:V' type='String' isStatic='true' isConst='true' defaultValue='v' >
+</field>
+<field name='WRAP' fullname='com.adobe.utils:AGALMiniAssembler/private:WRAP' type='String' isStatic='true' isConst='true' defaultValue='wrap' >
+</field>
+<field name='_agalcode' fullname='com.adobe.utils:AGALMiniAssembler/private:_agalcode' type='flash.utils:ByteArray' isStatic='false' isConst='false' defaultValue='null' >
+</field>
+<field name='_error' fullname='com.adobe.utils:AGALMiniAssembler/private:_error' type='String' isStatic='false' isConst='false' defaultValue='' >
+</field>
+<field name='debugEnabled' fullname='com.adobe.utils:AGALMiniAssembler/private:debugEnabled' type='Boolean' isStatic='false' isConst='false' defaultValue='false' >
+</field>
+<field name='initialized' fullname='com.adobe.utils:AGALMiniAssembler/private:initialized' type='Boolean' isStatic='true' isConst='false' defaultValue='false' >
+</field>
+<interfaceRec name='IFilter' fullname='mongoose.filter:IFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\IFilter.as' namespace='mongoose.filter' access='public' baseClasses='Object' isFinal='false' isDynamic='false' >
+<description><![CDATA[
+
+     滤镜接口 
+
+     ]]></description>
+<author><![CDATA[genechen
+
+     
+
+     ]]></author>
+</interfaceRec>
+<method name='apply' fullname='mongoose.filter:IFilter/mongoose.filter:IFilter:apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+
+         设置片段常量寄存器 
+
+         ]]></description>
+<param><![CDATA[context
+
+         
+
+         ]]></param>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:IFilter/mongoose.filter:IFilter:getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+<description><![CDATA[
+
+         生成片段着色器汇编码 
+
+         ]]></description>
+<param><![CDATA[regIndex 常量寄存器索引
+
+         ]]></param>
+<return><![CDATA[
+
+         
+
+         ]]></return>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:IFilter/mongoose.filter:IFilter:getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+<description><![CDATA[
+
+          生成顶点着色器汇编码 
+
+         ]]></description>
+<param><![CDATA[regIndex
+
+         ]]></param>
+<return><![CDATA[
+
+         
+
+         ]]></return>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:IFilter/mongoose.filter:IFilter:endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+<description><![CDATA[
+
+         该滤镜使用像素着色器后的寄存器索引 
+
+         ]]></description>
+<return><![CDATA[
+
+         
+
+         ]]></return>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:IFilter/mongoose.filter:IFilter:endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+<description><![CDATA[
+
+         该滤镜使用顶点着色器后的寄存器索引 
+
+         ]]></description>
+<return><![CDATA[
+
+         
+
+         ]]></return>
+</method>
+<classRec name='MotionBlurFilter' fullname='mongoose.filter:MotionBlurFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\MotionBlurFilter.as' namespace='mongoose.filter' access='public' baseclass='Object' interfaces='mongoose.filter:IFilter' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='MotionBlurFilter' fullname='mongoose.filter:MotionBlurFilter/MotionBlurFilter' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='apply' fullname='mongoose.filter:MotionBlurFilter/apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context3d' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:MotionBlurFilter/getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:MotionBlurFilter/getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:MotionBlurFilter/endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:MotionBlurFilter/endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<field name='mFragmentIndex' fullname='mongoose.filter:MotionBlurFilter/protected:mFragmentIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mVertexIndex' fullname='mongoose.filter:MotionBlurFilter/protected:mVertexIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='GrayFilter' fullname='mongoose.filter:GrayFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\GrayFilter.as' namespace='mongoose.filter' access='public' baseclass='Object' interfaces='mongoose.filter:IFilter' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='GrayFilter' fullname='mongoose.filter:GrayFilter/GrayFilter' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='apply' fullname='mongoose.filter:GrayFilter/apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:GrayFilter/getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:GrayFilter/getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:GrayFilter/endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:GrayFilter/endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<field name='mFilterConst' fullname='mongoose.filter:GrayFilter/protected:mFilterConst' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFragmentIndex' fullname='mongoose.filter:GrayFilter/protected:mFragmentIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='RadialBlurFilter' fullname='mongoose.filter:RadialBlurFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\RadialBlurFilter.as' namespace='mongoose.filter' access='public' baseclass='Object' interfaces='mongoose.filter:IFilter' isFinal='false' isDynamic='false' >
+<description><![CDATA[
+
+     径向模糊 
+
+     ]]></description>
+<author><![CDATA[genechen
+
+     
+
+     ]]></author>
+</classRec>
+<method name='RadialBlurFilter' fullname='mongoose.filter:RadialBlurFilter/RadialBlurFilter' isStatic='false' isFinal='false' isOverride='false'  param_names='gradation;params' param_types='uint;Vector$Number' param_defaults='10;null' result_type='*'>
+</method>
+<method name='apply' fullname='mongoose.filter:RadialBlurFilter/apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:RadialBlurFilter/getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:RadialBlurFilter/getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:RadialBlurFilter/endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:RadialBlurFilter/endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='param' fullname='mongoose.filter:RadialBlurFilter/param/get' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='param' fullname='mongoose.filter:RadialBlurFilter/param/set' isStatic='false' isFinal='false' isOverride='false'  param_names='scale' param_types='Number' param_defaults='undefined' result_type='void'>
+</method>
+<field name='mFilterConst' fullname='mongoose.filter:RadialBlurFilter/protected:mFilterConst' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFragmentIndex' fullname='mongoose.filter:RadialBlurFilter/protected:mFragmentIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mGradation' fullname='mongoose.filter:RadialBlurFilter/protected:mGradation' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mNullMatrix' fullname='mongoose.filter:RadialBlurFilter/protected:mNullMatrix' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mParamScale' fullname='mongoose.filter:RadialBlurFilter/protected:mParamScale' type='Number' isStatic='false' isConst='false' defaultValue='0.005' >
+</field>
+<field name='mVertexIndex' fullname='mongoose.filter:RadialBlurFilter/protected:mVertexIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='BlurFilter' fullname='mongoose.filter:BlurFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\BlurFilter.as' namespace='mongoose.filter' access='public' baseclass='Object' interfaces='mongoose.filter:IFilter' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='BlurFilter' fullname='mongoose.filter:BlurFilter/BlurFilter' isStatic='false' isFinal='false' isOverride='false'  param_names='intensity' param_types='Number' param_defaults='0.004' result_type='*'>
+</method>
+<method name='apply' fullname='mongoose.filter:BlurFilter/apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:BlurFilter/getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:BlurFilter/getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:BlurFilter/endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:BlurFilter/endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='intensity' fullname='mongoose.filter:BlurFilter/intensity/get' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='intensity' fullname='mongoose.filter:BlurFilter/intensity/set' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='Number' param_defaults='undefined' result_type='void'>
+</method>
+<field name='mBlurIntensity' fullname='mongoose.filter:BlurFilter/protected:mBlurIntensity' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFilterConst2' fullname='mongoose.filter:BlurFilter/protected:mFilterConst2' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFilterConst' fullname='mongoose.filter:BlurFilter/protected:mFilterConst' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFragmentIndex' fullname='mongoose.filter:BlurFilter/protected:mFragmentIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mVertexIndex' fullname='mongoose.filter:BlurFilter/protected:mVertexIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='BrightFilter' fullname='mongoose.filter:BrightFilter' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\filter\BrightFilter.as' namespace='mongoose.filter' access='public' baseclass='Object' interfaces='mongoose.filter:IFilter' isFinal='false' isDynamic='false' >
+<description><![CDATA[
+
+     高亮滤镜 
+
+     ]]></description>
+<author><![CDATA[genechen
+
+     
+
+     ]]></author>
+</classRec>
+<method name='BrightFilter' fullname='mongoose.filter:BrightFilter/BrightFilter' isStatic='false' isFinal='false' isOverride='false'  param_names='level' param_types='Number' param_defaults='undefined' result_type='*'>
+<description><![CDATA[
+
+         高亮级别
+
+         ]]></description>
+<param><![CDATA[level
+
+         
+
+         ]]></param>
+</method>
+<method name='apply' fullname='mongoose.filter:BrightFilter/apply' isStatic='false' isFinal='false' isOverride='false'  param_names='context' param_types='flash.display3D:Context3D' param_defaults='undefined' result_type='void'>
+</method>
+<method name='getPsCode' fullname='mongoose.filter:BrightFilter/getPsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='getVsCode' fullname='mongoose.filter:BrightFilter/getVsCode' isStatic='false' isFinal='false' isOverride='false'  param_names='regIndex' param_types='uint' param_defaults='undefined' result_type='String'>
+</method>
+<method name='endPsReg' fullname='mongoose.filter:BrightFilter/endPsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='endVsReg' fullname='mongoose.filter:BrightFilter/endVsReg/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='level' fullname='mongoose.filter:BrightFilter/level/get' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='level' fullname='mongoose.filter:BrightFilter/level/set' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='Number' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+
+         亮度级别 
+
+         ]]></description>
+<param><![CDATA[value
+
+         
+
+         ]]></param>
+</method>
+<field name='mFilterConst' fullname='mongoose.filter:BrightFilter/protected:mFilterConst' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mFragmentIndex' fullname='mongoose.filter:BrightFilter/protected:mFragmentIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mVertexIndex' fullname='mongoose.filter:BrightFilter/protected:mVertexIndex' type='uint' isStatic='false' isConst='false' >
+</field>
+<classRec name='TextureHelper' fullname='mongoose.utils:TextureHelper' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\utils\TextureHelper.as' namespace='mongoose.utils' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='TextureHelper' fullname='mongoose.utils:TextureHelper/TextureHelper' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='generateTextureFromBitmap' fullname='mongoose.utils:TextureHelper/generateTextureFromBitmap' isStatic='true' isFinal='false' isOverride='false'  param_names='context;bmp;useMipMaps' param_types='flash.display3D:Context3D;flash.display:BitmapData;Boolean' param_defaults='undefined;undefined;undefined' result_type='flash.display3D.textures:Texture'>
+<description><![CDATA[
+		 Generates a texture from a bitmap. Will use the smallest possible size (2^n)
+		 ]]></description>
+<param><![CDATA[context
+		 ]]></param>
+<param><![CDATA[bmp
+		 ]]></param>
+<return><![CDATA[The generated texture
+		 ]]></return>
+</method>
+<method name='generateTextureFromByteArray' fullname='mongoose.utils:TextureHelper/generateTextureFromByteArray' isStatic='true' isFinal='false' isOverride='false'  param_names='context;atf' param_types='flash.display3D:Context3D;flash.utils:ByteArray' param_defaults='undefined;undefined' result_type='flash.display3D.textures:Texture'>
+<description><![CDATA[
+		 Generates a texture from a bitmap. Will use the smallest possible size (2^n)
+		 ]]></description>
+<param><![CDATA[context
+		 ]]></param>
+<param><![CDATA[bmp
+		 ]]></param>
+<return><![CDATA[The generated texture
+		 ]]></return>
+</method>
+<method name='getTextureDimensionsFromBitmap' fullname='mongoose.utils:TextureHelper/getTextureDimensionsFromBitmap' isStatic='true' isFinal='false' isOverride='false'  param_names='bmp' param_types='flash.display:BitmapData' param_defaults='undefined' result_type='flash.geom:Point'>
+<description><![CDATA[
+		 Will return a point that contains the width and height of the smallest possible texture size in 2^n
+		 ]]></description>
+<param><![CDATA[bmp
+		 ]]></param>
+<return><![CDATA[x = width, y = height of the texture
+		 ]]></return>
+</method>
+<method name='getTextureDimensionsFromSize' fullname='mongoose.utils:TextureHelper/getTextureDimensionsFromSize' isStatic='true' isFinal='false' isOverride='false'  param_names='w;h' param_types='Number;Number' param_defaults='undefined;undefined' result_type='flash.geom:Point'>
+<description><![CDATA[
+		 Will return a point that contains the width and height of the smallest possible texture size in 2^n
+		 ]]></description>
+<param><![CDATA[w width
+		 ]]></param>
+<param><![CDATA[h height
+		 ]]></param>
+<return><![CDATA[x = width, y = height of the texture
+		 ]]></return>
+</method>
+<method name='uploadTextureWithMipmaps' fullname='mongoose.utils:TextureHelper/uploadTextureWithMipmaps' isStatic='true' isFinal='false' isOverride='false'  param_names='dest;src' param_types='flash.display3D.textures:Texture;flash.display:BitmapData' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<classRec name='TextureData' fullname='mongoose.display:TextureData' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\TextureData.as' namespace='mongoose.display' access='public' baseclass='Object' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='TextureData' fullname='mongoose.display:TextureData/TextureData' isStatic='false' isFinal='false' isOverride='false'  param_names='useDefault' param_types='Boolean' param_defaults='false' result_type='*'>
+<description><![CDATA[
+
+		 ]]></description>
+<param><![CDATA[useDefault 是否开启缺省材质
+
+		 ]]></param>
+</method>
+<method name='dispose' fullname='mongoose.display:TextureData/dispose' isStatic='false' isFinal='false' isOverride='false'  param_names='bmp' param_types='flash.display:BitmapData' param_defaults='undefined' result_type='void'>
+</method>
+<method name='setUVData' fullname='mongoose.display:TextureData/setUVData' isStatic='false' isFinal='false' isOverride='false'  param_names='TextureData;offsetPt' param_types='mongoose.geom:MRectangle;mongoose.geom:MPoint' param_defaults='undefined;null' result_type='void'>
+</method>
+<method name='bitmapData' fullname='mongoose.display:TextureData/bitmapData/get' isStatic='false' isFinal='false' isOverride='false'  result_type='flash.display:BitmapData'>
+</method>
+<method name='bitmapData' fullname='mongoose.display:TextureData/bitmapData/set' isStatic='false' isFinal='false' isOverride='false'  param_names='bmp' param_types='flash.display:BitmapData' param_defaults='undefined' result_type='void'>
+</method>
+<field name='cache' fullname='mongoose.display:TextureData/private:cache' type='flash.utils:Dictionary' isStatic='true' isConst='false' >
+</field>
+<field name='context3d' fullname='mongoose.display:TextureData/context3d' type='flash.display3D:Context3D' isStatic='true' isConst='false' >
+</field>
+<field name='defaultBmp' fullname='mongoose.display:TextureData/private:defaultBmp' type='flash.display:BitmapData' isStatic='true' isConst='false' >
+</field>
+<field name='height' fullname='mongoose.display:TextureData/height' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<field name='mBitmapData' fullname='mongoose.display:TextureData/protected:mBitmapData' type='flash.display:BitmapData' isStatic='false' isConst='false' >
+</field>
+<field name='offsetX' fullname='mongoose.display:TextureData/offsetX' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<field name='offsetY' fullname='mongoose.display:TextureData/offsetY' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<field name='texture' fullname='mongoose.display:TextureData/texture' type='flash.display3D.textures:Texture' isStatic='false' isConst='false' >
+</field>
+<field name='uValue' fullname='mongoose.display:TextureData/uValue' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<field name='uvVector' fullname='mongoose.display:TextureData/uvVector' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='vValue' fullname='mongoose.display:TextureData/vValue' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<field name='width' fullname='mongoose.display:TextureData/width' type='Number' isStatic='false' isConst='false' defaultValue='0.0' >
+</field>
+<classRec name='BaseObject' fullname='mongoose.display:BaseObject' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\BaseObject.as' namespace='mongoose.display' access='public' baseclass='flash.events:EventDispatcher' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='BaseObject' fullname='mongoose.display:BaseObject/BaseObject' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='preRender' fullname='mongoose.display:BaseObject/protected:preRender' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<field name='context3d' fullname='mongoose.display:BaseObject/context3d' type='flash.display3D:Context3D' isStatic='true' isConst='false' >
+</field>
+<field name='data' fullname='mongoose.display:BaseObject/data' type='Object' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='id' fullname='mongoose.display:BaseObject/id' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mX' fullname='mongoose.display:BaseObject/protected:mX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='name' fullname='mongoose.display:BaseObject/name' type='String' isStatic='false' isConst='false' >
+</field>
+<field name='stage' fullname='mongoose.display:BaseObject/stage' type='flash.display:Stage' isStatic='true' isConst='false' >
+</field>
+<field name='world' fullname='mongoose.display:BaseObject/world' type='mongoose.display:World' isStatic='true' isConst='false' >
+</field>
+<field name='x' fullname='mongoose.display:BaseObject/x' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<classRec name='DisplayObject' fullname='mongoose.display:DisplayObject' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\DisplayObject.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:BaseObject' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='DisplayObject' fullname='mongoose.display:DisplayObject/DisplayObject' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='composeMatrix' fullname='mongoose.display:DisplayObject/protected:composeMatrix' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='draw' fullname='mongoose.display:DisplayObject/protected:draw' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='getAlpha' fullname='mongoose.display:DisplayObject/mongoose.display:getAlpha' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='getBlue' fullname='mongoose.display:DisplayObject/mongoose.display:getBlue' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='getGreen' fullname='mongoose.display:DisplayObject/mongoose.display:getGreen' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='getMatrix3D' fullname='mongoose.display:DisplayObject/getMatrix3D' isStatic='false' isFinal='false' isOverride='false'  result_type='flash.geom:Matrix3D'>
+</method>
+<method name='getRed' fullname='mongoose.display:DisplayObject/mongoose.display:getRed' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+</method>
+<method name='init' fullname='mongoose.display:DisplayObject/protected:init' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='render' fullname='mongoose.display:DisplayObject/render' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='setRegisterPoint' fullname='mongoose.display:DisplayObject/setRegisterPoint' isStatic='false' isFinal='false' isOverride='false'  param_names='x;y;z' param_types='Number;Number;Number' param_defaults='undefined;undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 置显示对象的注册点,数值范围是 归一化的.例如，注册点设置到中心位置setRegisterPoint(-.5,.5,0) 
+
+		 ]]></description>
+<param><![CDATA[x
+
+		 ]]></param>
+<param><![CDATA[y
+
+		 ]]></param>
+<param><![CDATA[z
+
+		 
+
+		 ]]></param>
+</method>
+<field name='INSTANCE_NUM' fullname='mongoose.display:DisplayObject/INSTANCE_NUM' type='uint' isStatic='true' isConst='false' >
+</field>
+<field name='_changed' fullname='mongoose.display:DisplayObject/private:_changed' type='Boolean' isStatic='false' isConst='false' defaultValue='true' >
+</field>
+<field name='_colorRecip' fullname='mongoose.display:DisplayObject/private:_colorRecip' type='Number' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_remAlpha' fullname='mongoose.display:DisplayObject/private:_remAlpha' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_remColor' fullname='mongoose.display:DisplayObject/private:_remColor' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_remRotX' fullname='mongoose.display:DisplayObject/private:_remRotX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_remScaleX' fullname='mongoose.display:DisplayObject/private:_remScaleX' type='Number' isStatic='false' isConst='false' defaultValue='1' >
+</field>
+<field name='_remX' fullname='mongoose.display:DisplayObject/private:_remX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='_tempColor' fullname='mongoose.display:DisplayObject/private:_tempColor' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_tempDepth' fullname='mongoose.display:DisplayObject/private:_tempDepth' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_tempX' fullname='mongoose.display:DisplayObject/private:_tempX' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_zScale' fullname='mongoose.display:DisplayObject/private:_zScale' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='alpha' fullname='mongoose.display:DisplayObject/alpha' type='Number' isStatic='false' isConst='false' defaultValue='1' >
+</field>
+<field name='color' fullname='mongoose.display:DisplayObject/color' type='Number' isStatic='false' isConst='false' defaultValue='0xffffff' >
+</field>
+<field name='depth' fullname='mongoose.display:DisplayObject/depth' type='Number' isStatic='false' isConst='false' >
+<description><![CDATA[
+
+		 深度
+
+		 ]]></description>
+</field>
+<field name='height' fullname='mongoose.display:DisplayObject/height' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mBaseMatrix' fullname='mongoose.display:DisplayObject/protected:mBaseMatrix' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mConstrants' fullname='mongoose.display:DisplayObject/protected:mConstrants' type='Vector$Number' isStatic='false' isConst='false' >
+</field>
+<field name='mHeightRecipDbl' fullname='mongoose.display:DisplayObject/protected:mHeightRecipDbl' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='mMatrix3D' fullname='mongoose.display:DisplayObject/protected:mMatrix3D' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mMyMatrix' fullname='mongoose.display:DisplayObject/protected:mMyMatrix' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mOriginHeight' fullname='mongoose.display:DisplayObject/protected:mOriginHeight' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mOriginWidth' fullname='mongoose.display:DisplayObject/protected:mOriginWidth' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mOutMatrix' fullname='mongoose.display:DisplayObject/protected:mOutMatrix' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mParentMatrix3D' fullname='mongoose.display:DisplayObject/protected:mParentMatrix3D' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='mParent' fullname='mongoose.display:DisplayObject/protected:mParent' type='mongoose.display:DisplayObject' isStatic='false' isConst='false' >
+</field>
+<field name='mPivot' fullname='mongoose.display:DisplayObject/protected:mPivot' type='flash.geom:Vector3D' isStatic='false' isConst='false' >
+</field>
+<field name='mProgram3d' fullname='mongoose.display:DisplayObject/protected:mProgram3d' type='flash.display3D:Program3D' isStatic='false' isConst='false' >
+</field>
+<field name='mRemOrignWidth' fullname='mongoose.display:DisplayObject/protected:mRemOrignWidth' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mRotPivot' fullname='mongoose.display:DisplayObject/protected:mRotPivot' type='flash.geom:Vector3D' isStatic='false' isConst='false' >
+</field>
+<field name='mWidthRecipDbl' fullname='mongoose.display:DisplayObject/protected:mWidthRecipDbl' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='parent' fullname='mongoose.display:DisplayObject/parent' type='mongoose.display:DisplayObjectContainer' isStatic='false' isConst='false' >
+</field>
+<field name='r' fullname='mongoose.display:DisplayObject/mongoose.display:r' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='rotateX' fullname='mongoose.display:DisplayObject/rotateX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='rotateY' fullname='mongoose.display:DisplayObject/rotateY' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='rotateZ' fullname='mongoose.display:DisplayObject/rotateZ' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='scaleX' fullname='mongoose.display:DisplayObject/scaleX' type='Number' isStatic='false' isConst='false' defaultValue='1' >
+</field>
+<field name='scaleY' fullname='mongoose.display:DisplayObject/scaleY' type='Number' isStatic='false' isConst='false' defaultValue='1' >
+</field>
+<field name='scaleZ' fullname='mongoose.display:DisplayObject/scaleZ' type='Number' isStatic='false' isConst='false' defaultValue='1' >
+</field>
+<field name='visible' fullname='mongoose.display:DisplayObject/visible' type='Boolean' isStatic='false' isConst='false' defaultValue='true' >
+<description><![CDATA[
+
+		 否显示,注:visible=false的时候是不会提交渲染的. 
+
+		 ]]></description>
+</field>
+<field name='width' fullname='mongoose.display:DisplayObject/width' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<classRec name='World' fullname='mongoose.display:World' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\World.as' namespace='mongoose.display' access='public' baseclass='flash.events:EventDispatcher' isFinal='false' isDynamic='false' >
+<metadata>
+	<Event owner='mongoose.display:World' name='change' type='flash.events.Event' >
+	</Event>
+</metadata>
+<metadata>
+	<Event owner='mongoose.display:World' name='complete' type='flash.events.Event' >
+	</Event>
+</metadata>
+</classRec>
+<method name='World' fullname='mongoose.display:World/World' isStatic='false' isFinal='false' isOverride='false'  param_names='stage2D;viewPort' param_types='flash.display:Stage;mongoose.geom:MRectangle' param_defaults='undefined;undefined' result_type='*'>
+</method>
+<method name='addCamera' fullname='mongoose.display:World/addCamera' isStatic='false' isFinal='false' isOverride='false'  param_names='camera' param_types='mongoose.core:Camera' param_defaults='undefined' result_type='void'>
+</method>
+<method name='addChild' fullname='mongoose.display:World/addChild' isStatic='false' isFinal='false' isOverride='false'  param_names='object' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+
+		 加一个显示对象 
+
+		 ]]></description>
+<param><![CDATA[object 显示对象
+
+		 
+
+		 ]]></param>
+</method>
+<method name='getMatrix3D' fullname='mongoose.display:World/getMatrix3D' isStatic='false' isFinal='false' isOverride='false'  result_type='flash.geom:Matrix3D'>
+</method>
+<method name='hitTest' fullname='mongoose.display:World/mongoose.display:hitTest' isStatic='false' isFinal='false' isOverride='false'  param_names='type;x;y' param_types='String;Number;Number' param_defaults='undefined;undefined;undefined' result_type='void'>
+</method>
+<method name='initialize' fullname='mongoose.display:World/initialize' isStatic='false' isFinal='false' isOverride='false'  param_names='mRoot;viewPort' param_types='flash.display:Stage;mongoose.geom:MRectangle' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='onCreate' fullname='mongoose.display:World/protected:onCreate' isStatic='false' isFinal='false' isOverride='false'  param_names='VERTEX' param_types='flash.events:Event' param_defaults='undefined' result_type='void'>
+</method>
+<method name='onRender' fullname='mongoose.display:World/protected:onRender' isStatic='false' isFinal='false' isOverride='false'  param_names='VERTEX' param_types='flash.events:Event' param_defaults='null' result_type='void'>
+</method>
+<method name='onResize' fullname='mongoose.display:World/private:onResize' isStatic='false' isFinal='false' isOverride='false'  param_names='VERTEX' param_types='flash.events:Event' param_defaults='null' result_type='void'>
+</method>
+<method name='onStageClick' fullname='mongoose.display:World/private:onStageClick' isStatic='false' isFinal='false' isOverride='false'  param_names='e' param_types='flash.events:MouseEvent' param_defaults='undefined' result_type='void'>
+</method>
+<method name='onStageMove' fullname='mongoose.display:World/private:onStageMove' isStatic='false' isFinal='false' isOverride='false'  param_names='e' param_types='flash.events:MouseEvent' param_defaults='undefined' result_type='void'>
+</method>
+<method name='onTabTouch' fullname='mongoose.display:World/private:onTabTouch' isStatic='false' isFinal='false' isOverride='false'  param_names='e' param_types='flash.events:TouchEvent' param_defaults='undefined' result_type='void'>
+</method>
+<method name='removeChild' fullname='mongoose.display:World/removeChild' isStatic='false' isFinal='false' isOverride='false'  param_names='obj' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='void'>
+</method>
+<method name='render' fullname='mongoose.display:World/render' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='showFps' fullname='mongoose.display:World/showFps' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='Boolean' param_defaults='undefined' result_type='void'>
+</method>
+<method name='sortOn' fullname='mongoose.display:World/sortOn' isStatic='false' isFinal='false' isOverride='false'  param_names='name;param' param_types='String;int' param_defaults='undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 定排序索引，参考Array.sortOn ,默认Z排序
+
+		 ]]></description>
+<param><![CDATA[name 索引名称
+
+		 ]]></param>
+<param><![CDATA[param 排序参数
+
+		 
+
+		 ]]></param>
+</method>
+<method name='start' fullname='mongoose.display:World/start' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='fullScreen' fullname='mongoose.display:World/fullScreen/set' isStatic='false' isFinal='false' isOverride='false'  param_names='mRect' param_types='Boolean' param_defaults='undefined' result_type='void'>
+</method>
+<field name='STAGE_USED' fullname='mongoose.display:World/private:STAGE_USED' type='uint' isStatic='true' isConst='false' defaultValue='0' >
+</field>
+<field name='_click' fullname='mongoose.display:World/private:_click' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_last' fullname='mongoose.display:World/private:_last' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_lock' fullname='mongoose.display:World/private:_lock' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_obj' fullname='mongoose.display:World/private:_obj' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_prevObj' fullname='mongoose.display:World/private:_prevObj' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_sortBy' fullname='mongoose.display:World/private:_sortBy' type='String' isStatic='false' isConst='false' defaultValue='depth' >
+</field>
+<field name='_sortParam' fullname='mongoose.display:World/private:_sortParam' type='int' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_step' fullname='mongoose.display:World/private:_step' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_x' fullname='mongoose.display:World/private:_x' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='context3d' fullname='mongoose.display:World/context3d' type='flash.display3D:Context3D' isStatic='false' isConst='false' >
+</field>
+<field name='enableSort' fullname='mongoose.display:World/enableSort' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='far' fullname='mongoose.display:World/far' type='Number' isStatic='true' isConst='false' defaultValue='10000' >
+</field>
+<field name='hitObj' fullname='mongoose.display:World/protected:hitObj' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='iheightRecipDbl' fullname='mongoose.display:World/iheightRecipDbl' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='iwidthRecipDble' fullname='mongoose.display:World/iwidthRecipDble' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='lights' fullname='mongoose.display:World/lights' type='Vector$Number' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mCamera' fullname='mongoose.display:World/protected:mCamera' type='mongoose.core:Camera' isStatic='false' isConst='false' >
+</field>
+<field name='mChilds' fullname='mongoose.display:World/protected:mChilds' type='Array' isStatic='false' isConst='false' >
+</field>
+<field name='mFps' fullname='mongoose.display:World/protected:mFps' type='mongoose.tools:FrameRater' isStatic='false' isConst='false' >
+</field>
+<field name='mFullScreen' fullname='mongoose.display:World/protected:mFullScreen' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='mRect' fullname='mongoose.display:World/protected:mRect' type='mongoose.geom:MRectangle' isStatic='false' isConst='false' >
+</field>
+<field name='mStage3D' fullname='mongoose.display:World/protected:mStage3D' type='flash.display:Stage3D' isStatic='false' isConst='false' >
+</field>
+<field name='mViewAngle' fullname='mongoose.display:World/protected:mViewAngle' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='near' fullname='mongoose.display:World/near' type='Number' isStatic='true' isConst='false' defaultValue='0.1' >
+</field>
+<field name='perspective' fullname='mongoose.display:World/perspective' type='com.adobe.utils:PerspectiveMatrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='scale' fullname='mongoose.display:World/scale' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='stage' fullname='mongoose.display:World/stage' type='flash.display:Stage' isStatic='false' isConst='false' >
+</field>
+<field name='width' fullname='mongoose.display:World/width' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='x' fullname='mongoose.display:World/x' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<classRec name='Image' fullname='mongoose.display:Image' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\Image.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:DisplayObject' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='Image' fullname='mongoose.display:Image/Image' isStatic='false' isFinal='false' isOverride='false'  param_names='texture' param_types='mongoose.display:TextureData' param_defaults='null' result_type='*'>
+</method>
+<method name='composeMatrix' fullname='mongoose.display:Image/protected:composeMatrix' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='draw' fullname='mongoose.display:Image/protected:draw' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='initBuffer' fullname='mongoose.display:Image/protected:initBuffer' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='initProgram' fullname='mongoose.display:Image/protected:initProgram' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='init' fullname='mongoose.display:Image/protected:init' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='onChange' fullname='mongoose.display:Image/private:onChange' isStatic='false' isFinal='false' isOverride='false'  param_names='e' param_types='flash.events:Event' param_defaults='undefined' result_type='void'>
+</method>
+<method name='setTexture' fullname='mongoose.display:Image/setTexture' isStatic='false' isFinal='false' isOverride='false'  param_names='texture' param_types='mongoose.display:TextureData' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+		 显示对象指定一个TextureData。这样才能称它为显示对象. 
+		 ]]></description>
+<param><![CDATA[texture
+		 
+		 ]]></param>
+</method>
+<field name='BATCH_INDEX' fullname='mongoose.display:Image/BATCH_INDEX' type='uint' isStatic='true' isConst='false' defaultValue='0' >
+</field>
+<field name='BATCH_NUM' fullname='mongoose.display:Image/protected:BATCH_NUM' type='uint' isStatic='true' isConst='false' >
+</field>
+<field name='CURRENT_INDEX_BUFFER' fullname='mongoose.display:Image/CURRENT_INDEX_BUFFER' type='flash.display3D:IndexBuffer3D' isStatic='true' isConst='false' >
+</field>
+<field name='CURRENT_PROGRAM' fullname='mongoose.display:Image/protected:CURRENT_PROGRAM' type='flash.display3D:Program3D' isStatic='true' isConst='false' >
+</field>
+<field name='CURRENT_TEXTURE' fullname='mongoose.display:Image/protected:CURRENT_TEXTURE' type='flash.display3D.textures:Texture' isStatic='true' isConst='false' >
+</field>
+<field name='CURRENT_VERTEXT_BUFFER' fullname='mongoose.display:Image/private:CURRENT_VERTEXT_BUFFER' type='flash.display3D:VertexBuffer3D' isStatic='true' isConst='false' >
+</field>
+<field name='CURRENT_VERTEX_BUFFER' fullname='mongoose.display:Image/CURRENT_VERTEX_BUFFER' type='flash.display3D:VertexBuffer3D' isStatic='true' isConst='false' >
+</field>
+<field name='IMAGE_PROGRAM' fullname='mongoose.display:Image/protected:IMAGE_PROGRAM' type='flash.display3D:Program3D' isStatic='true' isConst='false' >
+</field>
+<field name='POSITION' fullname='mongoose.display:Image/protected:POSITION' type='Array' isStatic='true' isConst='false' defaultValue='unknown' >
+</field>
+<field name='REG_INDEX' fullname='mongoose.display:Image/protected:REG_INDEX' type='uint' isStatic='true' isConst='false' >
+</field>
+<field name='REG_PER_ROLS' fullname='mongoose.display:Image/protected:REG_PER_ROLS' type='uint' isStatic='true' isConst='true' defaultValue='6' >
+</field>
+<field name='REG_SAVE' fullname='mongoose.display:Image/protected:REG_SAVE' type='uint' isStatic='true' isConst='true' defaultValue='0' >
+</field>
+<field name='SYSTEM_USED_REG' fullname='mongoose.display:Image/protected:SYSTEM_USED_REG' type='uint' isStatic='true' isConst='true' defaultValue='8' >
+</field>
+<field name='TOTAL_REGISTER' fullname='mongoose.display:Image/protected:TOTAL_REGISTER' type='uint' isStatic='true' isConst='true' defaultValue='128' >
+</field>
+<field name='VERTEX_SHADER' fullname='mongoose.display:Image/protected:VERTEX_SHADER' type='flash.utils:ByteArray' isStatic='true' isConst='false' >
+</field>
+<field name='_mid' fullname='mongoose.display:Image/private:_mid' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='edge1' fullname='mongoose.display:Image/protected:edge1' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='edge2' fullname='mongoose.display:Image/protected:edge2' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='edge3' fullname='mongoose.display:Image/protected:edge3' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='mOffsetX' fullname='mongoose.display:Image/protected:mOffsetX' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mOffsetY' fullname='mongoose.display:Image/protected:mOffsetY' type='Number' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mTexture' fullname='mongoose.display:Image/protected:mTexture' type='mongoose.display:TextureData' isStatic='false' isConst='false' >
+</field>
+<field name='v0' fullname='mongoose.display:Image/protected:v0' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='v1' fullname='mongoose.display:Image/protected:v1' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='v2' fullname='mongoose.display:Image/protected:v2' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<field name='v3' fullname='mongoose.display:Image/protected:v3' type='flash.geom:Vector3D' isStatic='true' isConst='false' >
+</field>
+<classRec name='TextField' fullname='mongoose.display:TextField' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\TextField.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:Image' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='TextField' fullname='mongoose.display:TextField/TextField' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='setTextFormat' fullname='mongoose.display:TextField/setTextFormat' isStatic='false' isFinal='false' isOverride='false'  param_names='format' param_types='flash.text:TextFormat' param_defaults='undefined' result_type='void'>
+</method>
+<method name='text' fullname='mongoose.display:TextField/text/get' isStatic='false' isFinal='false' isOverride='false'  result_type='String'>
+</method>
+<method name='multiline' fullname='mongoose.display:TextField/multiline/set' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='Boolean' param_defaults='undefined' result_type='void'>
+</method>
+<method name='text' fullname='mongoose.display:TextField/text/set' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='String' param_defaults='undefined' result_type='void'>
+</method>
+<field name='_format' fullname='mongoose.display:TextField/private:_format' type='flash.text:TextFormat' isStatic='false' isConst='false' >
+</field>
+<field name='_maxWidth' fullname='mongoose.display:TextField/private:_maxWidth' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_rw' fullname='mongoose.display:TextField/private:_rw' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_text' fullname='mongoose.display:TextField/private:_text' type='String' isStatic='false' isConst='false' >
+</field>
+<field name='autoSize' fullname='mongoose.display:TextField/autoSize' type='String' isStatic='false' isConst='false' >
+</field>
+<field name='mBitmapData' fullname='mongoose.display:TextField/protected:mBitmapData' type='flash.display:BitmapData' isStatic='false' isConst='false' >
+</field>
+<field name='mTextField' fullname='mongoose.display:TextField/protected:mTextField' type='flash.text:TextField' isStatic='false' isConst='false' >
+</field>
+<field name='mTextTexture' fullname='mongoose.display:TextField/protected:mTextTexture' type='mongoose.display:TextureData' isStatic='false' isConst='false' >
+</field>
+<field name='textWidth' fullname='mongoose.display:TextField/textWidth' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='wordWarp' fullname='mongoose.display:TextField/wordWarp' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<classRec name='InteractiveObject' fullname='mongoose.display:InteractiveObject' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\InteractiveObject.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:Image' isFinal='false' isDynamic='false' >
+<metadata>
+	<Event owner='mongoose.display:InteractiveObject' name='mouseMove' type='flash.events.MouseEvent' >
+	</Event>
+</metadata>
+<metadata>
+	<Event owner='mongoose.display:InteractiveObject' name='mouseDown' type='flash.events.MouseEvent' >
+	</Event>
+</metadata>
+<metadata>
+	<Event owner='mongoose.display:InteractiveObject' name='mouseOut' type='flash.events.MouseEvent' >
+	</Event>
+</metadata>
+<metadata>
+	<Event owner='mongoose.display:InteractiveObject' name='mouseOver' type='flash.events.MouseEvent' >
+	</Event>
+</metadata>
+<metadata>
+	<Event owner='mongoose.display:InteractiveObject' name='mouseClick' type='flash.events.MouseEvent' >
+	</Event>
+</metadata>
+</classRec>
+<method name='InteractiveObject' fullname='mongoose.display:InteractiveObject/InteractiveObject' isStatic='false' isFinal='false' isOverride='false'  param_names='texture' param_types='mongoose.display:TextureData' param_defaults='undefined' result_type='*'>
+</method>
+<method name='addEventListener' fullname='mongoose.display:InteractiveObject/addEventListener' isStatic='false' isFinal='false' isOverride='true'  param_names='type;listener;useCapture;priority;useWeakReference' param_types='String;Function;Boolean;int;Boolean' param_defaults='undefined;undefined;false;0;false' result_type='void'>
+<description><![CDATA[
+
+		 册handle之后,会在每次渲染之前执行。参照flash中的Event.ENTER_FRAME 
+
+		 ]]></description>
+<param><![CDATA[handle
+
+		 
+
+		 ]]></param>
+</method>
+<method name='addHandle' fullname='mongoose.display:InteractiveObject/private:addHandle' isStatic='false' isFinal='false' isOverride='false'  param_names='handle;handles' param_types='Function;Array' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='hitTest' fullname='mongoose.display:InteractiveObject/mongoose.display:hitTest' isStatic='false' isFinal='false' isOverride='false'  param_names='type;x;y' param_types='String;Number;Number' param_defaults='undefined;undefined;undefined' result_type='mongoose.display:InteractiveObject'>
+</method>
+<method name='instric' fullname='mongoose.display:InteractiveObject/protected:instric' isStatic='false' isFinal='false' isOverride='false'  param_names='p0;edge1;edge2' param_types='flash.geom:Vector3D;flash.geom:Vector3D;flash.geom:Vector3D' param_defaults='undefined;undefined;undefined' result_type='Boolean'>
+</method>
+<method name='preRender' fullname='mongoose.display:InteractiveObject/protected:preRender' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='removeEventListener' fullname='mongoose.display:InteractiveObject/removeEventListener' isStatic='false' isFinal='false' isOverride='true'  param_names='type;listener;useCapture' param_types='String;Function;Boolean' param_defaults='undefined;undefined;false' result_type='void'>
+</method>
+<method name='removeHandle' fullname='mongoose.display:InteractiveObject/private:removeHandle' isStatic='false' isFinal='false' isOverride='false'  param_names='handle;handles' param_types='Function;Array' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='triggerEvent' fullname='mongoose.display:InteractiveObject/mongoose.display:triggerEvent' isStatic='false' isFinal='false' isOverride='false'  param_names='type;last' param_types='String;mongoose.display:InteractiveObject' param_defaults='undefined;null' result_type='void'>
+</method>
+<field name='_dx' fullname='mongoose.display:InteractiveObject/private:_dx' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_mouseEnabled' fullname='mongoose.display:InteractiveObject/private:_mouseEnabled' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_passA' fullname='mongoose.display:InteractiveObject/private:_passA' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_passB' fullname='mongoose.display:InteractiveObject/private:_passB' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_pvec' fullname='mongoose.display:InteractiveObject/private:_pvec' type='flash.geom:Vector3D' isStatic='false' isConst='false' >
+</field>
+<field name='_step' fullname='mongoose.display:InteractiveObject/private:_step' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_t' fullname='mongoose.display:InteractiveObject/private:_t' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_triAnglePass' fullname='mongoose.display:InteractiveObject/private:_triAnglePass' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='_u' fullname='mongoose.display:InteractiveObject/private:_u' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='_xPos' fullname='mongoose.display:InteractiveObject/private:_xPos' type='Number' isStatic='false' isConst='false' >
+</field>
+<field name='alphaTest' fullname='mongoose.display:InteractiveObject/alphaTest' type='Boolean' isStatic='false' isConst='false' defaultValue='true' >
+</field>
+<field name='enterFrameHandles' fullname='mongoose.display:InteractiveObject/protected:enterFrameHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='iHit' fullname='mongoose.display:InteractiveObject/mongoose.display:iHit' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='iOver' fullname='mongoose.display:InteractiveObject/mongoose.display:iOver' type='Boolean' isStatic='false' isConst='false' defaultValue='false' >
+</field>
+<field name='iuseMove' fullname='mongoose.display:InteractiveObject/mongoose.display:iuseMove' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='mDir' fullname='mongoose.display:InteractiveObject/protected:mDir' type='flash.geom:Vector3D' isStatic='false' isConst='false' >
+</field>
+<field name='mOrigin' fullname='mongoose.display:InteractiveObject/protected:mOrigin' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mRectangle' fullname='mongoose.display:InteractiveObject/protected:mRectangle' type='flash.geom:Rectangle' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mTarget' fullname='mongoose.display:InteractiveObject/protected:mTarget' type='flash.geom:Vector3D' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mouseClickEventHandles' fullname='mongoose.display:InteractiveObject/protected:mouseClickEventHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mouseDownEventHandles' fullname='mongoose.display:InteractiveObject/protected:mouseDownEventHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mouseEnabled' fullname='mongoose.display:InteractiveObject/mouseEnabled' type='Boolean' isStatic='false' isConst='false' defaultValue='true' >
+</field>
+<field name='mouseMoveEventHandles' fullname='mongoose.display:InteractiveObject/protected:mouseMoveEventHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mouseOutEventHandles' fullname='mongoose.display:InteractiveObject/protected:mouseOutEventHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='mouseOverEventHandles' fullname='mongoose.display:InteractiveObject/protected:mouseOverEventHandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='touchTabEventhandles' fullname='mongoose.display:InteractiveObject/protected:touchTabEventhandles' type='Array' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='uu1' fullname='mongoose.display:InteractiveObject/private:uu1' type='Number' isStatic='false' isConst='false' >
+</field>
+<classRec name='DisplayObjectContainer' fullname='mongoose.display:DisplayObjectContainer' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\DisplayObjectContainer.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:InteractiveObject' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='DisplayObjectContainer' fullname='mongoose.display:DisplayObjectContainer/DisplayObjectContainer' isStatic='false' isFinal='false' isOverride='false'  param_names='texture' param_types='mongoose.display:TextureData' param_defaults='null' result_type='*'>
+</method>
+<method name='addChildAt' fullname='mongoose.display:DisplayObjectContainer/addChildAt' isStatic='false' isFinal='false' isOverride='false'  param_names='child;index' param_types='mongoose.display:DisplayObject;int' param_defaults='undefined;undefined' result_type='mongoose.display:DisplayObject'>
+<description><![CDATA[
+
+		 加一个显示对象到指定位置 
+
+		 ]]></description>
+<param><![CDATA[child 子对象
+
+		 ]]></param>
+<param><![CDATA[index index
+
+		 ]]></param>
+<return><![CDATA[返回对象本身
+
+		 
+
+		 ]]></return>
+</method>
+<method name='addChild' fullname='mongoose.display:DisplayObjectContainer/addChild' isStatic='false' isFinal='false' isOverride='false'  param_names='child' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+
+		 加一个显示对象 
+
+		 ]]></description>
+<param><![CDATA[child
+
+		 
+
+		 ]]></param>
+</method>
+<method name='contains' fullname='mongoose.display:DisplayObjectContainer/contains' isStatic='false' isFinal='false' isOverride='false'  param_names='child' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='Boolean'>
+<description><![CDATA[
+
+		 否包含子对象，如果是返回true，否则返回falsh 
+
+		 ]]></description>
+<param><![CDATA[child 添加的对象
+
+		 ]]></param>
+<return><![CDATA[true\false
+
+		 
+
+		 ]]></return>
+</method>
+<method name='getChildAt' fullname='mongoose.display:DisplayObjectContainer/getChildAt' isStatic='false' isFinal='false' isOverride='false'  param_names='index' param_types='uint' param_defaults='undefined' result_type='mongoose.display:DisplayObject'>
+<description><![CDATA[
+
+		 取指定位置的显示对象 
+
+		 ]]></description>
+<param><![CDATA[index
+
+		 ]]></param>
+<return><![CDATA[
+
+		 
+
+		 ]]></return>
+</method>
+<method name='getChildIndex' fullname='mongoose.display:DisplayObjectContainer/getChildIndex' isStatic='false' isFinal='false' isOverride='false'  param_names='child' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='int'>
+<description><![CDATA[
+
+		 回子对象的位置 
+
+		 ]]></description>
+<param><![CDATA[child
+
+		 ]]></param>
+<return><![CDATA[
+
+		 
+
+		 ]]></return>
+</method>
+<method name='hitTest' fullname='mongoose.display:DisplayObjectContainer/mongoose.display:hitTest' isStatic='false' isFinal='false' isOverride='true'  param_names='type;x;y' param_types='String;Number;Number' param_defaults='undefined;undefined;undefined' result_type='mongoose.display:InteractiveObject'>
+</method>
+<method name='removeChildAt' fullname='mongoose.display:DisplayObjectContainer/removeChildAt' isStatic='false' isFinal='false' isOverride='false'  param_names='index' param_types='int' param_defaults='undefined' result_type='mongoose.display:DisplayObject'>
+<description><![CDATA[
+
+		 除一个指定位置的显示对象 
+
+		 ]]></description>
+<param><![CDATA[index
+
+		 ]]></param>
+<return><![CDATA[
+
+		 
+
+		 ]]></return>
+</method>
+<method name='removeChild' fullname='mongoose.display:DisplayObjectContainer/removeChild' isStatic='false' isFinal='false' isOverride='false'  param_names='object' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='void'>
+<description><![CDATA[
+
+		 除一个子对象 
+
+		 ]]></description>
+<param><![CDATA[object
+
+		 
+
+		 ]]></param>
+</method>
+<method name='removeChildren' fullname='mongoose.display:DisplayObjectContainer/removeChildren' isStatic='false' isFinal='false' isOverride='false'  param_names='beginIndex;endIndex' param_types='int;int' param_defaults='0;2147483647' result_type='void'>
+<description><![CDATA[
+
+		 除指定范围内的子对象 
+
+		 ]]></description>
+<param><![CDATA[beginIndex
+
+		 ]]></param>
+<param><![CDATA[endIndex
+
+		 
+
+		 ]]></param>
+</method>
+<method name='render' fullname='mongoose.display:DisplayObjectContainer/render' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='setChildIndex' fullname='mongoose.display:DisplayObjectContainer/setChildIndex' isStatic='false' isFinal='false' isOverride='false'  param_names='child;index' param_types='mongoose.display:DisplayObject;int' param_defaults='undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 置子对象到指定位置 
+
+		 ]]></description>
+<param><![CDATA[child 
+
+		 ]]></param>
+<param><![CDATA[index
+
+		 
+
+		 ]]></param>
+</method>
+<method name='sortOn' fullname='mongoose.display:DisplayObjectContainer/sortOn' isStatic='false' isFinal='false' isOverride='false'  param_names='name;param' param_types='String;int' param_defaults='undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 照Array.sortOn 
+
+		 ]]></description>
+<param><![CDATA[name 
+
+		 ]]></param>
+<param><![CDATA[param
+
+		 
+
+		 ]]></param>
+</method>
+<method name='swapChildrenAt' fullname='mongoose.display:DisplayObjectContainer/swapChildrenAt' isStatic='false' isFinal='false' isOverride='false'  param_names='index1;index2' param_types='int;int' param_defaults='undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 换两个位置上的子对象 
+
+		 ]]></description>
+<param><![CDATA[index1
+
+		 ]]></param>
+<param><![CDATA[index2
+
+		 
+
+		 ]]></param>
+</method>
+<method name='swapChildren' fullname='mongoose.display:DisplayObjectContainer/swapChildren' isStatic='false' isFinal='false' isOverride='false'  param_names='child1;child2' param_types='mongoose.display:DisplayObject;mongoose.display:DisplayObject' param_defaults='undefined;undefined' result_type='void'>
+<description><![CDATA[
+
+		 换两个显示对象的位置 
+
+		 ]]></description>
+<param><![CDATA[child1 对象1
+
+		 ]]></param>
+<param><![CDATA[child2 对象2
+
+		 
+
+		 ]]></param>
+</method>
+<method name='numChildren' fullname='mongoose.display:DisplayObjectContainer/numChildren/get' isStatic='false' isFinal='false' isOverride='false'  result_type='Number'>
+<description><![CDATA[
+
+		 回子对象数量 
+
+		 ]]></description>
+<return><![CDATA[
+
+		 
+
+		 ]]></return>
+</method>
+<field name='_hitObj' fullname='mongoose.display:DisplayObjectContainer/private:_hitObj' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_object' fullname='mongoose.display:DisplayObjectContainer/private:_object' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_prevObj' fullname='mongoose.display:DisplayObjectContainer/private:_prevObj' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='_sortBy' fullname='mongoose.display:DisplayObjectContainer/private:_sortBy' type='String' isStatic='false' isConst='false' defaultValue='z' >
+</field>
+<field name='_sortParam' fullname='mongoose.display:DisplayObjectContainer/private:_sortParam' type='int' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='_step' fullname='mongoose.display:DisplayObjectContainer/private:_step' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='enableSort' fullname='mongoose.display:DisplayObjectContainer/enableSort' type='Boolean' isStatic='false' isConst='false' >
+</field>
+<field name='iTestObject' fullname='mongoose.display:DisplayObjectContainer/mongoose.display:iTestObject' type='mongoose.display:InteractiveObject' isStatic='false' isConst='false' >
+</field>
+<field name='mChilds' fullname='mongoose.display:DisplayObjectContainer/protected:mChilds' type='Array' isStatic='false' isConst='false' >
+</field>
+<field name='mouseChildren' fullname='mongoose.display:DisplayObjectContainer/mouseChildren' type='Boolean' isStatic='false' isConst='false' defaultValue='true' >
+</field>
+<classRec name='Sprite2D' fullname='mongoose.display:Sprite2D' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\Sprite2D.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:DisplayObjectContainer' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='Sprite2D' fullname='mongoose.display:Sprite2D/Sprite2D' isStatic='false' isFinal='false' isOverride='false'  param_names='texture' param_types='mongoose.display:TextureData' param_defaults='null' result_type='*'>
+</method>
+<method name='buildProgram' fullname='mongoose.display:Sprite2D/protected:buildProgram' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='draw' fullname='mongoose.display:Sprite2D/protected:draw' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='generateFilterShader' fullname='mongoose.display:Sprite2D/private:generateFilterShader' isStatic='false' isFinal='false' isOverride='false'  result_type='String'>
+</method>
+<method name='filters' fullname='mongoose.display:Sprite2D/filters/set' isStatic='false' isFinal='false' isOverride='false'  param_names='filter' param_types='Array' param_defaults='undefined' result_type='void'>
+</method>
+<field name='_mid' fullname='mongoose.display:Sprite2D/private:_mid' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='_step' fullname='mongoose.display:Sprite2D/private:_step' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mFilters' fullname='mongoose.display:Sprite2D/protected:mFilters' type='Array' isStatic='false' isConst='false' >
+</field>
+<field name='mSpriteProgram' fullname='mongoose.display:Sprite2D/protected:mSpriteProgram' type='flash.display3D:Program3D' isStatic='false' isConst='false' >
+</field>
+<classRec name='MovieClip' fullname='mongoose.display:MovieClip' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\display\MovieClip.as' namespace='mongoose.display' access='public' baseclass='mongoose.display:Sprite2D' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='MovieClip' fullname='mongoose.display:MovieClip/MovieClip' isStatic='false' isFinal='false' isOverride='false'  param_names='frames;fps' param_types='Vector$mongoose.display:TextureData;uint' param_defaults='undefined;60' result_type='*'>
+</method>
+<method name='gotoAndPlay' fullname='mongoose.display:MovieClip/gotoAndPlay' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='uint' param_defaults='undefined' result_type='void'>
+</method>
+<method name='gotoAndStop' fullname='mongoose.display:MovieClip/gotoAndStop' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='uint' param_defaults='undefined' result_type='void'>
+</method>
+<method name='play' fullname='mongoose.display:MovieClip/play' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='preRender' fullname='mongoose.display:MovieClip/protected:preRender' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='stop' fullname='mongoose.display:MovieClip/stop' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='updateFrame' fullname='mongoose.display:MovieClip/protected:updateFrame' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='currentFrame' fullname='mongoose.display:MovieClip/currentFrame/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='totalFrames' fullname='mongoose.display:MovieClip/totalFrames/get' isStatic='false' isFinal='false' isOverride='false'  result_type='uint'>
+</method>
+<method name='fps' fullname='mongoose.display:MovieClip/fps/set' isStatic='false' isFinal='false' isOverride='false'  param_names='value' param_types='uint' param_defaults='undefined' result_type='void'>
+</method>
+<field name='_ff' fullname='mongoose.display:MovieClip/private:_ff' type='int' isStatic='false' isConst='false' >
+</field>
+<field name='_tf' fullname='mongoose.display:MovieClip/private:_tf' type='int' isStatic='false' isConst='false' >
+</field>
+<field name='mCurrentFrame' fullname='mongoose.display:MovieClip/protected:mCurrentFrame' type='int' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<field name='mFps' fullname='mongoose.display:MovieClip/protected:mFps' type='uint' isStatic='false' isConst='false' >
+</field>
+<field name='mFrameData' fullname='mongoose.display:MovieClip/protected:mFrameData' type='Vector$mongoose.display:TextureData' isStatic='false' isConst='false' >
+</field>
+<field name='mPause' fullname='mongoose.display:MovieClip/protected:mPause' type='Boolean' isStatic='false' isConst='false' defaultValue='false' >
+</field>
+<field name='mTotalFrames' fullname='mongoose.display:MovieClip/protected:mTotalFrames' type='uint' isStatic='false' isConst='false' defaultValue='0' >
+</field>
+<classRec name='Camera' fullname='mongoose.core:Camera' sourcefile='D:\SVNProject\Mongoose2D_MainLine\src\mongoose\core\Camera.as' namespace='mongoose.core' access='public' baseclass='mongoose.display:BaseObject' isFinal='false' isDynamic='false' >
+</classRec>
+<method name='Camera' fullname='mongoose.core:Camera/Camera' isStatic='false' isFinal='false' isOverride='false'  result_type='*'>
+</method>
+<method name='capture' fullname='mongoose.core:Camera/capture' isStatic='false' isFinal='false' isOverride='false'  result_type='void'>
+</method>
+<method name='enterFrameEvent' fullname='mongoose.core:Camera/enterFrameEvent' isStatic='false' isFinal='false' isOverride='false'  param_names='name;handle' param_types='String;Function' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='preRender' fullname='mongoose.core:Camera/protected:preRender' isStatic='false' isFinal='false' isOverride='true'  result_type='void'>
+</method>
+<method name='removeEnterFrameEvent' fullname='mongoose.core:Camera/removeEnterFrameEvent' isStatic='false' isFinal='false' isOverride='false'  param_names='name;handle' param_types='String;Function' param_defaults='undefined;undefined' result_type='void'>
+</method>
+<method name='watch' fullname='mongoose.core:Camera/watch' isStatic='false' isFinal='false' isOverride='false'  param_names='scale' param_types='mongoose.display:DisplayObject' param_defaults='undefined' result_type='void'>
+</method>
+<method name='active' fullname='mongoose.core:Camera/active/set' isStatic='false' isFinal='false' isOverride='false'  param_names='identity' param_types='Boolean' param_defaults='undefined' result_type='void'>
+</method>
+<field name='current' fullname='mongoose.core:Camera/current' type='mongoose.core:Camera' isStatic='true' isConst='false' >
+</field>
+<field name='mHandleMap' fullname='mongoose.core:Camera/protected:mHandleMap' type='flash.utils:Dictionary' isStatic='false' isConst='false' defaultValue='unknown' >
+</field>
+<field name='matrix' fullname='mongoose.core:Camera/matrix' type='flash.geom:Matrix3D' isStatic='false' isConst='false' >
+</field>
+<field name='stage' fullname='mongoose.core:Camera/stage' type='flash.display:Stage' isStatic='true' isConst='false' >
+</field>
+<field name='target' fullname='mongoose.core:Camera/target' type='mongoose.display:DisplayObject' isStatic='false' isConst='false' >
+</field>
+</asdoc>
