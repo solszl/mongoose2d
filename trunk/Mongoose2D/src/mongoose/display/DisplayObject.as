@@ -92,20 +92,7 @@ package mongoose.display
 			mConstrants[7]=1;
         }
 		
-        override protected function preRender() : void
-        {
-			depth=z+_tempDepth;
-			_tempColor=color-_remColor;
-			_remColor=color;
-			_remAlpha=alpha;
-			if(_tempColor!=0)
-			{
-				r=mConstrants[4]=(color>>16)*_colorRecip;
-				g=mConstrants[5]=(color>>8&0xff)*_colorRecip;
-				b=mConstrants[6]=(color&0xff)*_colorRecip;
-			}
-			mConstrants[7]=alpha;
-        }
+        
 		/**
 		 *设置显示对象的注册点 
 		 * @param x
@@ -160,6 +147,19 @@ package mongoose.display
 		}
         protected function composeMatrix() : void
         {
+			depth=z+_tempDepth;
+			_tempColor=color-_remColor;
+			_remColor=color;
+			_remAlpha=alpha;
+			if(_tempColor!=0)
+			{
+				r=mConstrants[4]=(color>>16)*_colorRecip;
+				g=mConstrants[5]=(color>>8&0xff)*_colorRecip;
+				b=mConstrants[6]=(color&0xff)*_colorRecip;
+			}
+			mConstrants[7]=alpha;
+			
+			
             mOutMatrix.identity();
 			
 			//var tx:Number,ty:Number,tz:Number;
