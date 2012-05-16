@@ -13,8 +13,13 @@ package mongoose.display
     public class DisplayObject extends BaseObject
     {
 		static public var INSTANCE_NUM:uint;
-		
+		/**
+		 * 深度
+		 */		
 		public var depth:Number;
+		/**
+		 *是否显示,注:visible=false的时候是不会提交渲染的. 
+		 */		
 		public var visible:Boolean=true;
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
@@ -94,7 +99,7 @@ package mongoose.display
 		
         
 		/**
-		 *设置显示对象的注册点 
+		 *设置显示对象的注册点,数值范围是 归一化的.例如，注册点设置到中心位置setRegisterPoint(-.5,.5,0) 
 		 * @param x
 		 * @param y
 		 * @param z

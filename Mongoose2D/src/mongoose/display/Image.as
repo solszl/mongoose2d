@@ -163,6 +163,11 @@ package mongoose.display
 				CURRENT_INDEX_BUFFER.uploadFromVector(indexBufferData, 0, BATCH_NUM*6);
 			}
 		}
+		/**
+		 *为显示对象指定一个TextureData。这样才能称它为显示对象. 
+		 * @param texture
+		 * 
+		 */		
 		public function setTexture(texture:TextureData) : void
 		{
 			if(texture==null)
