@@ -13,6 +13,7 @@ package mongoose.display
 	[Event(name="mouseOut", type="flash.events.MouseEvent")]
 	[Event(name="mouseDown", type="flash.events.MouseEvent")]
 	[Event(name="mouseMove", type="flash.events.MouseEvent")]
+	[Event(name="enterFrame", type="flash.events.Event")]
     public class InteractiveObject extends Image
     {
 		public var mouseEnabled:Boolean=true;
