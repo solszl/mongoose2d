@@ -191,7 +191,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageClick);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
 			stage.addEventListener(TouchEvent.TOUCH_TAP,onTabTouch);
 			stage.addEventListener(TouchEvent.TOUCH_BEGIN,onTabTouch);
 			Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
