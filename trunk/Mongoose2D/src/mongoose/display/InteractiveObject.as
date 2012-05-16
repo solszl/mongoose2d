@@ -52,10 +52,13 @@ package mongoose.display
 		internal var iHit:Boolean;
 		
 		private var _triAnglePass:Boolean;
-		private var _step:uint;
+		private var _step:uint,_len:uint;
 		internal var iuseMove:Boolean;
 		public var alphaTest:Boolean=true;
 		protected var mRectangle:Rectangle=new Rectangle;
+		
+		
+		protected var eventHandels:Dictionary=new Dictionary;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -77,28 +80,19 @@ package mongoose.display
 			{
 				case MouseEvent.CLICK:
 					
-					addHandle(listener,mouseClickEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_DOWN:
-					addHandle(listener,mouseDownEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_OVER:
-					iuseMove=true;
-					addHandle(listener,mouseOverEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_OUT:
-					iuseMove=true;
-					addHandle(listener,mouseOutEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_MOVE:
-					iuseMove=true;
-					addHandle(listener,mouseMoveEventHandles);
-					break;
+					
 				case Event.ENTER_FRAME:
-					addHandle(listener,enterFrameHandles);
-					break;
+					
 				case TouchEvent.TOUCH_TAP:
-					addHandle(listener,touchTabEventhandles);
+					addHandle(type,listener);
 					break;
 				default:
 					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
@@ -111,25 +105,19 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					removeHandle(listener,mouseClickEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_DOWN:
-					removeHandle(listener,mouseDownEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_OUT:
-					removeHandle(listener,mouseOutEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_OVER:
-					removeHandle(listener,mouseOverEventHandles);
-					break;
+					
 				case MouseEvent.MOUSE_MOVE:
-					removeHandle(listener,mouseMoveEventHandles);
-					break;
+					
 				case Event.ENTER_FRAME:
-					removeHandle(listener,enterFrameHandles);
-					break;
+					
 				case TouchEvent.TOUCH_TAP:
-					removeHandle(listener,touchTabEventhandles);
+					removeHandle(type,listener);
 					break;
 				default:
 					super.removeEventListener(type,listener,useCapture);
@@ -226,28 +214,44 @@ package mongoose.display
 			}
 		}
 		
-		private function addHandle(handle:Function,handles:Array):void
+		private function addHandle(type:String,handle:Function):void
 		{
-			var step:uint=0;
-			while(step<handles.length)
+			if(eventHandels[type]==null)
 			{
-				if(handles[step]==handle)
-					return;
-				step++;
+				eventHandels[type]=[];
+				eventHandels[type].push(handle);
 			}
-			handles.push(handle);
-		}
-		private function removeHandle(handle:Function,handles:Array):void
-		{
-			var step:uint=0;
-			while(step<handles.length)
+			else
 			{
-				if(handles[step]==handle)
+				_step=0;
+				
+				var handles:Array=eventHandels[type];
+				_len=handles.length;
+				while(_step<_len)
 				{
-					handles.splice(step,1);
+					if(handles[_step]==handle)
+					{
+						return;
+					}
+					_step++;
+				}
+				eventHandels[type].push(handle);
+			}
+		}
+		private function removeHandle(type:String,handle:Function):void
+		{
+			var handles:Array=eventHandels[type];
+			if(handles==null)return;
+			_step=0;
+			_len=handles.length;
+			while(_step<_len)
+			{
+				if(handles[_step]==handle)
+				{
+					handles.splice(_step,1);
 					return;
 				}
-				step++;
+				_step++;
 			}
 		}
 		
@@ -290,71 +294,59 @@ package mongoose.display
 		}
 		internal function triggerEvent(type:String,last:InteractiveObject=null):void
 		{
-			var step:int;
+			
+			var handles:Array=eventHandels[type];
+			if(handles==null)return;
 			switch(type)
 			{
 				case MouseEvent.MOUSE_DOWN:
-					step=0;
-					while(step<mouseDownEventHandles.length)
-					{
-						mouseDownEventHandles[step](this);
-						step++;
-					}
-					break;
+				case TouchEvent.TOUCH_TAP:
 				case MouseEvent.CLICK:
-					step=0;
-					while(step<mouseClickEventHandles.length)
+					_step=0;
+					while(_step<handles.length)
 					{
-						mouseClickEventHandles[step](this);
-						step++;
+						handles[_step](this);
+						_step++;
 					}
 					break;
 				case MouseEvent.MOUSE_OVER:
-					step=0;
+					_step=0;
 					if(iOver==false)
 					{
-						while(step<mouseOverEventHandles.length)
+						while(_step<handles.length)
 						{
-							mouseOverEventHandles[step](this);
-							step++;
+							handles[_step](this);
+							_step++;
 						}
 						iOver=true;
 					}
 					
 					break;
 				case MouseEvent.MOUSE_OUT:
-					step=0;
+					_step=0;
 					if(iOver==true)
 					{
-						while(step<mouseOutEventHandles.length)
+						while(_step<handles.length)
 						{
-							mouseOutEventHandles[step](this);
-							step++;
+							handles[_step](this);
+							_step++;
 						}
 						iOver=false;
 					}
 					break;
-				case TouchEvent.TOUCH_TAP:
-					step=0;
-					while(step<touchTabEventhandles.length)
-					{
-						touchTabEventhandles[step](this);
-						step++;
-					}
-					
-					break;
+			
 				case MouseEvent.MOUSE_MOVE:
-					step=0;
+					_step=0;
 					
 					if(iOver==false&&iHit)
 					{
 						triggerEvent(MouseEvent.MOUSE_OVER);
 						iOver=true;
 					};
-					while(step<mouseMoveEventHandles.length)
+					while(_step<handles.length)
 					{
-						mouseMoveEventHandles[step](this);
-						step++;
+						handles[_step](this);
+						_step++;
 					}
 					break;
 			}
