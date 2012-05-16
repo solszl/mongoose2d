@@ -56,9 +56,6 @@ package mongoose.display
 		internal var iuseMove:Boolean;
 		public var alphaTest:Boolean=true;
 		protected var mRectangle:Rectangle=new Rectangle;
-		
-		
-		protected var eventHandels:Dictionary=new Dictionary;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -80,19 +77,28 @@ package mongoose.display
 			{
 				case MouseEvent.CLICK:
 					
-					
+					addHandle(listener,mouseClickEventHandles);
+					break;
 				case MouseEvent.MOUSE_DOWN:
-					
+					addHandle(listener,mouseDownEventHandles);
+					break;
 				case MouseEvent.MOUSE_OVER:
-					
+					iuseMove=true;
+					addHandle(listener,mouseOverEventHandles);
+					break;
 				case MouseEvent.MOUSE_OUT:
-					
+					iuseMove=true;
+					addHandle(listener,mouseOutEventHandles);
+					break;
 				case MouseEvent.MOUSE_MOVE:
-					
+					iuseMove=true;
+					addHandle(listener,mouseMoveEventHandles);
+					break;
 				case Event.ENTER_FRAME:
-					
+					addHandle(listener,enterFrameHandles);
+					break;
 				case TouchEvent.TOUCH_TAP:
-					addHandle(type,listener);
+					addHandle(listener,touchTabEventhandles);
 					break;
 				default:
 					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
@@ -105,19 +111,25 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					
+					removeHandle(listener,mouseClickEventHandles);
+					break;
 				case MouseEvent.MOUSE_DOWN:
-					
+					removeHandle(listener,mouseDownEventHandles);
+					break;
 				case MouseEvent.MOUSE_OUT:
-					
+					removeHandle(listener,mouseOutEventHandles);
+					break;
 				case MouseEvent.MOUSE_OVER:
-					
+					removeHandle(listener,mouseOverEventHandles);
+					break;
 				case MouseEvent.MOUSE_MOVE:
-					
+					removeHandle(listener,mouseMoveEventHandles);
+					break;
 				case Event.ENTER_FRAME:
-					
+					removeHandle(listener,enterFrameHandles);
+					break;
 				case TouchEvent.TOUCH_TAP:
-					removeHandle(type,listener);
+					removeHandle(listener,touchTabEventhandles);
 					break;
 				default:
 					super.removeEventListener(type,listener,useCapture);
@@ -130,10 +142,11 @@ package mongoose.display
 		}
 		override protected function preRender():void
 		{
-			super.preRender();
+			//super.preRender();
 			_step=0;
+			_len=enterFrameHandles.length;
 			
-			while(_step<enterFrameHandles.length)
+			while(_step<_len)
 			{
 				enterFrameHandles[_step](this);
 				_step++;
@@ -214,34 +227,20 @@ package mongoose.display
 			}
 		}
 		
-		private function addHandle(type:String,handle:Function):void
+		private function addHandle(handle:Function,handles:Array):void
 		{
-			if(eventHandels[type]==null)
+			_step=0;
+			_len=handles.length;
+			while(_step<_len)
 			{
-				eventHandels[type]=[];
-				eventHandels[type].push(handle);
+				if(handles[_step]==handle)
+					return;
+				_step++;
 			}
-			else
-			{
-				_step=0;
-				
-				var handles:Array=eventHandels[type];
-				_len=handles.length;
-				while(_step<_len)
-				{
-					if(handles[_step]==handle)
-					{
-						return;
-					}
-					_step++;
-				}
-				eventHandels[type].push(handle);
-			}
+			handles.push(handle);
 		}
-		private function removeHandle(type:String,handle:Function):void
+		private function removeHandle(handle:Function,handles:Array):void
 		{
-			var handles:Array=eventHandels[type];
-			if(handles==null)return;
 			_step=0;
 			_len=handles.length;
 			while(_step<_len)
@@ -292,20 +291,27 @@ package mongoose.display
 			
 		    return _triAnglePass;
 		}
+		
 		internal function triggerEvent(type:String,last:InteractiveObject=null):void
 		{
 			
-			var handles:Array=eventHandels[type];
-			if(handles==null)return;
 			switch(type)
 			{
 				case MouseEvent.MOUSE_DOWN:
-				case TouchEvent.TOUCH_TAP:
+					_step=0;
+					_len=mouseDownEventHandles.length;
+					while(_step<_len)
+					{
+						mouseDownEventHandles[_step](this);
+						_step++;
+					}
+					break;
 				case MouseEvent.CLICK:
 					_step=0;
-					while(_step<handles.length)
+					_len=mouseClickEventHandles.length;
+					while(_step<_len)
 					{
-						handles[_step](this);
+						mouseClickEventHandles[_step](this);
 						_step++;
 					}
 					break;
@@ -313,9 +319,10 @@ package mongoose.display
 					_step=0;
 					if(iOver==false)
 					{
-						while(_step<handles.length)
+						_len=mouseOverEventHandles.length;
+						while(_step<_len)
 						{
-							handles[_step](this);
+							mouseOverEventHandles[_step](this);
 							_step++;
 						}
 						iOver=true;
@@ -326,15 +333,25 @@ package mongoose.display
 					_step=0;
 					if(iOver==true)
 					{
-						while(_step<handles.length)
+						_len=mouseOutEventHandles.length;
+						while(_step<_len)
 						{
-							handles[_step](this);
+							mouseOutEventHandles[_step](this);
 							_step++;
 						}
 						iOver=false;
 					}
 					break;
-			
+				case TouchEvent.TOUCH_TAP:
+					_step=0;
+					_len=touchTabEventhandles.length;
+					while(_step<_len)
+					{
+						touchTabEventhandles[_step](this);
+						_step++;
+					}
+					
+					break;
 				case MouseEvent.MOUSE_MOVE:
 					_step=0;
 					
@@ -343,9 +360,10 @@ package mongoose.display
 						triggerEvent(MouseEvent.MOUSE_OVER);
 						iOver=true;
 					};
-					while(_step<handles.length)
+					_len=mouseMoveEventHandles.length;
+					while(_step<_len)
 					{
-						handles[_step](this);
+						mouseMoveEventHandles[_step](this);
 						_step++;
 					}
 					break;
