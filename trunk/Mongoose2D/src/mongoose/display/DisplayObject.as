@@ -27,8 +27,8 @@ package mongoose.display
         public var parent:DisplayObjectContainer;
         public var color:Number = 0xffffff;
         public var alpha:Number = 1;
-        public var width:Number = 0;
-        public var height:Number = 0;
+        private  var _width:Number = 0;
+        private  var _height:Number = 0;
 		
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
@@ -79,6 +79,7 @@ package mongoose.display
 		
 		private var _tempX:Number,_tempY:Number,_tempZ:Number;
 		private var _tempColor:uint;
+		private var _twidth:Number,_theight:Number;
         public function DisplayObject()
         {
 			id=INSTANCE_NUM++;
@@ -96,8 +97,24 @@ package mongoose.display
 			mConstrants[6]=1;
 			mConstrants[7]=1;
         }
-		
-        
+		public function set width(value:Number):void
+		{
+			_width=value;
+			_twidth=_width/mOriginWidth*scaleX;
+		}
+        public function get width():Number
+		{
+			return _width;
+		}
+		public function set height(value:Number):void
+		{
+			_height=value;
+			_theight=_height/mOriginHeight*scaleY
+		}
+		public function get height():Number
+		{
+			return _height;
+		}
 		/**
 		 *设置显示对象的注册点,数值范围是 归一化的.例如，注册点设置到中心位置setRegisterPoint(-.5,.5,0) 
 		 * @param x
@@ -152,7 +169,7 @@ package mongoose.display
 		}
         protected function composeMatrix() : void
         {
-			depth=z+_tempDepth;
+			/*depth=z+_tempDepth;
 			_tempColor=color-_remColor;
 			_remColor=color;
 			_remAlpha=alpha;
@@ -174,36 +191,26 @@ package mongoose.display
 			_tempY=height-mRemOrignHeight;
 			
 			
-			if(_tempX!=0)
+			if(_tempX!=0||_tempY!=0)
 			{
 				
-				mMatrix3D.prependScale(width/mRemOrignWidth,1, 1);
+				mMatrix3D.prependScale(width/mRemOrignWidth,height/mRemOrignHeight, 1);
 				mRemOrignWidth=width;
-				
+				mRemOrignHeight=height;
 				//trace("尺寸缩放x")
 			}	
-			if(_tempY!=0)
-			{
-				
-				mMatrix3D.prependScale(1,height/mRemOrignHeight, 1);
-				//trace("尺寸缩放y")
-				mRemOrignHeight=height;
-			}  
+			
 			//-----------------------直接缩放------------------------------------
 			_tempX=scaleX-_remScaleX;
 			_tempY=scaleY-_remScaleY;
 			_remScaleX=scaleX;
 			_remScaleY=scaleY;
-			if(_tempX!=0)
+			if(_tempX!=0||_tempY!=0)
 			{
-				mMatrix3D.prependScale(_tempX+1,1, 1);
+				mMatrix3D.prependScale(_tempX+1,_tempY+1, 1);
 				//trace("直接缩放x")
 			}	
-			if(_tempY!=0)
-			{
-				mMatrix3D.prependScale(1,_tempX+1, 1);
-				//trace("直接缩放y")
-			}  
+			
 			//--------------------------------------------------------
 			_tempX=rotateX-_remRotX;
 			_tempY=rotateY-_remRotY;
@@ -237,28 +244,18 @@ package mongoose.display
 			_remX=x;
 			_remY=y;
 			_remZ=z;
-			if(_tempX!=0)
+			if(_tempX!=0||_tempY!=0||_tempZ!=0)
 			{
 				_tempX=_tempX*mWidthRecipDbl;
-				mMatrix3D.appendTranslation(_tempX,0, 0);
+				_tempY=_tempY*mHeightRecipDbl*world.scale;
+				_tempZ=_tempZ*_zScale;
+				mMatrix3D.appendTranslation(_tempX,-_tempY, _tempZ);
 				mRotPivot.x+=_tempX;
+				mRotPivot.y-=_tempY;
+				mRotPivot.z+=_tempZ;
 				//trace("位移x")
 			}	
-			if(_tempY!=0)
-			{
-				_tempY=_tempY*mHeightRecipDbl*world.scale;
-				mMatrix3D.appendTranslation(0,-_tempY, 0);
-				mRotPivot.y-=_tempY;
-				//trace("位移y")
-			}  
-			if(_tempZ!=0)
-			{
-				_tempZ=_tempZ*_zScale;
-				mMatrix3D.appendTranslation(0,0, _tempZ);
-				mRotPivot.z+=_tempZ;
-				//trace("位移z")
-			} 
-			
+
             mOutMatrix.append(mBaseMatrix);
             mOutMatrix.append(mMatrix3D);
             if (parent != null)
@@ -276,7 +273,31 @@ package mongoose.display
 			{
 				this.alpha=_remAlpha;
 				//mConstrants[7]=this.alpha;
+			}*/
+			depth=z+_tempDepth;
+			_tempColor=color-_remColor;
+			_remColor=color;
+			_remAlpha=alpha;
+			if(_tempColor!=0)
+			{
+				r=mConstrants[4]=(color>>16)*_colorRecip;
+				g=mConstrants[5]=(color>>8&0xff)*_colorRecip;
+				b=mConstrants[6]=(color&0xff)*_colorRecip;
 			}
+			mConstrants[7]=alpha;
+			
+			mOutMatrix.identity();
+			mMatrix3D.identity();
+			mMatrix3D.prependScale(_twidth,_theight,1);
+			if(rotateX!=0)
+				mMatrix3D.appendRotation(rotateX, Vector3D.X_AXIS, mRotPivot);
+			if(rotateY!=0)
+				mMatrix3D.appendRotation(rotateY, Vector3D.Y_AXIS, mRotPivot);
+			if(rotateZ!=0)
+				mMatrix3D.appendRotation(rotateZ, Vector3D.Z_AXIS, mRotPivot);
+			mMatrix3D.appendTranslation(x*mWidthRecipDbl,-y*mHeightRecipDbl*world.scale,z*_zScale);
+			mOutMatrix.append(mBaseMatrix);
+			mOutMatrix.append(mMatrix3D);
         }// end function
 		internal function getRed():Number
 		{
