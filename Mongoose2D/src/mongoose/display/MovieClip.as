@@ -36,14 +36,32 @@ package mongoose.display
 		public function set fps(value:uint):void{this.mFps=value;_ff=Math.round(60/mFps)}
 	    override protected function preRender():void
 		{
-			
+			super.preRender();
 			if(_tf==_ff)
 			{
-				updateFrame();
+				if(!mPause)
+				{
+					mCurrentFrame++;
+					//trace("go")
+				}
+				else
+				{
+					return;
+				}
+				if(mCurrentFrame<1)
+				{
+					mCurrentFrame=1;
+				}
+				if(mCurrentFrame>mTotalFrames)
+				{
+					mCurrentFrame=1;
+				}
+				
+				setTexture(mFrameData[mCurrentFrame-1]);;
 				_tf=0;
 			}	
 			_tf++;
-			super.preRender();
+			
 		}
 		public function get currentFrame():uint
 		{

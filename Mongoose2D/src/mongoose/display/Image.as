@@ -188,8 +188,8 @@ package mongoose.display
 			
 			mOffsetX = texture.offsetX;
 			mOffsetY = texture.offsetY;
-			mOffsetX = mOffsetX / world.width * 2;
-			mOffsetY = -mOffsetY / world.height * world.scale * 2;
+			//mOffsetX = mOffsetX / world.width * 2;
+			//mOffsetY = -mOffsetY / world.height * world.scale * 2;
 			mConstrants[0]=texture.uvVector[0];
 			mConstrants[1]=texture.uvVector[1];
 			mConstrants[2]=texture.uvVector[2];
@@ -283,11 +283,7 @@ package mongoose.display
 			}
 		}// end function
 		
-		override protected function composeMatrix() : void
-		{
-			super.composeMatrix();
-			mOutMatrix.appendTranslation(mOffsetX, mOffsetY, 0);
-		}// end function
+		
 		
 	}
 }
