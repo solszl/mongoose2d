@@ -286,8 +286,8 @@ package mongoose.display
 				
 			}
 			_click=true;
-           
-			render();
+			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
+			render(mChilds);
 			
 			if(Image.BATCH_INDEX>0)
 			{
@@ -331,15 +331,21 @@ package mongoose.display
 			_sortBy=name;
 			_sortParam=param;
 		}
-        public function render() : void
+        public function render(data:Array) : void
         {
            _step=0;
-           
-			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
+           var obj:DisplayObject;
+			
             while (_step< mChilds.length)
             {
+				obj=mChilds[_step];
+				obj.render();
 				
-                mChilds[_step].render();
+				if(mChilds[_step].mChilds.length>0)
+				{
+					render(mChilds[_step].mChilds)
+				}
+               
 				_step++;
             }
 			

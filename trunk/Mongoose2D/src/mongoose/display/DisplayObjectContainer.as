@@ -5,11 +5,11 @@ package mongoose.display
 
     public class DisplayObjectContainer extends InteractiveObject
     {
-        protected var mChilds:Array;
+        
         public var mouseChildren:Boolean=true;
-		public var enableSort:Boolean;
-		internal var iTestObject:InteractiveObject;
 		
+		internal var iTestObject:InteractiveObject;
+		public var enableSort:Boolean;
 		
 		private var _sortBy:String="z";
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
@@ -223,19 +223,11 @@ package mongoose.display
 			_sortBy=name;
 			_sortParam=param;
 		}
-        override public function render() : void
-        {
-			_step=0;
-            _len = this.mChilds.length;
-			super.render();
+        override protected function preRender():void
+		{
+			super.preRender();
 			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
-            while (_step< _len)
-            {
-                
-                mChilds[_step].render();
-				_step++;
-            }
-        }
+		}
 		override internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			

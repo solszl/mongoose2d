@@ -34,6 +34,7 @@ package mongoose.display
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
 		
+		internal var mChilds:Array;
 		internal var r:Number,g:Number,b:Number;
        
 		protected var mPivot:Vector3D;
@@ -298,6 +299,7 @@ package mongoose.display
 			mMatrix3D.appendTranslation(x*mWidthRecipDbl,-y*mHeightRecipDbl*world.scale,z*_zScale);
 			mOutMatrix.append(mBaseMatrix);
 			mOutMatrix.append(mMatrix3D);
+			
         }// end function
 		internal function getRed():Number
 		{

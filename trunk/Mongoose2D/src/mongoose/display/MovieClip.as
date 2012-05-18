@@ -8,6 +8,7 @@ package mongoose.display
 	import mongoose.display.Sprite2D;
 	import mongoose.display.TextureData;
 	
+	import mx.messaging.AbstractConsumer;
 	
 
 	public class MovieClip extends Sprite2D
@@ -47,14 +48,10 @@ package mongoose.display
 				{
 					return;
 				}
-				if(mCurrentFrame<1)
-				{
-					mCurrentFrame=1;
-				}
-				if(mCurrentFrame>mTotalFrames)
-				{
-					mCurrentFrame=1;
-				}
+				//!mPause?mCurrentFrame++:return;
+				mCurrentFrame<1?mCurrentFrame=1:mCurrentFrame;
+				mCurrentFrame>mTotalFrames?mCurrentFrame=1:mCurrentFrame;
+				
 				
 				setTexture(mFrameData[mCurrentFrame-1]);;
 				_tf=0;

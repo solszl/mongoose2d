@@ -207,7 +207,6 @@ package mongoose.display
 				{
 					iHit=true;
 				}
-				
 			}
 			else
 			{
@@ -215,7 +214,6 @@ package mongoose.display
 			}
 			if(iHit)
 			{
-				
 				return this;
 			}
 			else
