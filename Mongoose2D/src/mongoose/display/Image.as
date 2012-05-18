@@ -218,17 +218,17 @@ package mongoose.display
 					//"sub ft1.x,ft0.x,fc0.x\n"+
 					//"kil ft1.x\n"+
 					//求方向向量
-					"sub ft1.xyz,fc1.xyz,v2.xyz\n"+
+					//"sub ft1.xyz,fc1.xyz,v2.xyz\n"+
 					//求向量长度
-					"dp3 ft1.xyz,ft1.xyz,ft1.xyz\n"+
+					//"dp3 ft1.xyz,ft1.xyz,ft1.xyz\n"+
 					//缩放长度,光晕大小
-					"mul ft1.xyz,ft1.xyz,fc1.w\n"+
+					//"mul ft1.xyz,ft1.xyz,fc1.w\n"+
 					//计算颜色与长度关系
-					"div ft3,fc0.xyz,ft1.xyz\n"+
-					//颜色强度
-					"pow ft3.xyz,ft3.xyz,fc0.w\n"+
+					//"div ft3,fc0.xyz,ft1.xyz\n"+
+					////颜色强度
+					//"pow ft3.xyz,ft3.xyz,fc0.w\n"+
 					//"nrm ft3.xyz,ft3,xyz\n"+
-					"sat ft3,ft3\n"+
+					//"sat ft3,ft3\n"+
 					
 					//"mul ft0.xyz,ft3.xyz,ft0.xyz\n"+
 					"mov oc ft0\n";
@@ -256,6 +256,7 @@ package mongoose.display
 				context3d.setTextureAt(0, mTexture.texture);
 				CURRENT_TEXTURE=mTexture.texture;
 			}
+
 			if(CURRENT_PROGRAM!=IMAGE_PROGRAM)
 			{
 				context3d.setProgram(IMAGE_PROGRAM);
