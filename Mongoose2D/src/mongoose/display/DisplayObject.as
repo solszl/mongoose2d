@@ -85,7 +85,7 @@ package mongoose.display
         {
 			id=INSTANCE_NUM++;
 			_tempDepth=.00001/id;
-            mRotPivot = new Vector3D(0, 0, 1);
+            mRotPivot = new Vector3D(0, 0, 0);
 			mPivot=new Vector3D(0,0,0);
             mBaseMatrix = new Matrix3D();
 			
