@@ -51,7 +51,15 @@ package mongoose.display
 		private var _mid:uint,_uid:uint;
 		public function Image(texture:TextureData = null)
 		{
-			
+			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
+			selfInit();
+			initBuffer();
+			initProgram();
+			this.setTexture(texture);
+			world.addEventListener(Event.CHANGE,onChange);
+		}// end function
+		private function selfInit():void
+		{
 			if(edge1==null)
 			{
 				v0=new Vector3D(0,0,1);
@@ -60,18 +68,8 @@ package mongoose.display
 				v3=new Vector3D(0,-1,1);
 				edge1=v1.subtract(v0);
 				edge2=v2.subtract(v0);
-				
 				edge3=v3.subtract(v0);
 			}
-			REG_INDEX=SYSTEM_USED_REG+REG_SAVE;
-			this.setTexture(texture);
-			world.addEventListener(Event.CHANGE,onChange);
-			initBuffer();
-			initProgram();
-		}// end function
-		override protected function init():void
-		{
-			super.init();
 			if(VERTEX_SHADER==null)
 			{
 				var vs:String =
@@ -109,6 +107,7 @@ package mongoose.display
 				VERTEX_SHADER=vsa.agalcode;
 			}
 		}
+		
 		private function onChange(e:Event):void
 		{
 			init();
@@ -179,23 +178,19 @@ package mongoose.display
 			
 			if(mOriginWidth!=mTexture.width||mOriginHeight!=mTexture.height)
 			{
-				mOriginWidth = mTexture.width;
-				mOriginHeight = mTexture.height;
-				if(width==0)width=mOriginWidth;
-				if(height==0)height=mOriginHeight;
+				width=mOriginWidth = mTexture.width;
+				height=mOriginHeight = mTexture.height;
 				init();
 			}
 			
 			mOffsetX = texture.offsetX;
 			mOffsetY = texture.offsetY;
-			//mOffsetX = mOffsetX / world.width * 2;
-			//mOffsetY = -mOffsetY / world.height * world.scale * 2;
+			
 			mConstrants[0]=texture.uvVector[0];
 			mConstrants[1]=texture.uvVector[1];
 			mConstrants[2]=texture.uvVector[2];
 			mConstrants[3]=texture.uvVector[3];
 			
-			//context3d.setVertexBufferAt(1, this.mTexture.uvBuffer, 0, "float2");
 		}// end function
 		
 		protected function initProgram() : void

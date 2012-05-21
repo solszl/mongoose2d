@@ -44,13 +44,13 @@ package mongoose.display
         public static var near:Number = 0.1;
         public static var far:Number = 10000;
         public var stage:Stage;
-		public var scale:Number;
+		static public var SCALE:Number;
 		public var width:Number,height:Number;
 		public var context3d:Context3D;
 		public var x:Number=0,y:Number=0;
-		public var iwidthRecipDble:Number;
-		public var iheightRecipDbl:Number;
-		
+		static public var WIDTH_RECIP:Number;
+		static public var HEIGHT_RECIP:Number;
+		static public var Z_SCALE:Number;
 		
 		private var _sortBy:String="depth";
 		private var _sortParam:int=Array.NUMERIC | Array.DESCENDING;
@@ -88,6 +88,7 @@ package mongoose.display
             mCamera.active = true;
             mFps = new FrameRater(65280, true,false);
 			mChilds=[];
+			Z_SCALE=1 / (far - near)
             this.initialize(stage, mRect);
           
         }// end function
@@ -124,9 +125,9 @@ package mongoose.display
 				//context3d.setDepthTest(true,Context3DCompareMode.LESS);
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, perspective, true);
             }
-            scale = height / width;
-			iwidthRecipDble=1/width*2;
-			iheightRecipDbl=1/height*2;
+            SCALE = height / width;
+			WIDTH_RECIP=2/width;
+			HEIGHT_RECIP=2/height*SCALE;
             dispatchEvent(new Event(Event.CHANGE));
         }// end function
         public function removeChild(obj:DisplayObject):void
@@ -234,7 +235,12 @@ package mongoose.display
 			while(_step<mChilds.length)
 			{
 				_obj=mChilds[_step] as InteractiveObject;
-				if(_obj.mouseEnabled==false||_obj.visible==false||(_obj.iuseMove&&type=="mouseMove"))
+				if(_obj==null)
+				{
+					_step++;
+					break;
+				}
+				if(_obj.mouseEnabled==false||_obj.visible==false||(_obj.iuseMove==false&&type=="mouseMove"))
 				{
 					_step++;
 					continue;
@@ -286,8 +292,8 @@ package mongoose.display
 				
 			}
 			_click=true;
-			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
-			render(mChilds);
+           
+			render();
 			
 			if(Image.BATCH_INDEX>0)
 			{
@@ -331,21 +337,15 @@ package mongoose.display
 			_sortBy=name;
 			_sortParam=param;
 		}
-        public function render(data:Array) : void
+        public function render() : void
         {
            _step=0;
-           var obj:DisplayObject;
-			
+           
+			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
             while (_step< mChilds.length)
             {
-				obj=mChilds[_step];
-				obj.render();
 				
-				if(mChilds[_step].mChilds.length>0)
-				{
-					render(mChilds[_step].mChilds)
-				}
-               
+                mChilds[_step].render();
 				_step++;
             }
 			
