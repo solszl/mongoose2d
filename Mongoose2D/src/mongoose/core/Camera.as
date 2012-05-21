@@ -71,7 +71,7 @@ package mongoose.core
             }
           
             this.matrix.appendTranslation(mX, mY, -mZ);
-			this.matrix.appendTranslation(-1, world.scale, 0);
+			this.matrix.appendTranslation(-1, World.SCALE, 1);
             return;
         }// end function
 
