@@ -62,10 +62,10 @@ package mongoose.display
 		{
 			if(edge1==null)
 			{
-				v0=new Vector3D(0,0,1);
-				v1=new Vector3D(1,0,1);
-				v2=new Vector3D(1,-1,1);
-				v3=new Vector3D(0,-1,1);
+				v0=new Vector3D(0,0,0);
+				v1=new Vector3D(1,0,0);
+				v2=new Vector3D(1,-1,0);
+				v3=new Vector3D(0,-1,0);
 				edge1=v1.subtract(v0);
 				edge2=v2.subtract(v0);
 				edge3=v3.subtract(v0);
@@ -129,10 +129,10 @@ package mongoose.display
 					//trace(mid,uid,cid);
 					
 					vertexBufferData.push(
-						0, 0, 1, 0, 0, mid, uid, cid,0,0,1,
-						1, 0, 1, 1, 0, mid, uid, cid,0,0,1,
-						1,-1, 1, 1, 1, mid, uid, cid,0,0,1,
-						0,-1, 1, 0, 1, mid, uid, cid,0,0,1
+						0, 0, 0, 0, 0, mid, uid, cid,0,0,1,
+						1, 0, 0, 1, 0, mid, uid, cid,0,0,1,
+						1,-1, 0, 1, 1, mid, uid, cid,0,0,1,
+						0,-1, 0, 0, 1, mid, uid, cid,0,0,1
 					);
 					step++;
 				}
