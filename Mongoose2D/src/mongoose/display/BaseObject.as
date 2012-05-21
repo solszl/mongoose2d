@@ -33,9 +33,9 @@ package mongoose.display
 
         protected function preRender() : void
         {
-            this.mX = this.x / world.width * 2;
-            this.mY = (-this.y) / world.height * 2 * world.scale;
-            this.mZ = this.z / (World.far - World.near);
+            this.mX = this.x *World.WIDTH_RECIP;
+            this.mY = -this.y*World.HEIGHT_RECIP;
+            this.mZ = this.z*World.Z_SCALE;
             return;
         }// end function
 

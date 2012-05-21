@@ -33,8 +33,8 @@ package mongoose.display
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
+		protected var sortByName:String="z";
 		
-		internal var mChilds:Array;
 		internal var r:Number,g:Number,b:Number;
        
 		protected var mPivot:Vector3D;
@@ -133,24 +133,13 @@ package mongoose.display
         protected function init():void
 		{
 			mBaseMatrix.identity();
-			mMatrix3D.identity();
+			if(mPivot.x||mPivot.y!=0)
 			mBaseMatrix.prependTranslation(mPivot.x,mPivot.y,mPivot.z);
 			
 			
-			mRemOrignWidth=mOriginWidth;
-			mRemOrignHeight=mOriginHeight;
-			_remScaleX=_remScaleY=1;
-			_remX=_remY=_remZ=0;
-			_remRotX=_remRotY=_remRotZ=0;
-			mRotPivot.x=0;
-			mRotPivot.y=0;
-			mRotPivot.z=1;
-			
-			//_widthRecip = world.iwidthRecip;
-			//_heightRecip = world.iheightRecip;
-			mWidthRecipDbl = world.iwidthRecipDble;
-			mHeightRecipDbl = world.iheightRecipDbl;
-			_zScale = 1 / (World.far - World.near);
+			mWidthRecipDbl = World.WIDTH_RECIP;
+			mHeightRecipDbl = World.HEIGHT_RECIP;
+			_zScale = World.Z_SCALE;
 			//----------------------原始缩放计算----------------------
 			
 			if(mOriginWidth!=0)
@@ -162,7 +151,7 @@ package mongoose.display
 			}	
 			if(mOriginHeight!=0)
 			{
-				var ty:Number=mOriginHeight*mHeightRecipDbl*world.scale;
+				var ty:Number=mOriginHeight*mHeightRecipDbl;
 				mBaseMatrix.appendScale(1,ty, 1);
 				//trace("原始缩放y")
 			}  
@@ -170,112 +159,8 @@ package mongoose.display
 		}
         protected function composeMatrix() : void
         {
-			/*depth=z+_tempDepth;
-			_tempColor=color-_remColor;
-			_remColor=color;
-			_remAlpha=alpha;
-			if(_tempColor!=0)
-			{
-				r=mConstrants[4]=(color>>16)*_colorRecip;
-				g=mConstrants[5]=(color>>8&0xff)*_colorRecip;
-				b=mConstrants[6]=(color&0xff)*_colorRecip;
-			}
-			mConstrants[7]=alpha;
 			
-			
-            mOutMatrix.identity();
-			
-			//var tx:Number,ty:Number,tz:Number;
-			
-			//------------------------尺寸缩放计算------------------------------
-			_tempX=width-mRemOrignWidth;
-			_tempY=height-mRemOrignHeight;
-			
-			
-			if(_tempX!=0||_tempY!=0)
-			{
-				
-				mMatrix3D.prependScale(width/mRemOrignWidth,height/mRemOrignHeight, 1);
-				mRemOrignWidth=width;
-				mRemOrignHeight=height;
-				//trace("尺寸缩放x")
-			}	
-			
-			//-----------------------直接缩放------------------------------------
-			_tempX=scaleX-_remScaleX;
-			_tempY=scaleY-_remScaleY;
-			_remScaleX=scaleX;
-			_remScaleY=scaleY;
-			if(_tempX!=0||_tempY!=0)
-			{
-				mMatrix3D.prependScale(_tempX+1,_tempY+1, 1);
-				//trace("直接缩放x")
-			}	
-			
-			//--------------------------------------------------------
-			_tempX=rotateX-_remRotX;
-			_tempY=rotateY-_remRotY;
-			_tempZ=rotateZ-_remRotZ;
-			
-			_remRotX=rotateX;
-			_remRotY=rotateY;
-			_remRotZ=rotateZ;
-			
-			if(_tempX!=0)
-			{
-				mMatrix3D.appendRotation(_tempX, Vector3D.X_AXIS, mRotPivot);
-				//trace("旋转x")
-			}
-			if(_tempY!=0)
-			{
-				mMatrix3D.appendRotation(_tempY, Vector3D.Y_AXIS, mRotPivot);
-				//trace("旋转y")
-			}
-			if(_tempZ!=0)
-			{
-				mMatrix3D.appendRotation(_tempZ, Vector3D.Z_AXIS, mRotPivot);
-				//trace("旋转z")
-			}
-			
-			
-			//---------------------------------------------------------------
-			_tempX=x-_remX;
-			_tempY=y-_remY;
-			_tempZ=z-_remZ;
-			_remX=x;
-			_remY=y;
-			_remZ=z;
-			if(_tempX!=0||_tempY!=0||_tempZ!=0)
-			{
-				_tempX=_tempX*mWidthRecipDbl;
-				_tempY=_tempY*mHeightRecipDbl*world.scale;
-				_tempZ=_tempZ*_zScale;
-				mMatrix3D.appendTranslation(_tempX,-_tempY, _tempZ);
-				mRotPivot.x+=_tempX;
-				mRotPivot.y-=_tempY;
-				mRotPivot.z+=_tempZ;
-				//trace("位移x")
-			}	
-
-            mOutMatrix.append(mBaseMatrix);
-            mOutMatrix.append(mMatrix3D);
-            if (parent != null)
-            {
-				//this.alpha=_alpha*parent.alpha;
-				mConstrants[4]=r*parent.getRed();
-				mConstrants[5]=g*parent.getGreen();
-				mConstrants[6]=b*parent.getBlue();
-				mConstrants[7]=alpha*parent.getAlpha();
-                mParentMatrix3D=parent.getMatrix3D();
-				if(mParentMatrix3D!=null)
-				    mOutMatrix.append(mParentMatrix3D);
-            }
-			else
-			{
-				this.alpha=_remAlpha;
-				//mConstrants[7]=this.alpha;
-			}*/
-			depth=z+_tempDepth;
+			depth=this[sortByName]+_tempDepth;
 			_tempColor=color-_remColor;
 			_remColor=color;
 			_remAlpha=alpha;
@@ -296,11 +181,25 @@ package mongoose.display
 				mMatrix3D.appendRotation(rotateY, Vector3D.Y_AXIS, mRotPivot);
 			if(rotateZ!=0)
 				mMatrix3D.appendRotation(rotateZ, Vector3D.Z_AXIS, mRotPivot);
-			mMatrix3D.appendTranslation(x*mWidthRecipDbl,-y*mHeightRecipDbl*world.scale,z*_zScale);
+			
+			mMatrix3D.appendTranslation(x*mWidthRecipDbl,-y*mHeightRecipDbl,z*_zScale);
 			mOutMatrix.append(mBaseMatrix);
 			mOutMatrix.append(mMatrix3D);
-			
-        }// end function
+			if (parent != null)
+			{
+				mConstrants[4]=r*parent.getRed();
+				mConstrants[5]=g*parent.getGreen();
+				mConstrants[6]=b*parent.getBlue();
+				mConstrants[7]=alpha*parent.getAlpha();
+				mParentMatrix3D=parent.getMatrix3D();
+				mOutMatrix.append(mParentMatrix3D);
+			}
+			else
+			{
+				this.alpha=alpha;
+			}
+			//mOutMatrix.rawData;
+        }
 		internal function getRed():Number
 		{
 			if(parent!=null)
@@ -342,12 +241,11 @@ package mongoose.display
             preRender();
             composeMatrix();
             draw();
-        }// end function
+        }
 
         protected function draw() : void
         {
             
-        }// end function
-
+        }
     }
 }

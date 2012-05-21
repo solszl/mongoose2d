@@ -160,7 +160,7 @@ package mongoose.display
 			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
 			
 			_dx=(x*mWidthRecipDbl-1);
-			_dy=(1-y*mHeightRecipDbl)*world.scale;
+			_dy=World.SCALE-y*mHeightRecipDbl;
 			
 			
 			

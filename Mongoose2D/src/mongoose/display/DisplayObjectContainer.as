@@ -5,13 +5,13 @@ package mongoose.display
 
     public class DisplayObjectContainer extends InteractiveObject
     {
-        
+        protected var mChilds:Array;
         public var mouseChildren:Boolean=true;
-		
-		internal var iTestObject:InteractiveObject;
 		public var enableSort:Boolean;
+		internal var iTestObject:InteractiveObject;
 		
-		private var _sortBy:String="z";
+		
+		
 		private var _sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		
 		private var _prevObj:InteractiveObject;
@@ -39,8 +39,9 @@ package mongoose.display
                 this.mChilds.push(child);
 				
             }
+			
             child.parent = this;
-            dispatchEvent(new Event(Event.ADDED));
+            child.dispatchEvent(new Event(Event.ADDED));
         }
 		/**
 		 *是否包含子对象，如果是返回true，否则返回falsh 
@@ -220,14 +221,24 @@ package mongoose.display
 		 */		
         public function sortOn(name:String,param:int):void
 		{
-			_sortBy=name;
+			sortByName=name;
+			if(this[sortByName]==null)
+				throw new Error("DisplayObjectContainer:"+sortByName+"属性不存在,无法排序");
 			_sortParam=param;
 		}
-        override protected function preRender():void
-		{
-			super.preRender();
-			if(enableSort)mChilds.sortOn(_sortBy,_sortParam);
-		}
+        override public function render() : void
+        {
+			_step=0;
+            _len = this.mChilds.length;
+			super.render();
+			if(enableSort)mChilds.sortOn(sortByName,_sortParam);
+            while (_step< _len)
+            {
+                
+                mChilds[_step].render();
+				_step++;
+            }
+        }
 		override internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
 			
@@ -237,6 +248,11 @@ package mongoose.display
 			while(_step<mChilds.length)
 			{
 				_object=mChilds[_step] as InteractiveObject;
+				if(_object==null)
+				{
+					_step++;
+					continue;
+				}
 				if(_object.mouseEnabled==false||(_object.iuseMove&&type=="mouseMove"))
 				{
 					_step++;
