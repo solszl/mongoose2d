@@ -62,8 +62,8 @@ package mongoose.tools
 											wPos*wLen+wLen ,hPos*hLen+hLen,
 											wPos*wLen,hPos*hLen+hLen
 				                         ]);*/
-				bmp=new TextureData();
-				bmp.bitmapData = bitmap;
+				bmp=new TextureData(bitmap);
+				//bmp.bitmapData = bitmap;
 				bmp.setUVData(new MRectangle(hPos*wLen,wPos*hLen,wLen,hLen));//,new Point(0,0));
 				data.push(bmp);
 			}

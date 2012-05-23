@@ -159,8 +159,8 @@ package mongoose.display
 			if(!mouseEnabled)return null;
 			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
 			
-			_dx=(x*mWidthRecipDbl-1);
-			_dy=World.SCALE-y*mHeightRecipDbl;
+			_dx=(x*World.WIDTH_RECIP-1);
+			_dy=World.SCALE-y*World.HEIGHT_RECIP;
 			
 			
 			
@@ -218,11 +218,7 @@ package mongoose.display
 			}
 			else
 			{
-				if(iOver==true)
-				{
-					triggerEvent(MouseEvent.MOUSE_OUT);
-					iOver=false;
-				}
+				
 				return null;
 			}
 		}
@@ -317,30 +313,26 @@ package mongoose.display
 					break;
 				case MouseEvent.MOUSE_OVER:
 					_step=0;
-					if(iOver==false)
+					_len=mouseOverEventHandles.length;
+					while(_step<_len)
 					{
-						_len=mouseOverEventHandles.length;
-						while(_step<_len)
-						{
-							mouseOverEventHandles[_step](this);
-							_step++;
-						}
-						iOver=true;
+						mouseOverEventHandles[_step](this);
+						_step++;
 					}
-					
+
 					break;
 				case MouseEvent.MOUSE_OUT:
 					_step=0;
-					if(iOver==true)
+					
+					_len=mouseOutEventHandles.length;
+					while(_step<_len)
 					{
-						_len=mouseOutEventHandles.length;
-						while(_step<_len)
-						{
-							mouseOutEventHandles[_step](this);
-							_step++;
-						}
-						iOver=false;
+						mouseOutEventHandles[_step](this);
+						_step++;
 					}
+					iOver=false;
+					
+					
 					break;
 				case TouchEvent.TOUCH_TAP:
 					_step=0;
@@ -354,12 +346,12 @@ package mongoose.display
 					break;
 				case MouseEvent.MOUSE_MOVE:
 					_step=0;
-					
-					if(iOver==false&&iHit)
+					if(!iOver)
 					{
 						triggerEvent(MouseEvent.MOUSE_OVER);
 						iOver=true;
-					};
+					}
+					
 					_len=mouseMoveEventHandles.length;
 					while(_step<_len)
 					{

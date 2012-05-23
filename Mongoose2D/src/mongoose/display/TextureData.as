@@ -32,22 +32,21 @@ package mongoose.display
 		/**
 		 * @param useDefault 是否开启缺省材质
 		 */        
-        public function TextureData(useDefault:Boolean=false)
+        public function TextureData(bd:BitmapData=null)
         {
+			defaultBmp=new BitmapData(16, 16, true, 4294967295);
 			uvVector = Vector.<Number>([0.0, 0.0, 1.0, 1.0]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
 			}
 			
-			if(useDefault)
-			{
-				if (defaultBmp == null)
-					defaultBmp = new BitmapData(16, 16, true, 4294967295);
-				
-				mBitmapData = defaultBmp;
+			
+			if (bd == null)
 				bitmapData = defaultBmp;
-			}
+			else
+				bitmapData = bd;
+			
         }
 
         public function set bitmapData(bmp:BitmapData):void
@@ -79,10 +78,10 @@ package mongoose.display
 			return mBitmapData;
 		}
 
-        public function setUVData(TextureData:MRectangle, offsetPt:MPoint=null):void
+        public function setUVData(rect:MRectangle, offsetPt:MPoint=null):void
         {
-            width = TextureData.width;
-            height = TextureData.height;
+            width = rect.width;
+            height = rect.height;
 			
             var _quadRect:Point=TextureHelper.getTextureDimensionsFromSize(mBitmapData.width, mBitmapData.height);
             
@@ -92,10 +91,10 @@ package mongoose.display
 				offsetY = offsetPt.y;
 			}
             
-            var tx:Number = TextureData.x / _quadRect.x;
-            var ty:Number = TextureData.y / _quadRect.y;
-            var bx:Number = (TextureData.x + width) / _quadRect.x;
-            var by:Number = (TextureData.y + height) / _quadRect.y;
+            var tx:Number = rect.x / _quadRect.x;
+            var ty:Number = rect.y / _quadRect.y;
+            var bx:Number = (rect.x + width) / _quadRect.x;
+            var by:Number = (rect.y + height) / _quadRect.y;
            
 			uvVector[0]=tx;
 			uvVector[1]=ty;

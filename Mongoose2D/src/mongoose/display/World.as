@@ -209,7 +209,7 @@ package mongoose.display
 		}
 		private function onStageClick(e:MouseEvent):void
 		{
-			//_click=false;
+			_click=true;
 			hitTest(e.type,e.stageX,e.stageY);
 			
 		}
@@ -232,51 +232,36 @@ package mongoose.display
 		internal function hitTest(type:String,x:Number,y:Number):void
 		{
 			_step=0;
+			_last=null;
 			while(_step<mChilds.length)
 			{
+				
 				_obj=mChilds[_step] as InteractiveObject;
-				if(_obj==null)
-				{
-					_step++;
-					break;
-				}
-				if(_obj.mouseEnabled==false||_obj.visible==false||(_obj.iuseMove==false&&type=="mouseMove"))
-				{
-					_step++;
-					continue;
-					
-				}
+				
 				if(_obj!=null)
 				{
 					
 					_obj=_obj.hitTest(type,x,y);
 					if(_obj!=null)
 					{
+						
 						_last=_obj;
+						
 					}
 				}
 				_step++;
 			}
-			if(_last!=null)
+			if(_prevObj!=null&&_prevObj!=_last)
 			{
-				//上一个选中对象设置mouseOut
-				if(_prevObj)
-				{
-					_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
-					_prevObj=null;
-				}
-				_last.triggerEvent(type,_prevObj);
-				
-				if(_prevObj!=_last)
-				{
-					_prevObj=_last;
-				}
-				_last=null;
-			}
-			else
-			{
+				_prevObj.triggerEvent(MouseEvent.MOUSE_OUT);
 				_prevObj=null;
 			}
+			if(_last!=null)
+			{
+				_last.triggerEvent(type);
+				_prevObj=_last;
+			}
+			
 		}
         protected function onRender(VERTEX:Event=null) : void
         {
@@ -284,15 +269,13 @@ package mongoose.display
             Camera.current.capture();
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
 			
-			if(_isMove&&_click)
+			if(!_click)
 			{
 				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
 				
-				_isMove=false;
-				
 			}
-			_click=true;
-           
+			_click=false;
+			
 			render();
 			
 			if(Image.BATCH_INDEX>0)
@@ -303,19 +286,18 @@ package mongoose.display
 			}
             context3d.present();
         }
-
-        public function showFps(value:Boolean) : void
-        {
-            if (value)
-            {
-                stage.addChild(mFps);
-            }
-            else if (stage.contains(mFps))
-            {
-                stage.removeChild(mFps);
-            }
-           
-        }
+        public function set showFps(value:Boolean):void
+		{
+			if (value)
+			{
+				stage.addChild(mFps);
+			}
+			else if (stage.contains(mFps))
+			{
+				stage.removeChild(mFps);
+			}
+		}
+       
 		/**
 		 *添加一个显示对象 
 		 * @param object 显示对象
