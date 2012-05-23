@@ -19,6 +19,7 @@ package mongoose.display
 		private var _step:uint,_len:uint;
 		private var _object:InteractiveObject;
 		private var _hitObj:InteractiveObject;
+		
         public function DisplayObjectContainer(texture:TextureData = null)
         {
             mChilds = [];
@@ -39,7 +40,8 @@ package mongoose.display
                 this.mChilds.push(child);
 				
             }
-			
+			if(child.parent!=null)
+				child.parent.removeChild(child);
             child.parent = this;
             child.dispatchEvent(new Event(Event.ADDED));
         }
@@ -241,6 +243,7 @@ package mongoose.display
         }
 		override internal function hitTest(type:String,x:Number,y:Number):InteractiveObject
 		{
+			if(!mouseEnabled||!visible)return null;
 			
 			_step=0;
 			
@@ -253,13 +256,7 @@ package mongoose.display
 					_step++;
 					continue;
 				}
-				if(_object.mouseEnabled==false||(_object.iuseMove&&type=="mouseMove"))
-				{
-					_step++;
-					continue;
-					
-				}
-				if(_object!=null)
+				else
 				{
 					_hitObj=_object.hitTest(type,x,y);
 					if(_hitObj!=null)
@@ -270,6 +267,7 @@ package mongoose.display
 				_step++;
 			}
 			//trace(last)
+			
 			if(last!=null)
 			{
 				return last;
@@ -278,6 +276,7 @@ package mongoose.display
 			{
 				return super.hitTest(type,x,y);
 			}
+			
 		}
 		
     }

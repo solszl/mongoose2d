@@ -27,16 +27,16 @@ package mongoose.display
         public var parent:DisplayObjectContainer;
         public var color:Number = 0xffffff;
         public var alpha:Number = 1;
-        private  var _width:Number = 0;
-        private  var _height:Number = 0;
+        public  var width:Number = 0;
+        public  var height:Number = 0;
 		
         public var rotateX:Number = 0;
         public var rotateY:Number = 0;
         public var rotateZ:Number = 0;
-		protected var sortByName:String="z";
+		
 		
 		internal var r:Number,g:Number,b:Number;
-       
+        protected var sortByName:String="z";
 		protected var mPivot:Vector3D;
 		protected var mMatrix3D:Matrix3D;
 		protected var mMyMatrix:Matrix3D;
@@ -80,10 +80,10 @@ package mongoose.display
 		
 		private var _tempX:Number,_tempY:Number,_tempZ:Number;
 		private var _tempColor:uint;
-		private var _twidth:Number,_theight:Number;
+		
         public function DisplayObject()
         {
-			id=INSTANCE_NUM++;
+			id=++INSTANCE_NUM;
 			_tempDepth=.00001/id;
             mRotPivot = new Vector3D(0, 0, 0);
 			mPivot=new Vector3D(0,0,0);
@@ -98,24 +98,7 @@ package mongoose.display
 			mConstrants[6]=1;
 			mConstrants[7]=1;
         }
-		public function set width(value:Number):void
-		{
-			_width=value;
-			_twidth=_width/mOriginWidth*scaleX;
-		}
-        public function get width():Number
-		{
-			return _width;
-		}
-		public function set height(value:Number):void
-		{
-			_height=value;
-			_theight=_height/mOriginHeight*scaleY
-		}
-		public function get height():Number
-		{
-			return _height;
-		}
+		
 		/**
 		 *设置显示对象的注册点,数值范围是 归一化的.例如，注册点设置到中心位置setRegisterPoint(-.5,.5,0) 
 		 * @param x
@@ -174,7 +157,9 @@ package mongoose.display
 			
 			mOutMatrix.identity();
 			mMatrix3D.identity();
-			mMatrix3D.prependScale(_twidth,_theight,1);
+			mMatrix3D.prependScale(width/mOriginWidth,height/mOriginHeight,1);
+			mMatrix3D.prependScale(scaleX,scaleY,1);
+			
 			if(rotateX!=0)
 				mMatrix3D.appendRotation(rotateX, Vector3D.X_AXIS, mRotPivot);
 			if(rotateY!=0)
