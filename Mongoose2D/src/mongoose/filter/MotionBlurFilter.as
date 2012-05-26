@@ -70,13 +70,13 @@ package mongoose.filter
         
         public function apply(context:Context3D):void
         {
-            context.setProgramConstantsFromVector("fragment", mFragmentIndex, mFilterConst);
-            context.setProgramConstantsFromVector("fragment", mFragmentIndex+1, mFilterConst2);
+            context.setProgramConstantsFromVector("fragment", mFragmentIndex, motionBlurTemp0);
+            context.setProgramConstantsFromVector("fragment", mFragmentIndex+1, motionBlurTemp1);
         }
         
         public function get endPsReg():uint
         {
-            return mFragmentIndex+1;
+            return mFragmentIndex+2;
         }
         
         

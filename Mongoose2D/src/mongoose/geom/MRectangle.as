@@ -11,7 +11,7 @@ package mongoose.geom
             super(x,y);
             this.width = width;
             this.height = height;
-        }// end function
+        }
 
     }
 }
