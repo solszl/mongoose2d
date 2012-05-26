@@ -57,7 +57,7 @@ package mongoose.display
 			initProgram();
 			this.setTexture(texture);
 			world.addEventListener(Event.CHANGE,onChange);
-		}// end function
+		}
 		private function selfInit():void
 		{
 			if(edge1==null)
@@ -191,7 +191,7 @@ package mongoose.display
 			mConstrants[2]=texture.uvVector[2];
 			mConstrants[3]=texture.uvVector[3];
 			
-		}// end function
+		}
 		
 		protected function initProgram() : void
 		{
@@ -233,7 +233,7 @@ package mongoose.display
 				IMAGE_PROGRAM.upload(VERTEX_SHADER, fg.agalcode);
 				
 			}
-		}// end function
+		}
 		
 		override protected function draw() : void
 		{
@@ -277,7 +277,7 @@ package mongoose.display
 			{
 				BATCH_INDEX++;
 			}
-		}// end function
+		}
 		
 		
 		

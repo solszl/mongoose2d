@@ -91,14 +91,14 @@ package mongoose.display
 			Z_SCALE=1 / (far - near)
             this.initialize(stage, mRect);
           
-        }// end function
+        }
        
         public function set fullScreen(mRect:Boolean) : void
         {
             this.mFullScreen = mRect;
             this.onResize();
             return;
-        }// end function
+        }
 
         private function onResize(VERTEX:Event = null) : void
         {
@@ -129,7 +129,7 @@ package mongoose.display
 			WIDTH_RECIP=2/width;
 			HEIGHT_RECIP=2/height*SCALE;
             dispatchEvent(new Event(Event.CHANGE));
-        }// end function
+        }
         public function removeChild(obj:DisplayObject):void
 		{
 			
@@ -150,7 +150,7 @@ package mongoose.display
         public function addCamera(camera:Camera) : void
         {
             return;
-        }// end function
+        }
 
         public function initialize(mRoot:Stage, viewPort:MRectangle) : void
         {
@@ -166,7 +166,7 @@ package mongoose.display
             perspective.perspectiveFieldOfViewLH(mViewAngle, width / height, near, far);
             stage.addEventListener(Event.RESIZE, onResize);
    
-        }// end function
+        }
 
         public function start() : void
         {
@@ -175,7 +175,7 @@ package mongoose.display
             mStage3D.requestContext3D();
             STAGE_USED++;
 
-        }// end function
+        }
    
         protected function onCreate(VERTEX:Event) : void
         {
@@ -201,7 +201,7 @@ package mongoose.display
             dispatchEvent(new Event(Event.COMPLETE));
 			onRender();
 
-        }// end function
+        }
 		private function onTabTouch(e:TouchEvent):void
 		{
 			
@@ -305,9 +305,8 @@ package mongoose.display
 		 */        
         public function addChild(object:DisplayObject) : void
         {
-			
             mChilds.push(object);
-        }// end function
+        }
 		/**
 		 *制定排序索引，参考Array.sortOn ,默认Z排序
 		 * @param name 索引名称

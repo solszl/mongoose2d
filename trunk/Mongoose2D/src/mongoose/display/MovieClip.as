@@ -8,9 +8,6 @@ package mongoose.display
 	import mongoose.display.Sprite2D;
 	import mongoose.display.TextureData;
 	
-	import mx.messaging.AbstractConsumer;
-	
-
 	public class MovieClip extends Sprite2D
 	{
 		

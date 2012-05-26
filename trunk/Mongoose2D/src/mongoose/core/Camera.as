@@ -20,7 +20,7 @@ package mongoose.core
             this.matrix = new Matrix3D();
 			
             return;
-        }// end function
+        }
 
         public function set active(identity:Boolean) : void
         {
@@ -34,7 +34,7 @@ package mongoose.core
                 current = null;
             }
             return;
-        }// end function
+        }
         
 	    public function enterFrameEvent(name:String,handle:Function):void
 		{
@@ -57,7 +57,7 @@ package mongoose.core
         {
             this.target = scale;
             return;
-        }// end function
+        }
 
         public function capture() : void
         {
@@ -73,7 +73,7 @@ package mongoose.core
             this.matrix.appendTranslation(mX, mY, -mZ);
 			this.matrix.appendTranslation(-1, World.SCALE, 1);
             return;
-        }// end function
+        }
 
     }
 }

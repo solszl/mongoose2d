@@ -10,7 +10,7 @@ package mongoose.geom
         {
             this.x = x;
             this.y = y;
-        }// end function
+        }
 
     }
 }
