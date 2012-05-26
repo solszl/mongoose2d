@@ -12,6 +12,7 @@ package mongoose.display
 	[Event(name="mouseOver", type="flash.events.MouseEvent")]
 	[Event(name="mouseOut", type="flash.events.MouseEvent")]
 	[Event(name="mouseDown", type="flash.events.MouseEvent")]
+    [Event(name="mouseUp", type="flash.events.MouseEvent")]
 	[Event(name="mouseMove", type="flash.events.MouseEvent")]
 	[Event(name="enterFrame", type="flash.events.Event")]
     public class InteractiveObject extends Image
@@ -25,6 +26,7 @@ package mongoose.display
         protected var enterFrameHandles:Array=[];
 		protected var mouseClickEventHandles:Array=[];
 		protected var mouseDownEventHandles:Array=[];
+        protected var mouseUpEventHandles:Array=[];
 		protected var mouseOverEventHandles:Array=[];
 		protected var mouseOutEventHandles:Array=[];
 		protected var mouseMoveEventHandles:Array=[];
@@ -84,6 +86,9 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					addHandle(listener,mouseDownEventHandles);
 					break;
+                case MouseEvent.MOUSE_UP:
+                    addHandle(listener,mouseUpEventHandles);
+                    break;
 				case MouseEvent.MOUSE_OVER:
 					iuseMove=true;
 					addHandle(listener,mouseOverEventHandles);
@@ -118,6 +123,9 @@ package mongoose.display
 				case MouseEvent.MOUSE_DOWN:
 					removeHandle(listener,mouseDownEventHandles);
 					break;
+                case MouseEvent.MOUSE_UP:
+                    removeHandle(listener,mouseUpEventHandles);
+                    break;
 				case MouseEvent.MOUSE_OUT:
 					removeHandle(listener,mouseOutEventHandles);
 					break;
@@ -302,6 +310,15 @@ package mongoose.display
 						_step++;
 					}
 					break;
+                case MouseEvent.MOUSE_UP:
+                    _step=0;
+                    _len=mouseUpEventHandles.length;
+                    while(_step<_len)
+                    {
+                        mouseUpEventHandles[_step](this);
+                        _step++;
+                    }
+                    break;
 				case MouseEvent.CLICK:
 					_step=0;
 					_len=mouseClickEventHandles.length;
