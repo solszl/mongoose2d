@@ -192,6 +192,7 @@ package mongoose.display
 			BaseObject.context3d=context3d;
             stage.addEventListener(Event.ENTER_FRAME, this.onRender);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageClick);
+            stage.addEventListener(MouseEvent.MOUSE_UP,onStageClick);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMove);
 			stage.addEventListener(TouchEvent.TOUCH_TAP,onTabTouch);
 			stage.addEventListener(TouchEvent.TOUCH_BEGIN,onTabTouch);
@@ -209,7 +210,10 @@ package mongoose.display
 		}
 		private function onStageClick(e:MouseEvent):void
 		{
-			_click=true;
+            if(e.type == 'mouseDown')
+            {
+			    _click=true;
+            }
 			hitTest(e.type,e.stageX,e.stageY);
 			
 		}
