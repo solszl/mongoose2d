@@ -19,7 +19,6 @@
             this.height = height;
 			setShowSize(width, height);
 		}
-		//-----------------------------------------------------------------
 		override protected function initItem():void 
 		{
 			super.initItem();
@@ -31,18 +30,13 @@
 			super.modelChange(e);
 			updatePage();
 		}
-		//
 		public function updatePage():void
 		{
-			//pageSize  pageCount  currentPage
 			pageSize = itemCount;
 			pageCount= Math.ceil(model.count / itemCount);
 		}
-		//
-		//{page...
 		public var pageSize:uint;
 		public var pageCount:uint;
-		//{currentPage
 		public function set page(value:uint):void
 		{
 			firstindex = value * pageSize;
@@ -51,8 +45,6 @@
 		{
 			return Math.floor(firstindex / pageSize);
 		}
-		//}
-		//}
 		
 	}
 }

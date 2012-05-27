@@ -4,6 +4,7 @@ package gui
     
     import mongoose.display.DisplayObject;
     import mongoose.display.TextureData;
+    import mongoose.filter.BrightFilter;
     import mongoose.geom.MRectangle;
 
     /**
@@ -29,7 +30,7 @@ package gui
         
         override protected function _initialize():void
         {
-            addEventListener(MouseEvent.MOUSE_OVER,_mouseOverHandler);
+//            addEventListener(MouseEvent.MOUSE_OVER,_mouseOverHandler);
             addEventListener(MouseEvent.MOUSE_DOWN,_mouseDownHandler);
             addEventListener(MouseEvent.MOUSE_UP,_mouseUpHandler);
         }
@@ -83,13 +84,15 @@ package gui
                 }
                 case "mouseDown":
                 {
-                    color = 0x4195dd;
+                    color = 0xff88dd;
+//                    filters = [new BrightFilter(0.5)];
                     break;
                 }
                 case "mouseUp":
                 {
                     //mTexture = mUpState;
-                    color = 0xcc9d0d;
+                    color = 0xffffff;
+//                    filters = null;
                     break;
                 }
             }
