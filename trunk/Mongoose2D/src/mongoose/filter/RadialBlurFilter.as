@@ -28,7 +28,7 @@ package mongoose.filter
             
             if(params == null)
             {
-                mFilterConst = Vector.<Number>([mGradation, 0.005, 0.01, mGradation]);
+                mFilterConst = Vector.<Number>([mGradation, 0.004, 0.008, mGradation]);
             }
             else
             {
@@ -53,7 +53,7 @@ package mongoose.filter
                 "mov ft4, fc"+(mFragmentIndex+2)+"\n" +
                 "mov ft5, fc"+(mFragmentIndex+3)+"\n" +
                 "mov ft6, fc"+(mFragmentIndex+4)+"\n" +
-                "tex ft1, v0, fs0<2d,nearest,nomip>\n";
+                "tex ft1, v0, fs0<2d,linear,nomip>\n";
             
             //对矩阵按中心等比缩小固定值
             //对采样点应用矩阵变换以向中心移动位置
@@ -64,7 +64,7 @@ package mongoose.filter
                 "add ft3.w, ft3.w, fc"+mFragmentIndex+".y\n" +
                 "add ft4.w, ft4.w, fc"+mFragmentIndex+".y\n" +
                 "m44 ft5, v0, ft3\n" +
-                "tex ft2, ft5, fs0<2d,nearest,nomip>\n" +
+                "tex ft2, ft5, fs0<2d,linear,nomip>\n" +
                 "add ft1, ft1, ft2\n";
             
 			var fragment2:String;
@@ -98,7 +98,7 @@ package mongoose.filter
         
         public function get endPsReg():uint
         {
-            return mFragmentIndex+2;
+            return mFragmentIndex+3; //mNullMatrix本来应该占用4个，但是实际取值只用了前2个，因此后面的可以直接覆盖后2个
         }
         
         
