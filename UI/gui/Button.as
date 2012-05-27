@@ -8,17 +8,19 @@ package gui
     import mongoose.geom.MRectangle;
 
     /**
-     * 
+     * 按钮
      * @author genechen
      * 
      */    
     public class Button extends Component
     {
-        protected var mDownState:TextureData;
-        protected var mUpState:TextureData;
-        protected var mOverState:TextureData;
-        protected var mNormalState:TextureData;
-        
+        /**
+         * 各状态皮肤 
+         */        
+        protected var mBtnStateSkin:ButtonStateSkin;
+        /**
+         * 标签 
+         */        
         protected var mLabel:Label;
         
         public function Button(texture:TextureData=null)
@@ -42,15 +44,11 @@ package gui
          * @param over
          * 
          */        
-        public function setStateTexture(normal:TextureData,
-                                        down:TextureData,
-                                        up:TextureData, 
-                                        over:TextureData):void
+        public function setStateSkin(btnSkin:ButtonStateSkin):void
         {
-            mNormalState = normal;
-            mDownState = down;
-            mOverState = over;
-            mUpState = up;
+            mBtnStateSkin = btnSkin;
+            
+            setTexture(mBtnStateSkin.normalState);
         }
         
         protected function _mouseOverHandler(target:DisplayObject):void
@@ -72,27 +70,49 @@ package gui
         {
         }
         
+        /**
+         * 状态皮肤切换 
+         * @param state
+         * 
+         */        
         override protected function _setState(state:String):void
         {
             switch(state)
             {
                 case "mouseOver":
                 {
-                    //mTexture = mOverState;
-                    color = 0x03b08d
+                    if(mBtnStateSkin && mBtnStateSkin.overState)
+                    {
+                        mTexture = mBtnStateSkin.overState;
+                    }
+                    else
+                    {
+                        color = 0x03b08d;
+                    }
                     break; 
                 }
                 case "mouseDown":
                 {
-                    color = 0xff88dd;
-//                    filters = [new BrightFilter(0.5)];
+                    if(mBtnStateSkin && mBtnStateSkin.downState)
+                    {
+                        mTexture = mBtnStateSkin.downState;
+                    }
+                    else
+                    {
+                        color = 0xff88dd;
+                    }
                     break;
                 }
                 case "mouseUp":
                 {
-                    //mTexture = mUpState;
-                    color = 0xffffff;
-//                    filters = null;
+                    if(mBtnStateSkin && mBtnStateSkin.upState)
+                    {
+                        mTexture = mBtnStateSkin.upState;
+                    }
+                    else
+                    {
+                        color = 0xffffff;
+                    }
                     break;
                 }
             }

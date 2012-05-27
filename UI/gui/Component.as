@@ -3,7 +3,7 @@ package gui
     import mongoose.display.Sprite2D;
     import mongoose.display.TextureData;
     /**
-     * 
+     * 组件基类
      * @author genechen
      * 
      */    
@@ -12,6 +12,8 @@ package gui
         public function Component(texture:TextureData=null)
         {
             super(texture);
+            
+            alphaTest = false;
         }
         /**
          * 初始化数据 

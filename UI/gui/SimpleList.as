@@ -6,6 +6,11 @@
 	
 	import mongoose.display.TextureData;
 
+    /**
+     * 列表 
+     * @author genechen
+     * 
+     */    
 	public class SimpleList extends AbstractList
 	{
 		public function SimpleList(texture:TextureData=null)
