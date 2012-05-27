@@ -25,6 +25,8 @@ package gui
         override protected function _initialize():void
         {
             mouseEnabled = false;
+            //temp
+            setTexture(new TextureData());
             
             mTextFiled = new TextField();
             addChild(mTextFiled);
