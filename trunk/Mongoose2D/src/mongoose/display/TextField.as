@@ -24,12 +24,10 @@ package mongoose.display
 		private var _rw:Number,_rh:Number;
 		private var _maxWidth:Number,_maxHeight:Number;
 		private var _format:TextFormat;
+        
 		public function TextField()
 		{
-			
-			mTextTexture=new TextureData;
 			mTextField=new flash.text.TextField;
-
 		}
 		
 		public function setTextFormat(format:TextFormat):void
@@ -38,11 +36,12 @@ package mongoose.display
 			mTextField.defaultTextFormat=format;
 			mTextField.setTextFormat(_format);
 		}
+        
 		public function set multiline(value:Boolean):void
 		{
 			mTextField.multiline=value;
-		
 		}
+        
 		public function set text(value:String):void
 		{
 			if(_text!=value)
@@ -53,8 +52,6 @@ package mongoose.display
 				
 				//need redraw;
 				width=mTextField.width;
-				
-				
 				height=mTextField.height;
 				
 				_maxWidth=getUpPower2(int(width));
@@ -73,13 +70,23 @@ package mongoose.display
 				}
 				mBitmapData.draw(mTextField);
 				
-				//mTextField.x=100;
-				//mTextField.y=100;
-				//stage.addChild(new Bitmap(mBitmapData));
+//                var tx:Bitmap = new Bitmap(mBitmapData)
+//                tx.x = 100;
+//                tx.y = 100;
+//				stage.addChild(tx);
 				
-				mTextTexture.bitmapData = mBitmapData;
-				mTextTexture.setUVData(new MRectangle(0,0,width,height));
+                if(mTextTexture==null)
+                {
+                    mTextTexture=new TextureData(mBitmapData);
+                }
+                else
+                {
+                    mTextTexture.bitmapData = mBitmapData;
+                }
+				
+				mTextTexture.setUVData(new MRectangle(0, 0, mBitmapData.width, mBitmapData.height));
 				setTexture(mTextTexture);
+                
 				_text=value;
 			}
 			
