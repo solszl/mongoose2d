@@ -63,10 +63,10 @@ package mongoose.display
 				else
 				{
 					mBitmapData.dispose();
-					if(mBitmapData.width!=_maxWidth||mBitmapData.height!=_maxHeight)
-					{
+//					if(mBitmapData.width!=_maxWidth||mBitmapData.height!=_maxHeight)
+//					{
 						mBitmapData=new BitmapData(_maxWidth,_maxHeight,true,0xffffff);
-					}
+//					}
 				}
 				mBitmapData.draw(mTextField);
 				

@@ -34,16 +34,17 @@ package mongoose.display
 		 */        
         public function TextureData(bd:BitmapData=null)
         {
-			defaultBmp=new BitmapData(16, 16, true, 4294967295);
 			uvVector = Vector.<Number>([0.0, 0.0, 1.0, 1.0]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
 			}
 			
-			
 			if (bd == null)
+            {
+                defaultBmp = new BitmapData(16, 16, true, 4294967295);
 				bitmapData = defaultBmp;
+            }
 			else
 				bitmapData = bd;
 			
