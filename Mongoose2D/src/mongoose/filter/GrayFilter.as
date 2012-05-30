@@ -1,9 +1,12 @@
 package mongoose.filter
 {
-// ceshi 
     import flash.display3D.Context3D;
     import flash.display3D.Context3DProgramType;
-    
+    /**
+     * 灰度滤镜 
+     * @author genechen
+     * 
+     */    
     public class GrayFilter implements IFilter
     {
         protected var mFilterConst:Vector.<Number>;

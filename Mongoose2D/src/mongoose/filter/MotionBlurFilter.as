@@ -1,7 +1,11 @@
 package mongoose.filter
 {
     import flash.display3D.Context3D;
-
+    /**
+     * 运动模糊 
+     * @author genechen
+     * 
+     */
     public class MotionBlurFilter implements IFilter
     {
         protected var mFragmentIndex:uint;
