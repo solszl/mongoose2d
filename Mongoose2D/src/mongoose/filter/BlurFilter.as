@@ -128,8 +128,8 @@ package mongoose.filter
             
             mFilterConst[0] = mBlurIntensity;
             mFilterConst[1] = -mBlurIntensity;
-            mFilterConst[0] = mBlurIntensity*.5;
-            mFilterConst[1] = -mBlurIntensity*.5;
+            mFilterConst[2] = mBlurIntensity*.5;
+            mFilterConst[3] = -mBlurIntensity*.5;
         }
         
         public function get intensity():Number
