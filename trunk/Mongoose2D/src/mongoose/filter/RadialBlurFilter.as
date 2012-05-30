@@ -79,7 +79,7 @@ package mongoose.filter
         
         public function get endPsReg():uint
         {
-            return mFragmentIndex+2; //mNullMatrix本来应该占用4个，但是实际取值只用了前2个，因此后面的可以直接覆盖后2个
+            return mFragmentIndex+2; 
         }
         
         
