@@ -1,7 +1,11 @@
 package mongoose.filter
 {
     import flash.display3D.Context3D;
-
+    /**
+     * 模糊滤镜 
+     * @author genechen
+     * 
+     */
     public class BlurFilter implements IFilter
     {
         protected var mFilterConst:Vector.<Number>;
@@ -10,14 +14,18 @@ package mongoose.filter
         protected var mBlurIntensity:Number;
         protected var mFragmentIndex:uint;
         protected var mVertexIndex:uint;
-        
-        public function BlurFilter( intensity:Number=0.004)
+        /**
+         * @param intensity 模糊等级。 建议值:1-100
+         * 
+         */        
+        public function BlurFilter( intensity:Number=20)
         {
             super();
             
-			mBlurIntensity = intensity;
-            mFilterConst = Vector.<Number>([mBlurIntensity, -mBlurIntensity, 0.0,0.0]);
-            mFilterConst2 = Vector.<Number>([0.2,0.2,0.2,0.2]);
+			mBlurIntensity = intensity*0.001;
+            
+            mFilterConst = Vector.<Number>([mBlurIntensity, -mBlurIntensity, mBlurIntensity*.5,-mBlurIntensity*.5]);
+            mFilterConst2 = Vector.<Number>([0.12,0.12,0.12,0.12]);
         }
         
         public function getVsCode(regIndex:uint):String
@@ -32,25 +40,48 @@ package mongoose.filter
             var fs:String = 
                 
                 "tex ft1, v0, fs0 <2d,linear,nomip>\n" +
-                "mov ft3, ft1\n" +
+                "mul ft3, ft1, fc"+(mFragmentIndex+1)+".x\n"+
+                //"mov ft3, ft1\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xx\n" +
                 "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yx\n" +
                 "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".yy\n" +
                 "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
                 "add ft3, ft3, ft2\n" +
                 
                 "add ft1.xy, v0.xy, fc"+mFragmentIndex+".xy\n" +
                 "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
                 "add ft3, ft3, ft2\n" +
                 
-                "mul ft3, ft3, fc"+(mFragmentIndex+1)+"\n";
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".zz\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
+                "add ft3, ft3, ft2\n" +
+                
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".wz\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
+                "add ft3, ft3, ft2\n" +
+                
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".ww\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
+                "add ft3, ft3, ft2\n" +
+                
+                "add ft1.xy, v0.xy, fc"+mFragmentIndex+".zw\n" +
+                "tex ft2, ft1, fs0 <2d,linear,nomip>\n" +
+                "mul ft2, ft2, fc"+(mFragmentIndex+1)+".x\n"+
+                "add ft3, ft3, ft2\n" ;
 			
 			if(regIndex>0)
 			{
@@ -81,7 +112,11 @@ package mongoose.filter
         {
             return mVertexIndex+0;
         }
-        
+        /**
+         * 模糊等级。 建议值:1-100
+         * @param value 
+         * 
+         */        
         public function set intensity(value:Number):void
         {
             if( value<=0 )
@@ -89,10 +124,12 @@ package mongoose.filter
 				value = 0.0001;
             }
             
-			mBlurIntensity = value;
+			mBlurIntensity = value*0.001;
             
-            mFilterConst[0] = value;
-            mFilterConst[1] = -value;
+            mFilterConst[0] = mBlurIntensity;
+            mFilterConst[1] = -mBlurIntensity;
+            mFilterConst[0] = mBlurIntensity*.5;
+            mFilterConst[1] = -mBlurIntensity*.5;
         }
         
         public function get intensity():Number
