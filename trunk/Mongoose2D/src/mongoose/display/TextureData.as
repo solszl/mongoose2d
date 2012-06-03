@@ -46,7 +46,10 @@ package mongoose.display
 				bitmapData = defaultBmp;
             }
 			else
+            {
 				bitmapData = bd;
+                setUVData(new MRectangle(0,0,bd.width,bd.height));
+            }
 			
         }
 
