@@ -21,18 +21,19 @@ package
 	import mongoose.display.TextField;
 	import mongoose.display.TextureData;
 	import mongoose.display.World;
+	import mongoose.filter.BlurFilter;
 	import mongoose.filter.BrightFilter;
 	import mongoose.filter.RadialBlurFilter;
 	import mongoose.geom.MPoint;
 	import mongoose.geom.MRectangle;
 
-	[SWF(frameRate="120",width="1024",height="760",backgroundcolor="0xffffff")]
+	[SWF(frameRate="120",width="1280",height="680",backgroundcolor="0xffffff")]
 	public class MongooseTest extends Sprite
 	{
 		[Embed(source="baodianbtn.png")]
 		private var fighter:Class;
         
-        [Embed(source="anim.png")]
+        [Embed(source="star.jpg")]
         private var anim:Class;
         [Embed(source="dialogbg.png")]
         private var dialogBG:Class;
@@ -87,11 +88,13 @@ package
             var listbg:TextureData=new TextureData();
             var list:SimpleList = new SimpleList(listbg);
             list.cellRenderer = TestItem;
-            list.model = new DefaultListModel([1,2,3,4,5,6,7,8,9,10,11,12,13]);
+            list.model = new DefaultListModel([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
             list.setShowSize(300,300);
             list.x = 15;
             list.y = 70;
             dialog.addChild(list);
+//            dialog.filters = [new RadialBlurFilter(20)]
+//            list.firstindex = 2;
             
             var text:TextField = new TextField();
             text.text = "是是是是是事实事实丝";
@@ -101,6 +104,18 @@ package
             tab.setTabBtnSkin(btnSkin);
             tab.setTabLabels(['tab1','tab2','tab3','tab4']);
             dialog.addChild(tab);
+            
+//            for(var i:int=0;i<1000;++i)
+//            {
+//            var tx:TextureData = new TextureData((new anim()).bitmapData)
+            var sprite:Sprite2D = new Sprite2D(texture);
+            sprite.filters = [new RadialBlurFilter(7,0.3,0.17)]
+//            sprite.x = Math.random()*800;
+//            sprite.y = Math.random()*800;
+            sprite.mouseEnabled =false;
+            sprite.mouseChildren = false;
+            world.addChild(sprite);
+//            }
             
         }
         
