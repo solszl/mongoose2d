@@ -27,13 +27,13 @@ package
 	import mongoose.geom.MPoint;
 	import mongoose.geom.MRectangle;
 
-	[SWF(frameRate="120",width="1280",height="680",backgroundcolor="0xffffff")]
+	[SWF(frameRate="120",width="1280",height="1024",backgroundcolor="0xffffff")]
 	public class MongooseTest extends Sprite
 	{
 		[Embed(source="baodianbtn.png")]
 		private var fighter:Class;
         
-        [Embed(source="star.jpg")]
+        [Embed(source="wow.jpg")]
         private var anim:Class;
         [Embed(source="dialogbg.png")]
         private var dialogBG:Class;
@@ -108,8 +108,7 @@ package
 //            for(var i:int=0;i<1000;++i)
 //            {
 //            var tx:TextureData = new TextureData((new anim()).bitmapData)
-            var sprite:Sprite2D = new Sprite2D(texture);
-            sprite.filters = [new RadialBlurFilter(7,0.3,0.17)]
+            sprite = new Sprite2D(texture);
 //            sprite.x = Math.random()*800;
 //            sprite.y = Math.random()*800;
             sprite.mouseEnabled =false;
@@ -117,6 +116,25 @@ package
             world.addChild(sprite);
 //            }
             
+            stage.addEventListener(MouseEvent.CLICK, onChange);
+            
+        }
+        var sprite:Sprite2D;
+        var isFilter:Boolean = false;
+        var radial:RadialBlurFilter = new RadialBlurFilter(7,0.32,0.6);
+        private function onChange(evt:MouseEvent):void
+        {
+            if(isFilter)
+            {
+                sprite.filters = null;
+                isFilter = false;
+            }
+            else
+            {
+                sprite.filters = [radial];
+                
+                isFilter =  true;
+            }
         }
         
 	}
