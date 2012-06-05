@@ -63,6 +63,7 @@ package mongoose.display
 		private var _obj:InteractiveObject;
 		private var _last:InteractiveObject;
 		private var _step:uint;
+		public var worldScaleMatrix:Matrix3D;
         public function World(stage2D:Stage, viewPort:MRectangle)
         {
             stage = stage2D;
@@ -83,6 +84,11 @@ package mongoose.display
 			
             mRect=viewPort;
             perspective = new PerspectiveMatrix3D();
+			worldScaleMatrix=new Matrix3D;
+			
+			
+			
+			
 			Camera.stage=stage;
             mCamera = new Camera();
             mCamera.active = true;
@@ -119,15 +125,25 @@ package mongoose.display
                     mStage3D.x = mRect.x;
                     mStage3D.y = mRect.y;
                 }
+				SCALE = height / width;
+				WIDTH_RECIP=2/width;
+				HEIGHT_RECIP=2/height*SCALE;
+				
 				mViewAngle = Math.atan(height / width) * 2;
                 perspective.perspectiveFieldOfViewLH(mViewAngle, width/height, near, far);
                 context3d.configureBackBuffer(width, height, 8, false);
-				//context3d.setDepthTest(true,Context3DCompareMode.LESS);
+				
+				worldScaleMatrix.identity();
+				worldScaleMatrix.appendScale(2/width,2/height*SCALE,World.Z_SCALE);
+				worldScaleMatrix.appendTranslation(-1, height/width, 1);
+				
+				context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, worldScaleMatrix, true);
+				
                 context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 4, perspective, true);
             }
-            SCALE = height / width;
-			WIDTH_RECIP=2/width;
-			HEIGHT_RECIP=2/height*SCALE;
+           
+			
+			
             dispatchEvent(new Event(Event.CHANGE));
         }
         public function removeChild(obj:DisplayObject):void
@@ -271,7 +287,7 @@ package mongoose.display
         {
             context3d.clear();
             Camera.current.capture();
-			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
+			//context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,Camera.current.matrix,true);
 			
 			if(!_click)
 			{
