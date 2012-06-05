@@ -47,7 +47,7 @@ package mongoose.core
 		}
 		override protected function preRender():void
 		{
-			super.preRender();
+			
 			for each(var handle:Function in mHandleMap)
 			{
 				handle(this);
@@ -69,9 +69,9 @@ package mongoose.core
                 mt.invert();
                 this.matrix.append(mt);
             }
-          
-            this.matrix.appendTranslation(mX, mY, -mZ);
-			this.matrix.appendTranslation(-1, World.SCALE, 1);
+            
+            this.matrix.appendTranslation(-x, y, z);
+			
             return;
         }
 

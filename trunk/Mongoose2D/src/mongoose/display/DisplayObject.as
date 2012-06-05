@@ -127,15 +127,15 @@ package mongoose.display
 			
 			if(mOriginWidth!=0)
 			{
-				var tx:Number=mOriginWidth*mWidthRecipDbl;
+				//var tx:Number=mOriginWidth*mWidthRecipDbl;
 				
-				mBaseMatrix.appendScale(tx,1,1);
+				mBaseMatrix.appendScale(mOriginWidth,1,1);
 				//trace("原始缩放x")
 			}	
 			if(mOriginHeight!=0)
 			{
-				var ty:Number=mOriginHeight*mHeightRecipDbl;
-				mBaseMatrix.appendScale(1,ty, 1);
+				//var ty:Number=mOriginHeight*mHeightRecipDbl;
+				mBaseMatrix.appendScale(1,mOriginHeight, 1);
 				//trace("原始缩放y")
 			}  
 			
@@ -167,7 +167,7 @@ package mongoose.display
 			if(rotateZ!=0)
 				mMatrix3D.appendRotation(rotateZ, Vector3D.Z_AXIS, mRotPivot);
 			
-			mMatrix3D.appendTranslation(x*mWidthRecipDbl,-y*mHeightRecipDbl,z*_zScale);
+			mMatrix3D.appendTranslation(x,-y,z);
 			mOutMatrix.append(mBaseMatrix);
 			mOutMatrix.append(mMatrix3D);
 			if (parent != null)
@@ -183,6 +183,7 @@ package mongoose.display
 			{
 				this.alpha=alpha;
 			}
+			mOutMatrix.append(Camera.current.matrix);
 			//mOutMatrix.rawData;
         }
 		internal function getRed():Number

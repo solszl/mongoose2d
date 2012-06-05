@@ -50,6 +50,7 @@ package mongoose.display
 		private var _pvec:Vector3D,
 		            _tvec:Vector3D,
 					_qvec:Vector3D,
+					_test:Vector3D=new Vector3D,
 					_det:Number;
 		private var _t:Number,_temp:Number,_tu:Number,_tv:Number;			
 		private var _triAnglePass:Boolean;	
@@ -167,23 +168,42 @@ package mongoose.display
 			if(!mouseEnabled)return null;
 			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
 			
+			if(this.z!=0||this.rotateX!=0||this.rotateY!=0)
+               return test3d(type,x,y);
+			else
+			   return test2d(type,x,y);
+			return null;
+		}
+		private function test2d(type:String,x:Number,y:Number):InteractiveObject
+		{
+			//mOutMatrix.append(world.worldScaleMatrix);
+			
+				mMatrix3D.appendScale(1,-1,1);
+				mMatrix3D.invert();
+				_test.x=x;
+				_test.y=y;
+			var test:Vector3D=mMatrix3D.transformVector(_test);
+			test.y=-test.y;
+			if(test.x<0||test.y<0||test.x>width||test.y>height)
+			   return null;
+			else
+				return this;
+		}
+		private function test3d(type:String,x:Number,y:Number):InteractiveObject
+		{
 			_dx=(x*World.WIDTH_RECIP-1);
 			_dy=World.SCALE-y*World.HEIGHT_RECIP;
 			
-			
-			
-			mOutMatrix.append(Camera.current.matrix);
+			mOutMatrix.append(world.worldScaleMatrix);
 			mOutMatrix.invert();
-			
+			//mOutMatrix.appendTranslation(Camera.current.x,Camera.current.y,0);
 			mOrigin.x=_dx*World.near;
 			mOrigin.y=_dy*World.near;
 			mOrigin.z=World.near;
-
+			
 			mTarget.x=_dx*World.far;
 			mTarget.y=_dy*World.far;
 			mTarget.z=World.far;
-			
-			
 			
 			mOrigin=mOutMatrix.transformVector(mOrigin);
 			//trace(p2)
@@ -194,10 +214,10 @@ package mongoose.display
 			
 			_passA=instric(v0,edge1,edge2);
 			uu1=_u,
-			vv1=_v;
+				vv1=_v;
 			_passB=instric(v0,edge2,edge3);
 			uu2=_u,
-			vv2=_v;
+				vv2=_v;
 			if(_passA||_passB)
 			{
 				if(alphaTest)
@@ -228,9 +248,8 @@ package mongoose.display
 			{
 				
 				return null;
-			}
+			};
 		}
-		
 		private function addHandle(handle:Function,handles:Array):void
 		{
 			_step=0;
