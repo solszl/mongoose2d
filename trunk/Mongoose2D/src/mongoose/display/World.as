@@ -236,18 +236,8 @@ package mongoose.display
 		private function onStageMove(e:MouseEvent):void
 		{
 			
-			if(_x!=e.stageX||_y!=e.stageY)
-			{
-				_isMove=true;
-				
-				_x=e.stageX;
-				_y=e.stageY;
-			}
-			else
-			{
-				_isMove=false;
-			}
-		
+			_x=e.stageX;
+			_y=e.stageY;
 		}
 		internal function hitTest(type:String,x:Number,y:Number):void
 		{
@@ -291,8 +281,7 @@ package mongoose.display
 			
 			if(!_click)
 			{
-				//hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
-				
+				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
 			}
 			_click=false;
 			
