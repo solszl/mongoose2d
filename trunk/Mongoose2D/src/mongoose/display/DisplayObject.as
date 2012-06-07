@@ -168,8 +168,7 @@ package mongoose.display
 				mMatrix3D.appendRotation(rotateZ, Vector3D.Z_AXIS, mRotPivot);
 			
 			mMatrix3D.appendTranslation(x,-y,z);
-			mOutMatrix.append(mBaseMatrix);
-			mOutMatrix.append(mMatrix3D);
+			
 			if (parent != null)
 			{
 				mConstrants[4]=r*parent.getRed();
@@ -177,12 +176,14 @@ package mongoose.display
 				mConstrants[6]=b*parent.getBlue();
 				mConstrants[7]=alpha*parent.getAlpha();
 				mParentMatrix3D=parent.getMatrix3D();
-				mOutMatrix.append(mParentMatrix3D);
+				mMatrix3D.append(mParentMatrix3D);
 			}
 			else
 			{
 				this.alpha=alpha;
 			}
+			mOutMatrix.append(mBaseMatrix);
+			mOutMatrix.append(mMatrix3D);
 			mOutMatrix.append(Camera.current.matrix);
 			//mOutMatrix.rawData;
         }
