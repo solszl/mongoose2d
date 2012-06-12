@@ -281,7 +281,7 @@ package mongoose.display
 			
 			if(!_click)
 			{
-				hitTest(MouseEvent.MOUSE_MOVE,_x,_y);
+				hitTest(MouseEvent.MOUSE_MOVE,stage.mouseX,stage.mouseY);
 			}
 			_click=false;
 			
