@@ -186,8 +186,17 @@ package mongoose.display
 			test.y=-test.y;
 			if(test.x<0||test.y<0||test.x>width||test.y>height)
 			   return null;
-			else
-				return this;
+			else if(alphaTest)
+			{
+				_u=mTexture.uValue*(test.x/width)+mTexture.uvVector[0];
+				_v=mTexture.vValue*(test.y/height)+mTexture.uvVector[1];
+				_xPos=this.mTexture.bitmapData.width;
+				_yPos=this.mTexture.bitmapData.height;
+				_pixel=this.mTexture.bitmapData.getPixel32(_xPos*_u,_yPos*_v);
+				_pixel>0?iHit=true:iHit=false;
+			}
+			if(iHit)return this;
+			return null;
 		}
 		private function test3d(type:String,x:Number,y:Number):InteractiveObject
 		{
