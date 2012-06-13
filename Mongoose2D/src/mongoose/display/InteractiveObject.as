@@ -200,6 +200,8 @@ package mongoose.display
 				_pixel>0?iHit=true:iHit=false;
 				if(iHit)return this;
 			}
+			else
+			return this;
 			
 			return null;
 		}
