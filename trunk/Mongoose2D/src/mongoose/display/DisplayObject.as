@@ -8,6 +8,7 @@ package mongoose.display
     import flash.utils.ByteArray;
     
     import mongoose.core.*;
+    import mongoose.geom.MPoint;
     import mongoose.geom.RemMatrix3D;
 
     public class DisplayObject extends BaseObject
@@ -20,6 +21,7 @@ package mongoose.display
 		/**
 		 *是否显示,注:visible=false的时候是不会提交渲染的. 
 		 */		
+		public var useCamera:Boolean=true;
 		public var visible:Boolean=true;
         public var scaleX:Number = 1;
         public var scaleY:Number = 1;
@@ -36,6 +38,7 @@ package mongoose.display
 		
 		
 		internal var r:Number,g:Number,b:Number;
+		internal var bScaleX:Number,bScaleY:Number;
         protected var sortByName:String="z";
 		protected var mPivot:Vector3D;
 		protected var mMatrix3D:Matrix3D;
@@ -50,7 +53,7 @@ package mongoose.display
         protected var mOutMatrix:Matrix3D;
 		protected var mParentMatrix3D:Matrix3D
 		
-		
+		protected var mPos:MPoint=new MPoint(0,0);
 		//旋转注册cache
         protected var mRotPivot:Vector3D;
 		//临时计算cache
@@ -157,7 +160,9 @@ package mongoose.display
 			
 			mOutMatrix.identity();
 			mMatrix3D.identity();
-			mMatrix3D.prependScale(width/mOriginWidth,height/mOriginHeight,1);
+			bScaleX=width/mOriginWidth;
+			bScaleY=height/mOriginHeight;
+			mMatrix3D.prependScale(bScaleX,bScaleY,1);
 			mMatrix3D.prependScale(scaleX,scaleY,1);
 			
 			if(rotateX!=0)
@@ -169,24 +174,29 @@ package mongoose.display
 			
 			mMatrix3D.appendTranslation(x,-y,z);
 			
-			if (parent != null)
+			
+			var obj:DisplayObject=this;
+			while(obj.parent!=null)
 			{
-				mConstrants[4]=r*parent.getRed();
-				mConstrants[5]=g*parent.getGreen();
-				mConstrants[6]=b*parent.getBlue();
-				mConstrants[7]=alpha*parent.getAlpha();
-				mParentMatrix3D=parent.getMatrix3D();
-				mMatrix3D.append(mParentMatrix3D);
+				mConstrants[4]*=obj.parent.r;
+				mConstrants[5]*=obj.parent.g
+				mConstrants[6]*=obj.parent.b;
+				mConstrants[7]*=obj.parent.alpha;
+				mMatrix3D.appendScale(obj.parent.bScaleX,obj.parent.bScaleY,1);
+				mMatrix3D.appendScale(obj.parent.scaleX,obj.parent.scaleY,1);
+				mMatrix3D.appendRotation(obj.parent.rotateZ,Vector3D.Z_AXIS);
+				mMatrix3D.appendTranslation(obj.parent.x,-obj.parent.y,0);
+				
+				obj=obj.parent;
 			}
-			else
-			{
-				this.alpha=alpha;
-			}
+			//mMatrix3D.append(Camera.current.matrix);
 			mOutMatrix.append(mBaseMatrix);
 			mOutMatrix.append(mMatrix3D);
+			if(useCamera)
 			mOutMatrix.append(Camera.current.matrix);
 			//mOutMatrix.rawData;
         }
+		
 		internal function getRed():Number
 		{
 			if(parent!=null)
@@ -207,6 +217,18 @@ package mongoose.display
 				return alpha*parent.getAlpha();
 			else
 				return alpha;
+		}
+		internal function getPosition():MPoint
+		{
+			mPos.x=x;
+			mPos.y=y;
+			if(parent!=null)
+			{
+				var pos:MPoint=parent.getPosition();
+				mPos.x+=pos.x;
+				mPos.y+=pos.y;
+			}
+			return mPos;	
 		}
 		internal function getGreen():Number
 		{
