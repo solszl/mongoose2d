@@ -60,7 +60,7 @@ package mongoose.display
 		
 		internal var iuseMove:Boolean;
 		internal var iHit:Boolean;
-		
+		private var mTextMatrix:Matrix3D=new Matrix3D;
         public function InteractiveObject(texture:TextureData)
         {
 			
@@ -176,12 +176,16 @@ package mongoose.display
 		}
 		private function test2d(type:String,x:Number,y:Number):InteractiveObject
 		{
+			//mTextMatrix.identity();
 			//mOutMatrix.append(world.worldScaleMatrix);
 			
-				mMatrix3D.appendScale(1,-1,1);
-				mMatrix3D.invert();
-				_test.x=x;
-				_test.y=y;
+			if(useCamera)
+				mMatrix3D.append(Camera.current.matrix)
+			mMatrix3D.appendScale(1,-1,1);
+			//mTextMatrix.append(mMatrix3D);
+			mMatrix3D.invert();
+			_test.x=x;
+			_test.y=y;
 			var test:Vector3D=mMatrix3D.transformVector(_test);
 			test.y=-test.y;
 			if(test.x<0||test.y<0||test.x>width||test.y>height)
@@ -194,8 +198,9 @@ package mongoose.display
 				_yPos=this.mTexture.bitmapData.height;
 				_pixel=this.mTexture.bitmapData.getPixel32(_xPos*_u,_yPos*_v);
 				_pixel>0?iHit=true:iHit=false;
+				if(iHit)return this;
 			}
-			if(iHit)return this;
+			
 			return null;
 		}
 		private function test3d(type:String,x:Number,y:Number):InteractiveObject

@@ -9,9 +9,7 @@ package mongoose.display
 
     public class BaseObject extends EventDispatcher
     {
-        protected var mX:Number = 0,
-                      mY:Number = 0,
-                      mZ:Number = 0;
+       
 		
         public var x:Number = 0,
                    y:Number = 0,
@@ -33,9 +31,7 @@ package mongoose.display
 
         protected function preRender() : void
         {
-            this.mX = this.x *World.WIDTH_RECIP;
-            this.mY = -this.y*World.HEIGHT_RECIP;
-            this.mZ = this.z*World.Z_SCALE;
+          
             return;
         }
 

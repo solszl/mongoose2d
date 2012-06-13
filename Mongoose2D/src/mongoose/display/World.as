@@ -293,6 +293,8 @@ package mongoose.display
 				context3d.drawTriangles(Image.CURRENT_INDEX_BUFFER,0,Image.BATCH_INDEX*2);
 				Image.BATCH_INDEX=0;
 			}
+			
+			
             context3d.present();
         }
         public function set showFps(value:Boolean):void
