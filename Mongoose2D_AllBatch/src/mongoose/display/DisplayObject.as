@@ -12,11 +12,11 @@ package mongoose.display
 		internal var program:Program3D;
 	
 		public var parent:DisplayObject;
-		public var childs:Array=[];
-		public var r:Number=0xff,
-			       g:Number=0xff,
-				   b:Number=0xff,
-				   a:Number=0xff;
+		internal var childs:Array=[];
+		public var red:Number=0xff,
+			       green:Number=0xff,
+				   blue:Number=0xff,
+				   alpha:Number=0xff;
 		public var uv:Vector.<Number>;
 		public var width:Number=1,
 			       height:Number=1;
@@ -33,9 +33,9 @@ package mongoose.display
 		}
 		public function setColor(r:Number=0xff,g:Number=0xff,b:Number=0xff):void
 		{
-			this.r=r;
-			this.g=g;
-			this.b=b;
+			this.red=r;
+			this.green=g;
+			this.blue=b;
 		}
 		public function render():void
 		{
