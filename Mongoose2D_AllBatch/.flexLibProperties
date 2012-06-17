@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="mongoose.display.Object3D"/>
+    <classEntry path="mongoose.display.DisplayObject"/>
+    <classEntry path="mongoose.display.BlendMode"/>
+    <classEntry path="mongoose.display.Image"/>
+    <classEntry path="mongoose.display.InteractiveObject"/>
+    <classEntry path="mongoose.display.DisplayObjectContainer"/>
+    <classEntry path="mongoose.display.Sprite"/>
+    <classEntry path="mongoose.display.MovieClip"/>
+    <classEntry path="mongoose.display.World"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
