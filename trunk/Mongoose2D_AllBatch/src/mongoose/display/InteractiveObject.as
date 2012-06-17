@@ -12,6 +12,7 @@ package mongoose.display
 		public function InteractiveObject(texture:TextureData)
 		{
 			super(texture);
+			mEventHandles["enterFrame"]=[];
 		}
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
