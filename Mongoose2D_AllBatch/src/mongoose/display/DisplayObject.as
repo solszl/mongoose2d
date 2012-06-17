@@ -9,10 +9,15 @@ package mongoose.display
 	{
 		static public var stage:Stage;
 		
-		internal var program:Program3D;
+		
 	
-		public var parent:DisplayObject;
+		
 		internal var childs:Array=[];
+		internal var program:Program3D;
+		public var parent:DisplayObject;
+		public var rotationX:Number=0,
+			       rotationY:Number=0,
+				   rotationZ:Number=0;
 		public var red:Number=0xff,
 			       green:Number=0xff,
 				   blue:Number=0xff,
