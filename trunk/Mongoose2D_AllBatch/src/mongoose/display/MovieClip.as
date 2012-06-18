@@ -1,6 +1,6 @@
 package mongoose.display
 {
-	public class MovieClip extends Sprite
+	public class MovieClip extends Sprite2D
 	{
 		public var currentFrame:uint=1;
 		public var totalFrames:uint=0;

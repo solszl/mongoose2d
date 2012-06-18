@@ -5,7 +5,7 @@ package mongoose.display
 
     public class DisplayObjectContainer extends InteractiveObject
     {
-        protected var mChilds:Array;
+		internal var childs:Array=[];
 		
 		public var enableSort:Boolean;
 		
@@ -17,7 +17,7 @@ package mongoose.display
 		
         public function DisplayObjectContainer(texture:TextureData = null)
         {
-            mChilds = [];
+			childs = [];
             
             super(texture);
            
@@ -32,7 +32,7 @@ package mongoose.display
 			
             if (!this.contains(child))
             {
-                this.mChilds.push(child);
+                this.childs.push(child);
 				
             }
 			if(child.parent!=null)
@@ -49,11 +49,11 @@ package mongoose.display
         public function contains(child:DisplayObject) : Boolean
         {
 			_step=0;
-			_len = mChilds.length;
+			_len = childs.length;
             while (_step<_len)
             {
                 
-                if (mChilds[_step] == child)
+                if (childs[_step] == child)
                 {
                     return true;
                 }
@@ -69,11 +69,11 @@ package mongoose.display
         public function removeChild(object:DisplayObject) : void
         {
 			_step=0;
-			while(_step<mChilds.length)
+			while(_step<childs.length)
 			{
-				if(mChilds[_step]==object)
+				if(childs[_step]==object)
 				{
-					mChilds.splice(_step,1);
+					childs.splice(_step,1);
 					
 				}	
 				_step++;
@@ -87,7 +87,7 @@ package mongoose.display
 		 */        
         public function get numChildren() : Number
         {
-            return mChilds.length;
+            return childs.length;
         }
 		/**
 		 *添加一个显示对象到指定位置 
@@ -98,14 +98,14 @@ package mongoose.display
 		 */        
         public function addChildAt( child:DisplayObject, index:int ):DisplayObject
         {
-            if( index < mChilds.length )
+            if( index < childs.length )
             { 
-                mChilds.splice( index, 0 , child );
+				childs.splice( index, 0 , child );
                 child.parent = this;
             }
             else
             {
-                mChilds.push( child );
+				childs.push( child );
                 child.parent = this;
             }
             
@@ -119,11 +119,11 @@ package mongoose.display
 		 */        
         public function removeChildAt( index:int ):DisplayObject
         {
-            if( index > mChilds.length-1 )
+            if( index > childs.length-1 )
                 throw new Error('超出子对象列表索引');
             
-            mChilds[index].parent = null;
-            mChilds.splice( index, 1 );
+			childs[index].parent = null;
+			childs.splice( index, 1 );
             
             return this;
         }
@@ -136,15 +136,15 @@ package mongoose.display
         public function removeChildren( beginIndex:int=0, endIndex:int=2147483647 ):void
         {
             if( beginIndex<0 ) beginIndex = 0;
-            if( endIndex > mChilds.length-1 ) endIndex = mChilds.length-1;
+            if( endIndex > childs.length-1 ) endIndex = childs.length-1;
             var step:uint=0;
-            while(step<mChilds.length)
+            while(step<childs.length)
             {
-                mChilds[step].parent = null;
+				childs[step].parent = null;
 				step++;
             }
             
-            mChilds.splice( beginIndex, endIndex-beginIndex );
+			childs.splice( beginIndex, endIndex-beginIndex );
         }
 		/**
 		 *设置子对象到指定位置 
@@ -157,7 +157,7 @@ package mongoose.display
             if( null==child )
                 throw new Error('child不能为空');
             
-            if( index > mChilds.length-1 ) index = mChilds.length-1;
+            if( index > childs.length-1 ) index = childs.length-1;
             
             removeChild( child );
             addChildAt( child, index );
@@ -170,8 +170,8 @@ package mongoose.display
 		 */        
         public function swapChildren( child1:DisplayObject, child2:DisplayObject ):void
         {
-            var index1:int = mChilds.indexOf( child1 );
-            var index2:int = mChilds.indexOf( child2 );
+            var index1:int = childs.indexOf( child1 );
+            var index2:int = childs.indexOf( child2 );
             swapChildrenAt( index1, index2 );
         }
 		/**
@@ -182,9 +182,9 @@ package mongoose.display
 		 */        
         public function swapChildrenAt( index1:int, index2:int ):void
         {
-            var child:DisplayObject = mChilds[index1];
-            mChilds[index1] = mChilds[index2];
-            mChilds[index2] = child;
+            var child:DisplayObject = childs[index1];
+			childs[index1] = childs[index2];
+			childs[index2] = child;
         }      
 		/**
 		 *返回子对象的位置 
@@ -197,7 +197,7 @@ package mongoose.display
             if( null == child )
                 throw new Error('child不能为空对象');
             
-            return mChilds.indexOf( child );
+            return childs.indexOf( child );
         }
 		/**
 		 *获取指定位置的显示对象 
@@ -208,7 +208,7 @@ package mongoose.display
 
         public function getChildAt(index:uint) : DisplayObject
         {
-            return mChilds[index];
+            return childs[index];
         }
 		
     }
