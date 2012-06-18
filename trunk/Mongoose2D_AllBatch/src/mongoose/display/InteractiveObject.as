@@ -1,5 +1,6 @@
 package mongoose.display
 {
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 
@@ -19,33 +20,26 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.DOUBLE_CLICK:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_DOWN:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_MOVE:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_OUT:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_OVER:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_UP:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_WHEEL:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.ROLL_OUT:
-					addEvent(type,listener);
-					break;
+					
 				case MouseEvent.ROLL_OVER:
+					
+				case Event.ENTER_FRAME:
 					addEvent(type,listener);
 					break;
 				default:

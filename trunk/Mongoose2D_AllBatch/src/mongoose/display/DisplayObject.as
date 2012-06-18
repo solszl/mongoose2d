@@ -24,8 +24,8 @@ package mongoose.display
 				   blue:Number=0xff,
 				   alpha:Number=0xff;
 		public var uv:Vector.<Number>;
-		public var width:Number=1,
-			       height:Number=1;
+		public var width:Number=0,
+			       height:Number=0;
 		
 		public function DisplayObject()
 		{
