@@ -4,9 +4,10 @@ package mongoose.display
     import flash.display3D.*;
     import flash.display3D.textures.*;
     import flash.geom.Point;
+    import flash.geom.Rectangle;
     import flash.utils.*;
     
-    import mongoose.geom.Rectangle;
+  
     import mongoose.geom.getUpPower2;
     
  
@@ -44,11 +45,12 @@ package mongoose.display
             {
                 defaultBmp = new BitmapData(16, 16, true, 4294967295);
 				bitmapData = defaultBmp;
+				//setUVData(new Rectangle(0,0,bd.width,bd.height));
             }
 			else
             {
 				bitmapData = bd;
-                setUVData(new Rectangle(0,0,bd.width,bd.height));
+               //setUVData(new Rectangle(0,0,bd.width,bd.height));
             }
 			
         }
@@ -62,17 +64,13 @@ package mongoose.display
             }
             else
             {
-                if(bmp != null)
-                {
-                    texture =context3d.createTexture(mBitmapData.width,
-						                             mBitmapData.height,"bgra",false);
-                    setUVData(new Rectangle(0,0,bmp.width,bmp.height));
-				    cache[bmp]=texture;
-                }
-                else
-                {
-                    texture = null;
-                }
+               
+                texture =context3d.createTexture(mBitmapData.width,
+					                             mBitmapData.height,"bgra",false);
+				texture.uploadFromBitmapData(bmp);
+                setUVData(new Rectangle(0,0,bmp.width,bmp.height));
+			    cache[bmp]=texture;
+                
             }
             
             return;

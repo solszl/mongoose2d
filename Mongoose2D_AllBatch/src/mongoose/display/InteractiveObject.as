@@ -48,6 +48,9 @@ package mongoose.display
 				case MouseEvent.ROLL_OVER:
 					addEvent(type,listener);
 					break;
+				default:
+					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
+					break;
 			}
 		}
 		private function addEvent(type:String,listener:Function):void
@@ -82,6 +85,7 @@ package mongoose.display
 		}
 		override public function render():void
 		{
+			super.render();
 			var handles:Array=mEventHandles["enterFrame"];
 			var step:uint=0;
 			var total:uint=handles.length;

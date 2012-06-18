@@ -12,8 +12,9 @@ package mongoose.display
 		
 	
 		
-		internal var childs:Array=[];
+		
 		internal var program:Program3D;
+		public var texture:TextureData;
 		public var parent:DisplayObject;
 		public var rotationX:Number=0,
 			       rotationY:Number=0,
@@ -44,7 +45,12 @@ package mongoose.display
 		}
 		public function render():void
 		{
-			
+			if(this.texture!=null)
+			{
+				width=this.texture.width;
+				height=this.texture.height;
+		        uv=this.texture.uvVector;
+			}
 		}
 	}
 }
