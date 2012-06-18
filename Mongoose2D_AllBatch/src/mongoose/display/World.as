@@ -96,7 +96,7 @@ package mongoose.display
 			TextureData.context3d=context3d;
 			
 			context3d.enableErrorChecking=true;
-			dispatchEvent(new Event(Event.COMPLETE));
+			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			
 		}
@@ -104,11 +104,12 @@ package mongoose.display
 		{
 			
 			var mViewAngle:Number = Math.atan(height/width) * 2;
+			//mPerspective.identity();
 			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, .1,10000);
 			
 			
 			_scale=height/width;
-			
+			mWorldScaleMatrix.identity();
 			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,.1/10000);
 			mWorldScaleMatrix.appendTranslation(-1,_scale,1);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,mPerspective,true);
@@ -151,10 +152,10 @@ package mongoose.display
 			var fsa:AGALMiniAssembler=new AGALMiniAssembler;
 			var vs:String="m44 vt0,va0,vc0\n"+
 				"m44 vt0,vt0,vc4\n"+
-				"mov v1,va2\n"+
+				
 				"mov op,vt0\n"+
-				//"mov v0,va2\n"+
-				"mov v0,va1";
+				"mov v0,va1\n"+
+				"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
 				"mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
@@ -172,7 +173,7 @@ package mongoose.display
 			context3d.clear();
 			_drawCall=0;
 			renderObj(this);
-			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall);
+			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
 			context3d.drawTriangles(mIndexBuffer,0,_drawCall*2);
 			context3d.present();
 		}
@@ -235,8 +236,7 @@ package mongoose.display
 					x=mCubeData[sid];
 					y=mCubeData[sid+1];
 					z=mCubeData[sid+2];
-					u=mCubeData[sid+3];
-					v=mCubeData[sid+4];
+					
 					/*r=points[sid+5];
 					g=points[sid+6];
 					b=points[sid+7];
@@ -264,8 +264,15 @@ package mongoose.display
 					mVerticBufferData[id]=x;
 					mVerticBufferData[id+1]=y;
 					mVerticBufferData[id+2]=z;
-					mVerticBufferData[id+3]=u;
-					mVerticBufferData[id+4]=v;
+					
+					
+					var uid:uint=st*2;
+						
+					
+					mVerticBufferData[id+3]=obj.uv[uid];
+					mVerticBufferData[id+4]=obj.uv[uid+1];
+					
+					//trace(mVerticBufferData[id+3],mVerticBufferData[id+4])
 					/*vertexBufferData[id+5]=r;
 					vertexBufferData[id+6]=g;
 					vertexBufferData[id+7]=b;

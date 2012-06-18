@@ -35,7 +35,7 @@ package mongoose.display
 		 */        
         public function TextureData(bd:BitmapData=null)
         {
-			uvVector = Vector.<Number>([0.0, 0.0, 1.0, 1.0]);
+			uvVector = Vector.<Number>([0, 0, 1,0, 1,1,0,1]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
@@ -103,7 +103,11 @@ package mongoose.display
 			uvVector[0]=tx;
 			uvVector[1]=ty;
 			uvVector[2]=bx;
-			uvVector[3]=by;
+			uvVector[3]=ty;
+			uvVector[4]=bx;
+			uvVector[5]=by;
+			uvVector[6]=tx;
+			uvVector[7]=by;
 			
 			uValue=bx-tx;
 			vValue=by-ty;
