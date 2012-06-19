@@ -4,6 +4,7 @@ package mongoose.display
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Program3D;
+	import flash.geom.Vector3D;
 
 	public class DisplayObject extends Object3D
 	{
@@ -14,6 +15,7 @@ package mongoose.display
 		
 		
 		internal var program:Program3D;
+		public var pivot:Vector3D=new Vector3D(0,0,0);
 		public var texture:TextureData;
 		public var parent:DisplayObject;
 		public var rotationX:Number=0,
