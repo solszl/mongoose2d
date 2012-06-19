@@ -50,6 +50,10 @@ package mongoose.display
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
 		private var pi:Number=Math.PI/180;
 		private var _scale:Number;
+		
+		private var _x:Number,_y:Number,_z:Number,
+		            _u:Number,_v:Number,
+					_r:Number,_g:Number,_b:Number,_a:Number;
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -211,9 +215,9 @@ package mongoose.display
 					context3d.setTextureAt(0,mCurrentTexture);
 				}
 				//var len:uint=obj.childs.length;
-				var x:Number,y:Number,z:Number,
+				/*var x:Number,y:Number,z:Number,
 				    u:Number,v:Number,
-				    r:Number,g:Number,b:Number,a:Number;
+				    r:Number,g:Number,b:Number,a:Number;*/
 				
 				var st:uint;
 				var sid:int,id:uint,uid:uint;
@@ -250,55 +254,59 @@ package mongoose.display
 				//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 				
 				st=0;
+				var clour:Vector.<Number>=obj.color;
+				var txture:TextureData=obj.texture;
 				while(st<4)
 				{
 					sid=st*mNumPerVertic;
 					id=index+sid;
 					
-					x=mCubeData[sid];
-					y=mCubeData[sid+1];
-					z=mCubeData[sid+2];
+					_x=mCubeData[sid];
+					_y=mCubeData[sid+1];
+					_z=mCubeData[sid+2];
 					
 				
-					x+=obj.pivot.x;
-					y+=obj.pivot.y;
+					_x+=obj.pivot.x;
+					_y+=obj.pivot.y;
 					//缩放
-					x*=obj.texture.width;
-					y*=obj.texture.height;
+					_x*=txture.width;
+					_y*=txture.height;
 					
-					x*=obj.width/obj.texture.width;
-					y*=obj.height/obj.texture.height;
+					_x*=obj.width/txture.width;
+					_y*=obj.height/txture.height;
 					
-					x*=obj.scaleX;
-					y*=obj.scaleY;
+					_x*=obj.scaleX;
+					_y*=obj.scaleY;
 					
 					rx=ry=rz=0;
 					//x旋转
-					ry=y*xcost-z*xsint;
-					rz=y*xsint+z*xcost;
+					ry=_y*xcost-_z*xsint;
+					rz=_y*xsint+_z*xcost;
 					//y旋转
-					rx=x*ycost+rz*ysint;
-					z=x*-ysint+rz*ycost;
+					rx=_x*ycost+rz*ysint;
+					_z=_x*-ysint+rz*ycost;
 					//z旋转
-					x=rx*zcost-ry*zsint;
-					y=rx*zsint+ry*zcost;
+					_x=rx*zcost-ry*zsint;
+					_y=rx*zsint+ry*zcost;
 					
 					//位移
-					x+=obj.x;y-=obj.y;z+=obj.z;
+					_x+=obj.x;_y-=obj.y;_z+=obj.z;
 					
-					mVerticBufferData[id]=x;
-					mVerticBufferData[id+1]=y;
-					mVerticBufferData[id+2]=z;
+					mVerticBufferData[id]=_x;
+					mVerticBufferData[id+1]=_y;
+					mVerticBufferData[id+2]=_z;
 
 					uid=st*2;
-						
+					
+					
 					mVerticBufferData[id+3]=obj.uv[uid];
 					mVerticBufferData[id+4]=obj.uv[uid+1];
 					
-					mVerticBufferData[id+5]=obj.color[0];
-					mVerticBufferData[id+6]=obj.color[1];
-					mVerticBufferData[id+7]=obj.color[2];
-					mVerticBufferData[id+8]=obj.color[3];
+					
+					mVerticBufferData[id+5]=clour[0];
+					mVerticBufferData[id+6]=clour[1];
+					mVerticBufferData[id+7]=clour[2];
+					mVerticBufferData[id+8]=clour[3];
 					//trace("处理对象:",obj.name,"顶点",st,"的基本变化,旋转+位移")
 					st++;
 				}
@@ -308,14 +316,9 @@ package mongoose.display
 				
 				//var currtarget:Sprite2D=obj;
 				
-				while(target.parent!=null)
+				while(!(target.parent is World)&&target.parent!=null)
 				{
-					//trace(target.name);
-					//trace("---------------------处理",obj.name,"的叠加变化-------------------")
 					
-					
-					//trace(target.name,tx,ty,tz);
-					//取出父级参数环境
 					xAngle=target.parent.rotationX*pi;
 					yAngle=target.parent.rotationY*pi;
 					zAngle=target.parent.rotationZ*pi;
@@ -328,39 +331,37 @@ package mongoose.display
 					
 					zsint=Math.sin(zAngle);
 					zcost=Math.cos(zAngle);
-					//trace("计算",target.name,"的父级",target.parent.name,"的三角关系")
+					
 					
 					st=0;
 					index=_drawCall*4*mNumPerVertic;
 					
 					
-					//trace("获取源数据:",obj.name,index);
 					while(st<4)
 					{
 						sid=st*mNumPerVertic;
 						id=index+sid;
 
-						x=mVerticBufferData[id];
-						y=mVerticBufferData[id+1];
-						z=mVerticBufferData[id+2];
+						_x=mVerticBufferData[id];
+						_y=mVerticBufferData[id+1];
+						_z=mVerticBufferData[id+2];
 
-						//trace(obj.name,"的顶点计算开始","顶点:"+st,x,y,z);
 					
-						x-=obj.x;y+=obj.y;z-=obj.z;
+						_x-=obj.x;_y+=obj.y;_z-=obj.z;
 
-						ry=(y-target.y)*xcost-(z+target.z)*xsint;
-						rz=(y+target.y)*xsint+(z+target.z)*xcost;
+						ry=(_y-target.y)*xcost-(_z+target.z)*xsint;
+						rz=(_y+target.y)*xsint+(_z+target.z)*xcost;
 						
-						rx=(x+target.x)*ycost+rz*ysint;
-						z=(x+target.x)*-ysint+rz*ycost;
+						rx=(_x+target.x)*ycost+rz*ysint;
+						_z=(_x+target.x)*-ysint+rz*ycost;
 						
-						x=rx*zcost-ry*zsint;
-						y=rx*zsint+ry*zcost;
-						//trace(currtarget.name,x,y,z)
-						x+=target.parent.x;y-=target.parent.y;z+=target.parent.z;
-						mVerticBufferData[id]=x;
-						mVerticBufferData[id+1]=y;
-						mVerticBufferData[id+2]=z;
+						_x=rx*zcost-ry*zsint;
+						_y=rx*zsint+ry*zcost;
+				
+						_x+=target.parent.x;_y-=target.parent.y;_z+=target.parent.z;
+						mVerticBufferData[id]=_x;
+						mVerticBufferData[id+1]=_y;
+						mVerticBufferData[id+2]=_z;
 						st++;
 					}
 					
