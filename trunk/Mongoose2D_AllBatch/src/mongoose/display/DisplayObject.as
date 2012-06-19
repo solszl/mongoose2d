@@ -29,7 +29,9 @@ package mongoose.display
 		public var uv:Vector.<Number>;
 		public var width:Number=0,
 			       height:Number=0;
-		
+		public var scaleX:Number=1,
+			       scaleY:Number=1,
+				   scaleZ:Number=1;
 		public function DisplayObject()
 		{
 			super();
@@ -55,8 +57,8 @@ package mongoose.display
 			if(this.texture!=null)
 			{
 				
-				width=this.texture.width;
-				height=this.texture.height;
+				width==0?width=this.texture.width:width;
+				height==0?height=this.texture.height:height;
 		        uv=this.texture.uvVector;
 			}
 		}
