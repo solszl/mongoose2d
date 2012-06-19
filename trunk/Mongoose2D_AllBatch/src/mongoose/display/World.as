@@ -264,7 +264,8 @@ package mongoose.display
 					g=points[sid+6];
 					b=points[sid+7];
 					a=points[sid+8];*/
-					
+					x+=obj.pivot.x;
+					y+=obj.pivot.y;
 					//缩放
 					x*=obj.width*.8;
 					y*=obj.height*.8;
