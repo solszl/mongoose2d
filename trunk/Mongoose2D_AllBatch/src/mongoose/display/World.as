@@ -7,7 +7,9 @@ package mongoose.display
 	import flash.display.Stage3D;
 	import flash.display.StageAlign;
 	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DProgramType;
+	import flash.display3D.Context3DTriangleFace;
 	import flash.display3D.IndexBuffer3D;
 	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
@@ -15,6 +17,8 @@ package mongoose.display
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
+	
+	import mongoose.tools.FrameRater;
 
 	[Event(name="addedToStage", type="flash.events.Event")]
 	public class World extends DisplayObjectContainer
@@ -26,6 +30,7 @@ package mongoose.display
 		private var _stage:Stage;
 		private var _drawCall:uint=0;
 		protected var mMaxVertics:uint=65535;
+		protected var mFps:FrameRater;
 		//position,uv,color
 		protected var mNumPerVertic:uint=9;
 		protected var mNumVerticPerPerson:uint=4;
@@ -54,7 +59,7 @@ package mongoose.display
 			height=viewPort.height;
 			
 			this.antiAlias=antiAlias;
-			
+			mFps = new FrameRater(65280, true,false);
 			mStage3d=_stage.stage3Ds[0];
 			mStage3d.x=viewPort.x;
 			mStage3d.y=viewPort.y;
@@ -96,6 +101,9 @@ package mongoose.display
 			TextureData.context3d=context3d;
 			
 			context3d.enableErrorChecking=true;
+			context3d.setCulling(Context3DTriangleFace.NONE);
+			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
+				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			
@@ -114,8 +122,18 @@ package mongoose.display
 			mWorldScaleMatrix.appendTranslation(-1,_scale,1);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,mPerspective,true);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,mWorldScaleMatrix,true);
-			
 			context3d.configureBackBuffer(width,height,antiAlias,false);
+		}
+		public function set showFps(value:Boolean):void
+		{
+			if (value)
+			{
+				_stage.addChild(mFps);
+			}
+			else if (_stage.contains(mFps))
+			{
+				_stage.removeChild(mFps);
+			}
 		}
 		private function createBuffers():void
 		{
@@ -173,8 +191,13 @@ package mongoose.display
 			context3d.clear();
 			_drawCall=0;
 			renderObj(this);
-			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
-			context3d.drawTriangles(mIndexBuffer,0,_drawCall*2);
+			if(_drawCall>0)
+			{
+				mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
+			    context3d.drawTriangles(mIndexBuffer,0,_drawCall*2);
+				mFps.uints=_drawCall;
+			}
+			
 			context3d.present();
 		}
 		private function renderObj(obj:DisplayObject):void
@@ -273,10 +296,10 @@ package mongoose.display
 					mVerticBufferData[id+4]=obj.uv[uid+1];
 					
 					//trace(mVerticBufferData[id+3],mVerticBufferData[id+4])
-					/*vertexBufferData[id+5]=r;
-					vertexBufferData[id+6]=g;
-					vertexBufferData[id+7]=b;
-					vertexBufferData[id+8]=a;*/
+					mVerticBufferData[id+5]=obj.color[0];
+					mVerticBufferData[id+6]=obj.color[1];
+					mVerticBufferData[id+7]=obj.color[2];
+					mVerticBufferData[id+8]=obj.color[3];
 					//trace("处理对象:",obj.name,"顶点",st,"的基本变化,旋转+位移")
 					st++;
 				}
@@ -352,20 +375,7 @@ package mongoose.display
 					tx+=target.x;
 					ty+=target.y;
 					tz+=target.z;
-					/*if(obj.parent!=null)
-					{
 					
-					ry=(y-obj.y)*xcost-(z+obj.z)*xsint;
-					rz=(y+obj.y)*xsint+(z+obj.z)*xcost;
-					
-					rx=(x+obj.x)*ycost+rz*ysint;
-					z=(x+obj.x)*-ysint+rz*ycost;
-					
-					x=rx*zcost-ry*zsint;
-					y=rx*zsint+ry*zcost;
-					
-					x+=obj.parent.x;y-=obj.parent.y;z+=obj.parent.z;
-					}*/
 					target=target.parent;
 				}
 				//
