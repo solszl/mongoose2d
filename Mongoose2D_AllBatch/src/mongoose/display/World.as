@@ -114,8 +114,7 @@ package mongoose.display
 			var mViewAngle:Number = Math.atan(height/width) * 2;
 			//mPerspective.identity();
 			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, .1,10000);
-			
-			
+
 			_scale=height/width;
 			mWorldScaleMatrix.identity();
 			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,.1/10000);
@@ -213,22 +212,22 @@ package mongoose.display
 				}
 				//var len:uint=obj.childs.length;
 				var x:Number,y:Number,z:Number,
-				u:Number,v:Number,
-				r:Number,g:Number,b:Number,a:Number;
+				    u:Number,v:Number,
+				    r:Number,g:Number,b:Number,a:Number;
 				
 				var st:uint;
-				var sid:int,id:uint;
+				var sid:int,id:uint,uid:uint;
 				var rx:Number,ry:Number,rz:Number;
 				var xsint:Number,
-				xcost:Number,
-				ysint:Number,
-				ycost:Number,
-				zsint:Number,
-				zcost:Number;
+					xcost:Number,
+					ysint:Number,
+					ycost:Number,
+					zsint:Number,
+					zcost:Number;
 				
 				var xAngle:Number,
-				yAngle:Number,
-				zAngle:Number;
+				    yAngle:Number,
+				    zAngle:Number;
 				
 				obj.render();
 				
@@ -260,10 +259,7 @@ package mongoose.display
 					y=mCubeData[sid+1];
 					z=mCubeData[sid+2];
 					
-					/*r=points[sid+5];
-					g=points[sid+6];
-					b=points[sid+7];
-					a=points[sid+8];*/
+				
 					x+=obj.pivot.x;
 					y+=obj.pivot.y;
 					//缩放
@@ -293,15 +289,12 @@ package mongoose.display
 					mVerticBufferData[id]=x;
 					mVerticBufferData[id+1]=y;
 					mVerticBufferData[id+2]=z;
-					
-					
-					var uid:uint=st*2;
+
+					uid=st*2;
 						
-					
 					mVerticBufferData[id+3]=obj.uv[uid];
 					mVerticBufferData[id+4]=obj.uv[uid+1];
 					
-					//trace(mVerticBufferData[id+3],mVerticBufferData[id+4])
 					mVerticBufferData[id+5]=obj.color[0];
 					mVerticBufferData[id+6]=obj.color[1];
 					mVerticBufferData[id+7]=obj.color[2];
@@ -311,7 +304,7 @@ package mongoose.display
 				}
 				var target:DisplayObject=obj;
 				var tx:Number=0,ty:Number=0,tz:Number=0;
-				var kx:Number=0,ky:Number=0,kz:Number=0;
+				
 				
 				//var currtarget:Sprite2D=obj;
 				
@@ -346,22 +339,15 @@ package mongoose.display
 					{
 						sid=st*mNumPerVertic;
 						id=index+sid;
-						
-						
+
 						x=mVerticBufferData[id];
 						y=mVerticBufferData[id+1];
 						z=mVerticBufferData[id+2];
-						
-						
+
 						//trace(obj.name,"的顶点计算开始","顶点:"+st,x,y,z);
-						var tg:DisplayObject=target;
-						
-						
-						
+					
 						x-=obj.x;y+=obj.y;z-=obj.z;
-						
-						
-						
+
 						ry=(y-target.y)*xcost-(z+target.z)*xsint;
 						rz=(y+target.y)*xsint+(z+target.z)*xcost;
 						
@@ -384,9 +370,7 @@ package mongoose.display
 					
 					target=target.parent;
 				}
-				//
-				//renderObject
-				//
+
 				_drawCall++;
 			}
 			if(obj is DisplayObjectContainer)
