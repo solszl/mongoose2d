@@ -16,7 +16,7 @@ package mongoose.display
 		
 		internal var program:Program3D;
 		public var pivot:Vector3D=new Vector3D(0,0,0);
-		public var texture:TextureData;
+		public var _texture:TextureData;
 		public var parent:DisplayObject;
 		public var rotationX:Number=0,
 			       rotationY:Number=0,
@@ -48,19 +48,29 @@ package mongoose.display
 			this.green=g;
 			this.blue=b;
 		}
+		public function set texture(txt:TextureData):void
+		{
+			_texture=txt;
+			
+			if(_texture!=null)
+			{
+				
+				width=_texture.width;
+				height=_texture.height;
+				uv=_texture.uvVector;
+			}
+		}
+		public function get texture():TextureData
+		{
+			return _texture;
+		}
 		public function render():void
 		{
 			color[0]=red;
 			color[1]=green;
 			color[2]=blue;
 			color[3]=alpha;
-			if(this.texture!=null)
-			{
-				
-				width==0?width=this.texture.width:width;
-				height==0?height=this.texture.height:height;
-		        uv=this.texture.uvVector;
-			}
+			
 		}
 	}
 }
