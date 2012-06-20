@@ -36,7 +36,10 @@ package mongoose.display
 		{
 			super();
 			color=new Vector.<Number>;
-		
+			color[0]=red;
+			color[1]=green;
+			color[2]=blue;
+			color[3]=alpha;
 		}
 		public function set blendMode(mode:String):void
 		{
