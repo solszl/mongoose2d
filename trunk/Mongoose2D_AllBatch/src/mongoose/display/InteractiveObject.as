@@ -77,7 +77,7 @@ package mongoose.display
 			}
 			return -1;
 		}
-		/*override public function render():void
+		override public function render():void
 		{
 			super.render();
 			var handles:Array=mEventHandles["enterFrame"];
@@ -88,7 +88,7 @@ package mongoose.display
 				handles[step](this);
 				step++;
 			}
-		}*/
+		}
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
 		{
 			switch(type)
