@@ -50,24 +50,6 @@ package mongoose.display
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
 		private var pi:Number=Math.PI/180;
 		private var _scale:Number;
-		
-		private var _x:Number,_y:Number,_z:Number,
-		            _u:Number,_v:Number,
-					_r:Number,_g:Number,_b:Number,_a:Number;
-		private var _step:uint,
-		            _verticIndex:uint,
-					_drawIndex:uint,
-					_globalIndex:uint,
-					_uvIndex:uint,
-					_rotX:Number,
-					_rotY:Number,
-					_rotZ:Number,
-					_xSin:Number,_xCos:Number,
-					_ySin:Number,_yCos:Number,
-					_zSin:Number,_zCos:Number,
-					_xAngle:Number,
-					_yAngle:Number,
-					_zAngle:Number;
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -192,8 +174,8 @@ package mongoose.display
 				"mov v0,va1\n"+
 				"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
-				//"mul ft0,ft0,v1\n"+
-				//"mul ft0,ft0,v1\n" +
+				"mul ft0,ft0,v1\n"+
+				// "mul ft0,ft0,v1\n" +
 				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
 			fsa.assemble(Context3DProgramType.FRAGMENT,fs);
@@ -219,165 +201,181 @@ package mongoose.display
 		}
 		private function renderObj(obj:DisplayObject):void
 		{
-			
 			if(!(obj is World))
 			{
 					
-				var clour:Vector.<Number>=obj.color;
-				var txture:TextureData=obj.texture;
 				
-				if(mCurrentTexture!=txture.texture)
+				if(mCurrentTexture!=obj.texture.texture)
 				{
-					mCurrentTexture=txture.texture;
+					mCurrentTexture=obj.texture.texture;
 					context3d.setTextureAt(0,mCurrentTexture);
 				}
 				//var len:uint=obj.childs.length;
-				/*var x:Number,y:Number,z:Number,
+				var x:Number,y:Number,z:Number,
 				    u:Number,v:Number,
-				    r:Number,g:Number,b:Number,a:Number;*/
+				    r:Number,g:Number,b:Number,a:Number;
 				
+				var st:uint;
+				var sid:int,id:uint,uid:uint;
+				var rx:Number,ry:Number,rz:Number;
+				var xsint:Number,
+					xcost:Number,
+					ysint:Number,
+					ycost:Number,
+					zsint:Number,
+					zcost:Number;
 				
+				var xAngle:Number,
+				    yAngle:Number,
+				    zAngle:Number;
 				
-				//var rx:Number,ry:Number,rz:Number;
-			
 				obj.render();
 				
 				//trace(obj.name)
-				_drawIndex=_drawCall*4*mNumPerVertic;
+				var index:uint=_drawCall*4*mNumPerVertic;
 				
-				_xAngle=obj.rotationX*pi;
-				_yAngle=obj.rotationY*pi;
-				_zAngle=obj.rotationZ*pi;
+				xAngle=obj.rotationX*pi;
+				yAngle=obj.rotationY*pi;
+				zAngle=obj.rotationZ*pi;
 				
-				_xSin=Math.sin(_xAngle);
-				_xCos=Math.cos(_xAngle);
+				xsint=Math.sin(xAngle);
+				xcost=Math.cos(xAngle);
 				
-				_yCos=Math.sin(_yAngle);
-				_yCos=Math.cos(_yAngle);
+				ysint=Math.sin(yAngle);
+				ycost=Math.cos(yAngle);
 				
-				_zSin=Math.sin(_zAngle);
-				_zCos=Math.cos(_zAngle);
+				zsint=Math.sin(zAngle);
+				zcost=Math.cos(zAngle);
 				
 				//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 				
-				
-				
-				_step=0;
-				while(_step<4)
+				st=0;
+				while(st<4)
 				{
-					_verticIndex=_step*mNumPerVertic;
-					_globalIndex=_drawIndex+_verticIndex;
+					sid=st*mNumPerVertic;
+					id=index+sid;
 					
-					_x=mCubeData[_verticIndex];
-					_y=mCubeData[_verticIndex+1];
-					_z=mCubeData[_verticIndex+2];
+					x=mCubeData[sid];
+					y=mCubeData[sid+1];
+					z=mCubeData[sid+2];
 					
 				
-					_x+=obj.pivot.x;
-					_y+=obj.pivot.y;
+					x+=obj.pivot.x;
+					y+=obj.pivot.y;
 					//缩放
-					_x*=txture.width;
-					_y*=txture.height;
+					x*=obj.texture.width;
+					y*=obj.texture.height;
 					
-					_x*=obj.width/txture.width;
-					_y*=obj.height/txture.height;
+					x*=obj.width/obj.texture.width;
+					y*=obj.height/obj.texture.height;
 					
-					_x*=obj.scaleX;
-					_y*=obj.scaleY;
+					x*=obj.scaleX;
+					y*=obj.scaleY;
 					
-					_rotX=_rotY=_rotZ;
+					rx=ry=rz=0;
 					//x旋转
-					_rotY=_y*_xCos-_z*_xSin;
-					_rotZ=_y*_xSin+_z*_xCos;
+					ry=y*xcost-z*xsint;
+					rz=y*xsint+z*xcost;
 					//y旋转
-					_rotX=_x*_yCos+_rotZ*_yCos;
-					_z=_x*-_yCos+_rotZ*_yCos;
+					rx=x*ycost+rz*ysint;
+					z=x*-ysint+rz*ycost;
 					//z旋转
-					_x=_rotX*_zCos-_rotY*_zSin;
-					_y=_rotX*_zSin+_rotY*_zCos;
+					x=rx*zcost-ry*zsint;
+					y=rx*zsint+ry*zcost;
 					
 					//位移
-					_x+=obj.x;_y-=obj.y;_z+=obj.z;
+					x+=obj.x;y-=obj.y;z+=obj.z;
 					
-					mVerticBufferData[_globalIndex]=_x;
-					mVerticBufferData[_globalIndex+1]=_y;
-					mVerticBufferData[_globalIndex+2]=_z;
+					mVerticBufferData[id]=x;
+					mVerticBufferData[id+1]=y;
+					mVerticBufferData[id+2]=z;
 
-					_uvIndex=_step*2;
+					uid=st*2;
+						
+					mVerticBufferData[id+3]=obj.uv[uid];
+					mVerticBufferData[id+4]=obj.uv[uid+1];
 					
-					
-					mVerticBufferData[_globalIndex+3]=obj.uv[_uvIndex];
-					mVerticBufferData[_globalIndex+4]=obj.uv[_uvIndex+1];
-					
-					
-					mVerticBufferData[_globalIndex+5]=clour[0];
-					mVerticBufferData[_globalIndex+6]=clour[1];
-					mVerticBufferData[_globalIndex+7]=clour[2];
-					mVerticBufferData[_globalIndex+8]=clour[3];
+					mVerticBufferData[id+5]=obj.color[0];
+					mVerticBufferData[id+6]=obj.color[1];
+					mVerticBufferData[id+7]=obj.color[2];
+					mVerticBufferData[id+8]=obj.color[3];
 					//trace("处理对象:",obj.name,"顶点",st,"的基本变化,旋转+位移")
-					_step++;
+					st++;
 				}
 				var target:DisplayObject=obj;
+				var tx:Number=0,ty:Number=0,tz:Number=0;
+				
 				
 				//var currtarget:Sprite2D=obj;
 				
-				while(!(target.parent is World)&&target.parent!=null)
+				while(target.parent!=null)
 				{
-					
-					_xAngle=target.parent.rotationX*pi;
-					_yAngle=target.parent.rotationY*pi;
-					_zAngle=target.parent.rotationZ*pi;
-					
-					_xSin=Math.sin(_xAngle);
-					_xCos=Math.cos(_xAngle);
-					
-					_yCos=Math.sin(_yAngle);
-					_yCos=Math.cos(_yAngle);
-					
-					_zSin=Math.sin(_zAngle);
-					_zCos=Math.cos(_zAngle);
+					//trace(target.name);
+					//trace("---------------------处理",obj.name,"的叠加变化-------------------")
 					
 					
+					//trace(target.name,tx,ty,tz);
+					//取出父级参数环境
+					xAngle=target.parent.rotationX*pi;
+					yAngle=target.parent.rotationY*pi;
+					zAngle=target.parent.rotationZ*pi;
 					
-					_drawIndex=_drawCall*4*mNumPerVertic;
+					xsint=Math.sin(xAngle);
+					xcost=Math.cos(xAngle);
 					
-					_step=0;
-					while(_step<4)
+					ysint=Math.sin(yAngle);
+					ycost=Math.cos(yAngle);
+					
+					zsint=Math.sin(zAngle);
+					zcost=Math.cos(zAngle);
+					//trace("计算",target.name,"的父级",target.parent.name,"的三角关系")
+					
+					st=0;
+					index=_drawCall*4*mNumPerVertic;
+					
+					
+					//trace("获取源数据:",obj.name,index);
+					while(st<4)
 					{
-						_verticIndex=_step*mNumPerVertic;
-						_globalIndex=_drawIndex+_verticIndex;
+						sid=st*mNumPerVertic;
+						id=index+sid;
 
-						_x=mVerticBufferData[_globalIndex];
-						_y=mVerticBufferData[_globalIndex+1];
-						_z=mVerticBufferData[_globalIndex+2];
+						x=mVerticBufferData[id];
+						y=mVerticBufferData[id+1];
+						z=mVerticBufferData[id+2];
 
+						//trace(obj.name,"的顶点计算开始","顶点:"+st,x,y,z);
 					
-						_x-=obj.x;_y+=obj.y;_z-=obj.z;
+						x-=target.x;y+=target.y;z-=target.z;
 
-						_rotY=(_y-target.y)*_xCos-(_z+target.z)*_xSin;
-						_rotZ=(_y+target.y)*_xSin+(_z+target.z)*_xCos;
+						ry=(y-target.y)*xcost-(z+target.z)*xsint;
+						rz=(y+target.y)*xsint+(z+target.z)*xcost;
 						
-						_rotX=(_x+target.x)*_yCos+_rotZ*_yCos;
-						_z=(_x+target.x)*-_yCos+_rotZ*_yCos;
+						rx=(x+target.x)*ycost+rz*ysint;
+						z=(x+target.x)*-ysint+rz*ycost;
 						
-						_x=_rotX*_zCos-_rotY*_zSin;
-						_y=_rotX*_zSin+_rotY*_zCos;
-				
-						_x+=target.parent.x;_y-=target.parent.y;_z+=target.parent.z;
-						mVerticBufferData[_globalIndex]=_x;
-						mVerticBufferData[_globalIndex+1]=_y;
-						mVerticBufferData[_globalIndex+2]=_z;
-						_step++;
+						x=rx*zcost-ry*zsint;
+						y=rx*zsint+ry*zcost;
+						//trace(currtarget.name,x,y,z)
+						x+=target.parent.x;y-=target.parent.y;z+=target.parent.z;
+						mVerticBufferData[id]=x;
+						mVerticBufferData[id+1]=y;
+						mVerticBufferData[id+2]=z;
+						st++;
 					}
-				
+					
+					tx+=target.parent.x;
+					ty+=target.parent.y;
+					tz+=target.parent.z;
+					
 					target=target.parent;
 				}
-
+                
 				_drawCall++;
 			}
-			var container:DisplayObjectContainer=obj as DisplayObjectContainer;
-			if(container)
+			if(obj is DisplayObjectContainer)
 			{
+				var container:DisplayObjectContainer=obj as DisplayObjectContainer;
 				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
