@@ -14,7 +14,7 @@ package mongoose.display
 			this.fps=fps;
 			_frames=frames;
 			currentFrame=1;
-			render();
+			this.texture=_frames[currentFrame-1];
 		}
 		public function set fps(value:int):void
 		{
@@ -28,7 +28,10 @@ package mongoose.display
 				if(_step==_delay)
 				{
 					currentFrame++;
+					if(currentFrame>_frames.length)
+						currentFrame=1;
 					this.texture=_frames[currentFrame-1];
+					
 					_step=0;
 				}
 				else
