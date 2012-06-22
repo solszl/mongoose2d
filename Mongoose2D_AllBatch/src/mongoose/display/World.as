@@ -250,6 +250,8 @@ package mongoose.display
 				//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 				
 				st=0;
+				
+				var texture:TextureData=obj.texture;
 				while(st<4)
 				{
 					sid=st*mNumPerVertic;
@@ -263,14 +265,14 @@ package mongoose.display
 					x+=obj.pivot.x;
 					y+=obj.pivot.y;
 					//缩放
-					x*=obj.texture.width;
-					y*=obj.texture.height;
+					x*=texture.width*(obj.width/texture.width)*obj.scaleX;
+					y*=texture.height*(obj.height/texture.height)*obj.scaleY;
 					
-					x*=obj.width/obj.texture.width;
-					y*=obj.height/obj.texture.height;
+					//x*=obj.width/obj.texture.width;
+					//y*=obj.height/obj.texture.height;
 					
-					x*=obj.scaleX;
-					y*=obj.scaleY;
+					//x*=obj.scaleX;
+					//y*=obj.scaleY;
 					
 					rx=ry=rz=0;
 					//x旋转
