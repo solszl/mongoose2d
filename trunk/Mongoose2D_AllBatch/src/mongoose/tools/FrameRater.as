@@ -59,7 +59,7 @@ package mongoose.tools {
 		}
 		private function onTimer(event:TimerEvent):void {
 			var val:Number=computeTime();
-			_text.text=Math.floor(val).toString()+" fps "+uints.toString();
+			_text.text=Math.floor(val).toString()+" fps | DisplayObject:"+uints.toString();
 			_text.setTextFormat(_tf);
 			_text.autoSize="left";
 			if (_showGraph) {
