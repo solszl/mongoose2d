@@ -64,9 +64,9 @@ package mongoose.display
             }
             else
             {
-               
-                texture =context3d.createTexture(mBitmapData.width,
-					                             mBitmapData.height,"bgra",false);
+		var tw:Number=getUpPower2(mBitmapData.width);
+			var th:Number=getUpPower2(mBitmapData.height);
+                texture =context3d.createTexture(tw,th,"bgra",false);
 				texture.uploadFromBitmapData(bmp);
                 setUVData(new Rectangle(0,0,bmp.width,bmp.height));
 			    cache[bmp]=texture;
