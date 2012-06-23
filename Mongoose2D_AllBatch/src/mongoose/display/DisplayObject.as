@@ -21,11 +21,12 @@ package mongoose.display
 		public var rotationX:Number=0,
 			       rotationY:Number=0,
 				   rotationZ:Number=0;
+		public var scrollX:Number=0,scrollY:Number=0;
 		public var red:Number=1.0,
 			       green:Number=1.0,
 				   blue:Number=1.0,
 				   alpha:Number=1.0;
-		internal var color:Vector.<Number>;
+		
 		public var uv:Vector.<Number>;
 		public var width:Number=0,
 			       height:Number=0;
@@ -35,22 +36,19 @@ package mongoose.display
 		public function DisplayObject()
 		{
 			super();
-			color=new Vector.<Number>;
-			color[0]=red;
-			color[1]=green;
-			color[2]=blue;
-			color[3]=alpha;
+			
 		}
 		public function set blendMode(mode:String):void
 		{
 			
 		}
-		public function setColor(r:Number=0xff,g:Number=0xff,b:Number=0xff):void
+		public function setColor(r:Number=1.0,g:Number=1.0,b:Number=1.0):void
 		{
 			this.red=r;
 			this.green=g;
 			this.blue=b;
 		}
+		
 		public function set texture(txt:TextureData):void
 		{
 			_texture=txt;
@@ -69,10 +67,7 @@ package mongoose.display
 		}
 		public function render():void
 		{
-			color[0]=red;
-			color[1]=green;
-			color[2]=blue;
-			color[3]=alpha;
+			
 		}
 	}
 }

@@ -79,7 +79,6 @@ package mongoose.display
 		}
 		override public function render():void
 		{
-			super.render();
 			var handles:Array=mEventHandles["enterFrame"];
 			var step:uint=0;
 			var total:uint=handles.length;
