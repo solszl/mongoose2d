@@ -73,7 +73,6 @@ package mongoose.display
 			color[1]=green;
 			color[2]=blue;
 			color[3]=alpha;
-			
 		}
 	}
 }
