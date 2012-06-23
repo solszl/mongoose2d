@@ -293,13 +293,14 @@ package mongoose.display
 					}
 					var target:DisplayObject=obj;
 					var notWorld:Boolean=!(target.parent is World);
+					var tParent:DisplayObject
 					while(target.parent!=null&&notWorld)
 					{
-
+						tParent=target.parent;
 						//取出父级参数环境
-						_xAngle=target.parent.rotationX*_pi;
-						_yAngle=target.parent.rotationY*_pi;
-						_zAngle=target.parent.rotationZ*_pi;
+						_xAngle=tParent.rotationX*_pi;
+						_yAngle=tParent.rotationY*_pi;
+						_zAngle=tParent.rotationZ*_pi;
 						
 						_xsint=Math.sin(_xAngle);
 						_xcost=Math.cos(_xAngle);
@@ -336,15 +337,15 @@ package mongoose.display
 							_x=_rx*_zcost-_ry*_zsint;
 							_y=_rx*_zsint+_ry*_zcost;
 							//trace(currtarget.name,x,y,z)
-							_x+=target.parent.x;_y-=target.parent.y;_z+=target.parent.z;
+							_x+=tParent.x;_y-=tParent.y;_z+=tParent.z;
 							mVerticBufferData[_id]=_x;
 							mVerticBufferData[_id+1]=_y;
 							mVerticBufferData[_id+2]=_z;
 							
-							mVerticBufferData[_id+5]*=target.parent.red;
-							mVerticBufferData[_id+6]*=target.parent.green;
-							mVerticBufferData[_id+7]*=target.parent.blue;
-							mVerticBufferData[_id+8]*=target.parent.alpha;
+							mVerticBufferData[_id+5]*=tParent.red;
+							mVerticBufferData[_id+6]*=tParent.green;
+							mVerticBufferData[_id+7]*=tParent.blue;
+							mVerticBufferData[_id+8]*=tParent.alpha;
 							
 							_vt++;
 						}
