@@ -184,7 +184,7 @@ package mongoose.display
 				"mov op,vt0\n"+
 				"mov v0,va1\n"+
 				"mov v1,va2";
-			var fs:String="tex ft0, v0, fs0 <2d,clamp,linear> \n" + 
+			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
 				"mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
 				"mov oc,ft0"; 
@@ -281,13 +281,13 @@ package mongoose.display
 	
 						_uid=_vt*2;
 							
-						mVerticBufferData[_id+3]=obj.uv[_uid];
-						mVerticBufferData[_id+4]=obj.uv[_uid+1];
+						mVerticBufferData[_id+3]=obj.uv[_uid]+obj.scrollX;
+						mVerticBufferData[_id+4]=obj.uv[_uid+1]+obj.scrollY;
 						
-						mVerticBufferData[_id+5]=obj.color[0];
-						mVerticBufferData[_id+6]=obj.color[1];
-						mVerticBufferData[_id+7]=obj.color[2];
-						mVerticBufferData[_id+8]=obj.color[3];
+						mVerticBufferData[_id+5]=obj.red;
+						mVerticBufferData[_id+6]=obj.green;
+						mVerticBufferData[_id+7]=obj.blue;
+						mVerticBufferData[_id+8]=obj.alpha;
 						//trace("处理对象:",obj.name,"顶点",st,"的基本变化,旋转+位移")
 						_vt++;
 					}
