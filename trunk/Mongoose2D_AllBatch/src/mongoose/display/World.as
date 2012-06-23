@@ -15,8 +15,10 @@ package mongoose.display
 	import flash.display3D.VertexBuffer3D;
 	import flash.display3D.textures.Texture;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
 	
 	import mongoose.tools.FrameRater;
 
@@ -26,6 +28,8 @@ package mongoose.display
 		protected var mStage3d:Stage3D;
 		public var antiAlias:uint;
 		public var autoSize:Boolean;
+		public var near:Number=.1;
+		public var far:Number=10000;
 		private var context3d:Context3D;
 		private var _stage:Stage;
 		private var _drawCall:uint=0;
@@ -64,7 +68,11 @@ package mongoose.display
 		private var _x:Number,_y:Number,_z:Number;
 		
 		private var _vt:uint,_vtIndex:uint;
+		private var _widthRcp:Number,_heightRcp:Number;
 
+		protected var mNearPoint:Vector3D=new Vector3D;
+		protected var mFarPoint:Vector3D=new Vector3D;
+		protected var mDir:Vector3D;
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -95,9 +103,6 @@ package mongoose.display
 		{
 			if(context3d!=null&&autoSize)
 			{
-				width=_stage.stageWidth;
-				height=_stage.stageHeight;
-				
 				configure();
 			}
 		}
@@ -106,6 +111,10 @@ package mongoose.display
 		{
 			width=_stage.stageWidth;
 			height=_stage.stageHeight;
+			
+			_widthRcp=2/width;
+			_heightRcp=2/height;
+			
 			context3d=mStage3d.context3D;
 			DisplayObject.stage=_stage;
 			
@@ -120,17 +129,36 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
+			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onMouseMove);
 			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			
+		}
+		private function onMouseMove(e:MouseEvent):void
+		{
+			var tx:Number=e.stageX;
+			var ty:Number=e.stageY;
+			var dx:Number=(tx*_widthRcp-1);
+			var dy:Number=_scale-ty*_heightRcp;
+			
+			mNearPoint.x=dx*near;
+			mNearPoint.y=dy*near;
+			mNearPoint.z=near;
+			
+			mFarPoint.x=dx*far;
+			mFarPoint.y=dy*far;
+			mFarPoint.z=far;
+			
+			mDir=mFarPoint.subtract(mNearPoint);
+			trace(mNearPoint,mFarPoint);
 		}
 		private function configure():void
 		{
 			var mViewAngle:Number = Math.atan(height/width) * 2;
-			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, .1,10000);
+			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, near,far);
 
 			_scale=height/width;
 			mWorldScaleMatrix.identity();
-			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,.1/10000);
+			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,near/far);
 			mWorldScaleMatrix.appendTranslation(-1,_scale,1);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,mPerspective,true);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,mWorldScaleMatrix,true);
@@ -178,7 +206,8 @@ package mongoose.display
 		{
 			var vsa:AGALMiniAssembler=new AGALMiniAssembler;
 			var fsa:AGALMiniAssembler=new AGALMiniAssembler;
-			var vs:String="m44 vt0,va0,vc0\n"+
+			var vs:String=
+				"m44 vt0,va0,vc0\n"+
 				"m44 vt0,vt0,vc4\n"+
 				
 				"mov op,vt0\n"+
@@ -367,6 +396,44 @@ package mongoose.display
 					step++;
 				}
 			}
+		}
+		protected function instric(p0:Vector3D,edge1:Vector3D,edge2:Vector3D):Boolean
+		{
+			var pass:Boolean=true;
+			//var edge1:Vector3D,edge2:Vector3D;
+			
+			//----------------------------------------------------			
+			
+			var _pvec:Vector3D=mDir.crossProduct(edge2);
+			var _det:Number=edge1.dotProduct(_pvec);
+			var _tvec:Vector3D,_tu:Number,_qvec:Vector3D,_tv:Number,_t:Number,_temp:Number,_u:Number,_v:Number;
+			if(_det>0)
+			{
+				_tvec=mNearPoint.subtract(p0);
+			}
+			if(_det<0)
+			{
+				_tvec=p0.subtract(mNearPoint);
+				_det=-_det;
+			}
+			if(_det<0.0001)
+				pass= false;
+			_tu=_tvec.dotProduct(_pvec);
+			if(_tu<0||_tu>_det)
+				pass= false;
+			_qvec=_tvec.crossProduct(edge1);
+			_tv=mDir.dotProduct(_qvec);
+			if(_tv<0||_tu+_tv>_det)
+				pass= false;
+			_t=edge2.dotProduct(_qvec);
+			_temp=1/_det;
+			_t*=_temp;
+			_tu*=_temp;
+			_tv*=_temp;
+			_u=_tu;
+			_v=_tv;
+			
+			return pass;
 		}
 		public function start():void
 		{
