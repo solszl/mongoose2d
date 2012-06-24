@@ -6,7 +6,7 @@ package mongoose.display
 
 	public class Image extends DisplayObject
 	{
-		static public var stage:Stage;
+		
 		
 		public function Image(texture:TextureData)
 		{

@@ -7,7 +7,6 @@ package mongoose.display
     import flash.geom.Rectangle;
     import flash.utils.*;
     
-  
     import mongoose.geom.getUpPower2;
     
  
@@ -29,30 +28,32 @@ package mongoose.display
         public static var context3d:Context3D;
         private static var cache:Dictionary;
         private static var defaultBmp:BitmapData;
-		
+		private static var id:uint;
+		public var sid:uint;
 		/**
 		 * @param useDefault 是否开启缺省材质
 		 */        
-        public function TextureData(bd:BitmapData=null)
+        public function TextureData(bd:BitmapData=null,useDefault:Boolean=false)
         {
+			sid=id++;
 			uvVector = Vector.<Number>([0, 0, 1,0, 1,1,0,1]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
 			}
 			
-			if (bd == null)
-            {
-                defaultBmp = new BitmapData(16, 16, true, 4294967295);
-				bitmapData = defaultBmp;
-				//setUVData(new Rectangle(0,0,bd.width,bd.height));
-            }
-			else
+			
+			if(bd!=null)
             {
 				bitmapData = bd;
                //setUVData(new Rectangle(0,0,bd.width,bd.height));
             }
-			
+			else if(useDefault)
+			{
+				if(defaultBmp==null)
+				defaultBmp = new BitmapData(16, 16, true, 4294967295);
+				bitmapData = defaultBmp;
+			}
         }
 
         public function set bitmapData(bmp:BitmapData):void
@@ -64,15 +65,15 @@ package mongoose.display
             }
             else
             {
-		var tw:Number=getUpPower2(mBitmapData.width);
-			var th:Number=getUpPower2(mBitmapData.height);
-                texture =context3d.createTexture(tw,th,"bgra",false);
-				texture.uploadFromBitmapData(bmp);
-                setUVData(new Rectangle(0,0,bmp.width,bmp.height));
-			    cache[bmp]=texture;
+			    var tw:Number=getUpPower2(mBitmapData.width);
+				var th:Number=getUpPower2(mBitmapData.height);
+	                texture =context3d.createTexture(tw,th,"bgra",false);
+					texture.uploadFromBitmapData(bmp);
+	                
+				    cache[bmp]=texture;
                 
             }
-            
+			setUVData(new Rectangle(0,0,bmp.width,bmp.height));
             return;
         }
 		
