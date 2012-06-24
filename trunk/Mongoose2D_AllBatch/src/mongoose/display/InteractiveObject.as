@@ -1,12 +1,13 @@
 package mongoose.display
 {
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 
 	public class InteractiveObject extends Image
 	{
-		
+		static public var stage:Stage;
 		public var mouseEnabled:Boolean;
 		public var mouseChildren:Boolean;
 		protected var mEventHandles:Dictionary=new Dictionary;
@@ -14,6 +15,12 @@ package mongoose.display
 		{
 			super(texture);
 			mEventHandles["enterFrame"]=[];
+			if(stage)
+			stage.addEventListener(Event.RESIZE,onResize);
+		}
+		private function onResize(e:Event):void
+		{
+			this.dispatchEvent(e.clone());
 		}
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{

@@ -73,6 +73,8 @@ package mongoose.display
 		protected var mNearPoint:Vector3D=new Vector3D;
 		protected var mFarPoint:Vector3D=new Vector3D;
 		protected var mDir:Vector3D;
+		
+		private var _startDraw:uint,_stopDraw:uint;
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -97,6 +99,7 @@ package mongoose.display
 			)
 			
 			_stage.addEventListener(Event.RESIZE,onResize);
+			
 			mStage3d.addEventListener(Event.CONTEXT3D_CREATE,onContext);
 		}
 		private function onResize(e:Event):void
@@ -110,28 +113,21 @@ package mongoose.display
 		private function onContext(e:Event):void
 		{
 			context3d=mStage3d.context3D;
-			DisplayObject.stage=_stage;
+			InteractiveObject.stage=_stage;
+            TextureData.context3d=context3d;
 			
 			configure();
-			
-			
-			
-			
-			
 			createBuffers();
 			createProgram();
-			
-			
-			TextureData.context3d=context3d;
 			
 			context3d.enableErrorChecking=true;
 			context3d.setCulling(Context3DTriangleFace.NONE);
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
-			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
-			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onMouseMove);
-			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			
+			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onRender);
+			//_stage.addEventListener(Event.ENTER_FRAME,onRender);
+			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 		}
 		private function onMouseMove(e:MouseEvent):void
 		{
@@ -229,15 +225,18 @@ package mongoose.display
 			mCurrentProgram=mNormalProgram;
 			context3d.setProgram(mCurrentProgram);
 		}
-		private function onRender(e:Event):void
+		private function onRender(e:Event=null):void
 		{
 			context3d.clear();
 			_drawCall=0;
+			_startDraw=0;
 			renderObj(this);
 			if(_drawCall>0)
 			{
-				mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
-			    context3d.drawTriangles(mIndexBuffer,0,_drawCall*2);
+				var end:uint=_drawCall-_startDraw;
+				trace("输出缓冲区",_startDraw,end);
+				mVerticBuffer.uploadFromVector(mVerticBufferData,_startDraw*4,end*4);
+				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
 				mFps.uints=_drawCall;
 			}
 			
@@ -251,11 +250,7 @@ package mongoose.display
 				obj.render();
 				if(texture!=null)
 				{
-					if(mCurrentTexture!=texture.texture)
-					{
-						mCurrentTexture=obj.texture.texture;
-						context3d.setTextureAt(0,mCurrentTexture);
-					}
+					
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
 					_vtIndex=_drawCall*4*mNumPerVertic;
@@ -326,7 +321,7 @@ package mongoose.display
 					}
 					var target:DisplayObject=obj;
 					var notWorld:Boolean=!(target.parent is World);
-					var tParent:DisplayObject
+					var tParent:DisplayObject;
 					while(target.parent!=null&&notWorld)
 					{
 						tParent=target.parent;
@@ -384,7 +379,29 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-	                
+					if(mCurrentTexture!=texture.texture)
+					{
+						
+						if(mCurrentTexture!=null)
+						{
+							var end:uint=_drawCall-_startDraw;
+							trace("输出缓冲区",_startDraw,end);
+							mVerticBuffer.uploadFromVector(mVerticBufferData,_startDraw*4,end*4);
+							context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+							
+							mCurrentTexture=texture.texture;
+							context3d.setTextureAt(0,mCurrentTexture);
+							_startDraw=_drawCall;
+							trace("设置当前贴图",obj,texture.sid);
+						}
+						else
+						{
+							trace("设置首个贴图",obj,texture.sid);
+							mCurrentTexture=texture.texture;
+							context3d.setTextureAt(0,mCurrentTexture);
+						}
+					}
+					trace("显示对象",obj);
 					_drawCall++;
 				}
 			}	

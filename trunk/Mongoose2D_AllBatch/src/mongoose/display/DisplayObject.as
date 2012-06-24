@@ -8,15 +8,10 @@ package mongoose.display
 
 	public class DisplayObject extends Object3D
 	{
-		static public var stage:Stage;
-		
-		
-	
-		
 		
 		internal var program:Program3D;
 		public var pivot:Vector3D=new Vector3D(0,0,0);
-		public var _texture:TextureData;
+		
 		public var parent:DisplayObject;
 		public var rotationX:Number=0,
 			       rotationY:Number=0,
@@ -33,6 +28,8 @@ package mongoose.display
 		public var scaleX:Number=1,
 			       scaleY:Number=1,
 				   scaleZ:Number=1;
+		
+		private var _texture:TextureData;
 		public function DisplayObject()
 		{
 			super();
