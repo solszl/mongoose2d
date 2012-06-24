@@ -109,18 +109,18 @@ package mongoose.display
 		
 		private function onContext(e:Event):void
 		{
-			width=_stage.stageWidth;
-			height=_stage.stageHeight;
-			
-			_widthRcp=2/width;
-			_heightRcp=2/height;
-			
 			context3d=mStage3d.context3D;
 			DisplayObject.stage=_stage;
 			
+			configure();
+			
+			
+			
+			
+			
 			createBuffers();
 			createProgram();
-			configure();
+			
 			
 			TextureData.context3d=context3d;
 			
@@ -153,6 +153,10 @@ package mongoose.display
 		}
 		private function configure():void
 		{
+			width=_stage.stageWidth;
+			height=_stage.stageHeight;
+			_widthRcp=2/width;
+			_heightRcp=2/height;
 			var mViewAngle:Number = Math.atan(height/width) * 2;
 			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, near,far);
 
