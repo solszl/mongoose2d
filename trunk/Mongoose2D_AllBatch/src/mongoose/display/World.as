@@ -237,7 +237,7 @@ package mongoose.display
 				trace("输出顶点缓冲区",_startDraw*4,end*4);
 				context3d.setTextureAt(0,mCurrentTexture);
 				mVerticBuffer.uploadFromVector(mVerticBufferData,4,8);
-				context3d.drawTriangles(mIndexBuffer,12,2);
+				context3d.drawTriangles(mIndexBuffer,0,2);
 				trace("绘制三角形",0,end*2);
 				mFps.uints=_drawCall;
 			}
@@ -387,14 +387,14 @@ package mongoose.display
 						if(mCurrentTexture!=null)
 						{
 							var end:uint=_drawCall-_startDraw;
-							trace("输出顶点缓冲区",_startDraw*4,end*4);
+							trace("输出常规顶点缓冲区",_startDraw*4,end*4);
 							context3d.setTextureAt(0,mCurrentTexture);
 							
-							mVerticBuffer.uploadFromVector(mVerticBufferData,0,4);
+							//mVerticBuffer.uploadFromVector(mVerticBufferData,0,4);
 							
 							
 							
-							context3d.drawTriangles(mIndexBuffer,0,2);
+							//context3d.drawTriangles(mIndexBuffer,0,2);
 							//context3d.drawTriangles(mIndexBuffer,6,2);
 							trace("绘制三角形",0,2*2);
 							_startDraw=_drawCall;
