@@ -234,9 +234,11 @@ package mongoose.display
 			if(_drawCall>0)
 			{
 				var end:uint=_drawCall-_startDraw;
-				trace("输出缓冲区",_startDraw,end);
-				mVerticBuffer.uploadFromVector(mVerticBufferData,_startDraw*4,end*4);
-				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+				trace("输出顶点缓冲区",_startDraw*4,end*4);
+				context3d.setTextureAt(0,mCurrentTexture);
+				mVerticBuffer.uploadFromVector(mVerticBufferData,4,8);
+				context3d.drawTriangles(mIndexBuffer,12,2);
+				trace("绘制三角形",0,end*2);
 				mFps.uints=_drawCall;
 			}
 			
@@ -254,7 +256,7 @@ package mongoose.display
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
 					_vtIndex=_drawCall*4*mNumPerVertic;
-					
+					trace("顶点计算",_drawCall);
 					_xAngle=obj.rotationX*_pi;
 					_yAngle=obj.rotationY*_pi;
 					_zAngle=obj.rotationZ*_pi;
@@ -385,20 +387,27 @@ package mongoose.display
 						if(mCurrentTexture!=null)
 						{
 							var end:uint=_drawCall-_startDraw;
-							trace("输出缓冲区",_startDraw,end);
-							mVerticBuffer.uploadFromVector(mVerticBufferData,_startDraw*4,end*4);
-							context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
-							
-							mCurrentTexture=texture.texture;
+							trace("输出顶点缓冲区",_startDraw*4,end*4);
 							context3d.setTextureAt(0,mCurrentTexture);
+							
+							mVerticBuffer.uploadFromVector(mVerticBufferData,0,4);
+							
+							
+							
+							context3d.drawTriangles(mIndexBuffer,0,2);
+							//context3d.drawTriangles(mIndexBuffer,6,2);
+							trace("绘制三角形",0,2*2);
 							_startDraw=_drawCall;
-							trace("设置当前贴图",obj,texture.sid);
+							mCurrentTexture=texture.texture;
+							
+							
+						
 						}
 						else
 						{
-							trace("设置首个贴图",obj,texture.sid);
+							
 							mCurrentTexture=texture.texture;
-							context3d.setTextureAt(0,mCurrentTexture);
+						
 						}
 					}
 					trace("显示对象",obj);
