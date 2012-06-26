@@ -36,7 +36,7 @@ package mongoose.display
 		protected var mMaxVertics:uint=65535;
 		protected var mFps:FrameRater;
 		//position,uv,color
-		protected var mNumPerVertic:uint=9;
+		protected var mNumPerVertic:uint=5;
 		protected var mNumVerticPerPerson:uint=4;
 		protected var mMaxPerson:uint=uint(mMaxVertics/mNumVerticPerPerson);
 		protected var mVerticBuffer:VertexBuffer3D;
@@ -92,10 +92,10 @@ package mongoose.display
 			mPerspective=new PerspectiveMatrix3D;
 			mCubeData.push
 			(
-				0, 0, 0, 0, 0, 1,1,1,1,
-				1, 0, 0, 1, 0, 1,1,1,1,
-				1,-1, 0, 1, 1, 1,1,1,1,
-				0,-1, 0, 0, 1, 1,1,1,1
+				0, 0, 0, 0, 0,
+				1, 0, 0, 1, 0,
+				1,-1, 0, 1, 1,
+				0,-1, 0, 0, 1
 			)
 			
 			_stage.addEventListener(Event.RESIZE,onResize);
@@ -186,10 +186,10 @@ package mongoose.display
 			{
 				mVerticBufferData.push(
 					//position,uv,color
-					0, 0, 0,  0,0, 1,1,1,1,
-					1, 0, 0,  1,0, 1,1,1,1,
-					1,-1, 0,  1,1, 1,1,1,1,
-					0,-1, 0,  0,1, 1,1,1,1
+					0, 0, 0,  0,0,
+					1, 0, 0,  1,0,
+					1,-1, 0,  1,1,
+					0,-1, 0,  0,1
 				);
 				var add:uint=step*4;
 				mIndexBufferData.push(0+add,1+add,2+add,0+add,2+add,3+add);
@@ -200,7 +200,7 @@ package mongoose.display
 			mIndexBuffer.uploadFromVector(mIndexBufferData,0,mIndexBufferData.length);
 			context3d.setVertexBufferAt(0,mVerticBuffer,0,"float3");
 			context3d.setVertexBufferAt(1,mVerticBuffer,3,"float2");
-			context3d.setVertexBufferAt(2,mVerticBuffer,5,"float4");
+			//context3d.setVertexBufferAt(2,mVerticBuffer,5,"float4");
 		}
 		private function createProgram():void
 		{
@@ -211,10 +211,10 @@ package mongoose.display
 				"m44 vt0,vt0,vc4\n"+
 				
 				"mov op,vt0\n"+
-				"mov v0,va1\n"+
-				"mov v1,va2";
+				"mov v0,va1\n";
+				//"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				"mul ft0,ft0,v1\n"+
+				//"mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
 				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
@@ -237,9 +237,13 @@ package mongoose.display
 			_drawCall=0;
 			_startDraw=0;
 			drawObj(this);
-			context3d.setTextureAt(0,mCurrentTexture);
-			var end:uint=_drawCall-_startDraw;
-			context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+			if(mCurrentTexture&&_drawCall>0)
+			{
+				context3d.setTextureAt(0,mCurrentTexture);
+				var end:uint=_drawCall-_startDraw;
+				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+			}
+			
 			
 			
 			context3d.present();
