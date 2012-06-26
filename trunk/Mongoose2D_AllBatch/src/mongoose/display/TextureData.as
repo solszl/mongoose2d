@@ -59,21 +59,21 @@ package mongoose.display
         public function set bitmapData(bmp:BitmapData):void
         {
             mBitmapData = bmp;
-            if (cache[bmp] != null)
+            if (cache[mBitmapData] != null)
             {
-                texture = cache[bmp];
+                this.texture = cache[mBitmapData];
             }
             else
             {
 			    var tw:Number=getUpPower2(mBitmapData.width);
 				var th:Number=getUpPower2(mBitmapData.height);
-	                texture =context3d.createTexture(tw,th,"bgra",false);
-					texture.uploadFromBitmapData(bmp);
+	                this.texture =context3d.createTexture(tw,th,"bgra",false);
+					this.texture.uploadFromBitmapData(mBitmapData);
 	                
-				    cache[bmp]=texture;
+				    cache[mBitmapData]=this.texture;
                 
             }
-			setUVData(new Rectangle(0,0,bmp.width,bmp.height));
+			setUVData(new Rectangle(0,0,mBitmapData.width,mBitmapData.height));
             return;
         }
 		
