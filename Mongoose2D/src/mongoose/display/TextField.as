@@ -2,6 +2,7 @@ package mongoose.display
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
@@ -84,7 +85,7 @@ package mongoose.display
                     mTextTexture.bitmapData = mBitmapData;
                 }
 				
-				mTextTexture.setUVData(new MRectangle(0, 0, mBitmapData.width, mBitmapData.height));
+				mTextTexture.setUVData(new Rectangle(0, 0, mBitmapData.width, mBitmapData.height));
 				setTexture(mTextTexture);
                 
 				_text=value;

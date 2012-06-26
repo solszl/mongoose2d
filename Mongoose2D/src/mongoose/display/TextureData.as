@@ -4,6 +4,7 @@ package mongoose.display
     import flash.display3D.*;
     import flash.display3D.textures.*;
     import flash.geom.Point;
+    import flash.geom.Rectangle;
     import flash.utils.*;
     
     import mongoose.geom.MPoint;
@@ -28,19 +29,21 @@ package mongoose.display
         public static var context3d:Context3D;
         private static var cache:Dictionary;
         private static var defaultBmp:BitmapData;
-		
+		private static var id:uint=0;
 		/**
 		 * @param useDefault 是否开启缺省材质
 		 */        
+		public var sid:uint;
         public function TextureData(bd:BitmapData=null)
         {
+			sid=id++;
 			uvVector = Vector.<Number>([0.0, 0.0, 1.0, 1.0]);
 			if (cache == null)
 			{
 				cache = new Dictionary();
 			}
 			
-			if (bd == null)
+			if (bd == null&&defaultBmp==null)
             {
                 defaultBmp = new BitmapData(16, 16, true, 4294967295);
 				bitmapData = defaultBmp;
@@ -48,7 +51,7 @@ package mongoose.display
 			else
             {
 				bitmapData = bd;
-                setUVData(new MRectangle(0,0,bd.width,bd.height));
+                setUVData(new Rectangle(0,0,bd.width,bd.height));
             }
 			
         }
@@ -65,7 +68,7 @@ package mongoose.display
                 if(bmp != null)
                 {
                     texture = TextureHelper.generateTextureFromBitmap(context3d,bmp,false);
-                    setUVData(new MRectangle(0,0,bmp.width,bmp.height));
+                    setUVData(new Rectangle(0,0,bmp.width,bmp.height));
 				    cache[bmp]=texture;
                 }
                 else
@@ -82,7 +85,7 @@ package mongoose.display
 			return mBitmapData;
 		}
 
-        public function setUVData(rect:MRectangle, offsetPt:MPoint=null):void
+        public function setUVData(rect:Rectangle, offsetPt:MPoint=null):void
         {
             width = rect.width;
             height = rect.height;
