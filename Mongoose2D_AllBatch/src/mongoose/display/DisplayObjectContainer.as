@@ -35,7 +35,11 @@ package mongoose.display
                 this.childs.push(child);
 				
             }
-			if(child.parent!=null)
+			else
+			{
+				this.setChildIndex(child,childs.length-1);
+			}
+			if(child.parent!=null&&child.parent!=this)
 				DisplayObjectContainer(child.parent).removeChild(child);
             child.parent = this;
             child.dispatchEvent(new Event(Event.ADDED));

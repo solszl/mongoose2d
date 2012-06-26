@@ -36,7 +36,7 @@ package mongoose.display
 		protected var mMaxVertics:uint=65535;
 		protected var mFps:FrameRater;
 		//position,uv,color
-		protected var mNumPerVertic:uint=5;
+		protected var mNumPerVertic:uint=9;
 		protected var mNumVerticPerPerson:uint=4;
 		protected var mMaxPerson:uint=uint(mMaxVertics/mNumVerticPerPerson);
 		protected var mVerticBuffer:VertexBuffer3D;
@@ -48,7 +48,7 @@ package mongoose.display
 		protected var mCurrentProgram:Program3D;
 		protected var mNormalProgram:Program3D;
 		protected var mCubeData:Vector.<Number>;
-		
+		protected var mObjects:Array;
 		
 		protected var mPerspective:PerspectiveMatrix3D;
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
@@ -89,13 +89,14 @@ package mongoose.display
 			mStage3d.x=viewPort.x;
 			mStage3d.y=viewPort.y;
 			mCubeData=new Vector.<Number>;
+			mObjects=new Array(mMaxPerson);
 			mPerspective=new PerspectiveMatrix3D;
 			mCubeData.push
 			(
-				0, 0, 0, 0, 0,
-				1, 0, 0, 1, 0,
-				1,-1, 0, 1, 1,
-				0,-1, 0, 0, 1
+				0, 0, 0, 0, 0,1,1,1,1,
+				1, 0, 0, 1, 0,1,1,1,1,
+				1,-1, 0, 1, 1,1,1,1,1,
+				0,-1, 0, 0, 1,1,1,1,1
 			)
 			
 			_stage.addEventListener(Event.RESIZE,onResize);
@@ -158,7 +159,7 @@ package mongoose.display
 
 			_scale=height/width;
 			mWorldScaleMatrix.identity();
-			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,near/far);
+			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,1 / (far - near));
 			mWorldScaleMatrix.appendTranslation(-1,_scale,1);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,mPerspective,true);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,mWorldScaleMatrix,true);
@@ -186,10 +187,10 @@ package mongoose.display
 			{
 				mVerticBufferData.push(
 					//position,uv,color
-					0, 0, 0,  0,0,
-					1, 0, 0,  1,0,
-					1,-1, 0,  1,1,
-					0,-1, 0,  0,1
+					0, 0, 0,  0,0,1,1,1,1,
+					1, 0, 0,  1,0,1,1,1,1,
+					1,-1, 0,  1,1,1,1,1,1,
+					0,-1, 0,  0,1,1,1,1,1
 				);
 				var add:uint=step*4;
 				mIndexBufferData.push(0+add,1+add,2+add,0+add,2+add,3+add);
@@ -200,7 +201,7 @@ package mongoose.display
 			mIndexBuffer.uploadFromVector(mIndexBufferData,0,mIndexBufferData.length);
 			context3d.setVertexBufferAt(0,mVerticBuffer,0,"float3");
 			context3d.setVertexBufferAt(1,mVerticBuffer,3,"float2");
-			//context3d.setVertexBufferAt(2,mVerticBuffer,5,"float4");
+			context3d.setVertexBufferAt(2,mVerticBuffer,5,"float4");
 		}
 		private function createProgram():void
 		{
@@ -211,10 +212,10 @@ package mongoose.display
 				"m44 vt0,vt0,vc4\n"+
 				
 				"mov op,vt0\n"+
-				"mov v0,va1\n";
-				//"mov v1,va2";
+				"mov v0,va1\n"+
+				"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				//"mul ft0,ft0,v1\n"+
+				"mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
 				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
@@ -234,13 +235,36 @@ package mongoose.display
 			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
 			mFps.uints=_drawCall;
 			
-			_drawCall=0;
+			
 			_startDraw=0;
-			drawObj(this);
-			if(mCurrentTexture&&_drawCall>0)
+
+			var step:uint=0;
+			var obj:DisplayObject;
+			var texture:TextureData;
+			var end:uint;
+			while(step<_drawCall)
+			{
+				obj=mObjects[step] as DisplayObject;
+				texture=obj.texture;
+				if(mCurrentTexture!=texture.texture)
+				{
+					if(mCurrentTexture!=null)
+					{
+						context3d.setTextureAt(0,mCurrentTexture);
+						end=step-_startDraw;
+						context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+						_startDraw=step;
+					}
+					mCurrentTexture=texture.texture;
+				}
+				step++;
+			}
+			
+			
+			if(_drawCall>0)
 			{
 				context3d.setTextureAt(0,mCurrentTexture);
-				var end:uint=_drawCall-_startDraw;
+				end=_drawCall-_startDraw;
 				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
 			}
 			
@@ -248,40 +272,7 @@ package mongoose.display
 			
 			context3d.present();
 		}
-		private function drawObj(obj:DisplayObject):void
-		{
-			var texture:TextureData=obj.texture;
-			if(!(obj is World))
-			{
-				if(texture!=null&&obj.visible)
-				{
-					if(mCurrentTexture!=texture.texture)
-					{
-						if(mCurrentTexture!=null)
-						{
-							var end:uint=_drawCall-_startDraw;
-							context3d.setTextureAt(0,mCurrentTexture);
-							context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
-							_startDraw=_drawCall;
-						}
-						mCurrentTexture=texture.texture;
-					}
-					_drawCall++;
-				}
-			}
-			if(obj is DisplayObjectContainer)
-			{
-				var container:DisplayObjectContainer=obj as DisplayObjectContainer;
-				var childs:Array=container.childs;
-				var step:uint=0;
-				var total:uint=childs.length;
-				while(step<total)
-				{
-					drawObj(childs[step]);
-					step++;
-				}
-			}
-		}
+		
 		private function renderObj(obj:DisplayObject):void
 		{
 			var texture:TextureData=obj.texture;
@@ -290,7 +281,7 @@ package mongoose.display
 				obj.render();
 				if(texture!=null&&obj.visible)
 				{
-					
+					mObjects[_drawCall]=obj;
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
 					_vtIndex=_drawCall*4*mNumPerVertic;
