@@ -14,6 +14,7 @@ package mongoose.display
     import flash.display3D.IndexBuffer3D;
     import flash.events.*;
     import flash.geom.Matrix3D;
+    import flash.geom.Rectangle;
     import flash.text.TextField;
     import flash.text.TextFieldAutoSize;
     import flash.ui.Multitouch;
@@ -23,7 +24,7 @@ package mongoose.display
     import mongoose.geom.*;
     import mongoose.tools.*;
 
-    [Event(name="complete", type="flash.events.Event")]
+    [Event(name="addedToStage", type="flash.events.Event")]
 	[Event(name="change", type="flash.events.Event")]
     public class World extends EventDispatcher
     {
@@ -31,7 +32,7 @@ package mongoose.display
         
         public var perspective:PerspectiveMatrix3D;
         protected var mStage3D:Stage3D;
-        protected var mRect:MRectangle;
+        protected var mRect:Rectangle;
 		protected var mCamera:Camera;
 		protected var mFps:FrameRater;
 		protected var mChilds:Array;
@@ -64,7 +65,7 @@ package mongoose.display
 		private var _last:InteractiveObject;
 		private var _step:uint;
 		public var worldScaleMatrix:Matrix3D;
-        public function World(stage2D:Stage, viewPort:MRectangle)
+        public function World(stage2D:Stage, viewPort:Rectangle)
         {
             stage = stage2D;
 			/*_debugText=new flash.text.TextField;
@@ -99,7 +100,7 @@ package mongoose.display
           
         }
        
-        public function set fullScreen(mRect:Boolean) : void
+        public function set autoSize(mRect:Boolean) : void
         {
             this.mFullScreen = mRect;
             this.onResize();
@@ -168,7 +169,7 @@ package mongoose.display
             return;
         }
 
-        public function initialize(mRoot:Stage, viewPort:MRectangle) : void
+        public function initialize(mRoot:Stage, viewPort:Rectangle) : void
         {
             stage = mRoot;
             stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -215,7 +216,7 @@ package mongoose.display
 			Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
 			
             onResize();
-            dispatchEvent(new Event(Event.COMPLETE));
+            dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 			onRender();
 
         }

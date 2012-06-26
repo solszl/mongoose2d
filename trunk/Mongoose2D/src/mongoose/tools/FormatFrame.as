@@ -1,6 +1,7 @@
 package mongoose.tools
 {
     import flash.display.BitmapData;
+    import flash.geom.Rectangle;
     
     import mongoose.display.TextureData;
     import mongoose.geom.MRectangle;
@@ -64,7 +65,7 @@ package mongoose.tools
 				                         ]);*/
 				bmp=new TextureData(bitmap);
 				//bmp.bitmapData = bitmap;
-				bmp.setUVData(new MRectangle(hPos*wLen,wPos*hLen,wLen,hLen));//,new Point(0,0));
+				bmp.setUVData(new Rectangle(hPos*wLen,wPos*hLen,wLen,hLen));//,new Point(0,0));
 				data.push(bmp);
 			}
 		}

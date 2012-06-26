@@ -21,6 +21,7 @@ package mongoose.display
 		/**
 		 *是否显示,注:visible=false的时候是不会提交渲染的. 
 		 */		
+		public var scrollX:Number,scrollY:Number;
 		public var useCamera:Boolean=true;
 		public var visible:Boolean=true;
         public var scaleX:Number = 1;
@@ -32,9 +33,9 @@ package mongoose.display
         public  var width:Number = 0;
         public  var height:Number = 0;
 		
-        public var rotateX:Number = 0;
-        public var rotateY:Number = 0;
-        public var rotateZ:Number = 0;
+        public var rotationX:Number = 0;
+        public var rotationY:Number = 0;
+        public var rotationZ:Number = 0;
 		
 		
 		internal var r:Number,g:Number,b:Number;
@@ -165,12 +166,12 @@ package mongoose.display
 			mMatrix3D.prependScale(bScaleX,bScaleY,1);
 			mMatrix3D.prependScale(scaleX,scaleY,1);
 			
-			if(rotateX!=0)
-				mMatrix3D.appendRotation(rotateX, Vector3D.X_AXIS, mRotPivot);
-			if(rotateY!=0)
-				mMatrix3D.appendRotation(rotateY, Vector3D.Y_AXIS, mRotPivot);
-			if(rotateZ!=0)
-				mMatrix3D.appendRotation(rotateZ, Vector3D.Z_AXIS, mRotPivot);
+			if(rotationX!=0)
+				mMatrix3D.appendRotation(rotationX, Vector3D.X_AXIS, mRotPivot);
+			if(rotationY!=0)
+				mMatrix3D.appendRotation(rotationY, Vector3D.Y_AXIS, mRotPivot);
+			if(rotationZ!=0)
+				mMatrix3D.appendRotation(rotationZ, Vector3D.Z_AXIS, mRotPivot);
 			
 			mMatrix3D.appendTranslation(x,-y,z);
 			
@@ -184,7 +185,7 @@ package mongoose.display
 				mConstrants[7]*=obj.parent.alpha;
 				mMatrix3D.appendScale(obj.parent.bScaleX,obj.parent.bScaleY,1);
 				mMatrix3D.appendScale(obj.parent.scaleX,obj.parent.scaleY,1);
-				mMatrix3D.appendRotation(obj.parent.rotateZ,Vector3D.Z_AXIS);
+				mMatrix3D.appendRotation(obj.parent.rotationZ,Vector3D.Z_AXIS);
 				mMatrix3D.appendTranslation(obj.parent.x,-obj.parent.y,0);
 				
 				obj=obj.parent;

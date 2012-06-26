@@ -168,7 +168,7 @@ package mongoose.display
 			if(!mouseEnabled)return null;
 			if(type==MouseEvent.MOUSE_MOVE&&!iuseMove)return null;
 			
-			if(this.z!=0||this.rotateX!=0||this.rotateY!=0)
+			if(this.z!=0||this.rotationX!=0||this.rotationY!=0)
                return test3d(type,x,y);
 			else
 			   return test2d(type,x,y);
