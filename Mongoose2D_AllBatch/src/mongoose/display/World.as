@@ -125,8 +125,8 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			
-			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onRender);
-			//_stage.addEventListener(Event.ENTER_FRAME,onRender);
+			//_stage.addEventListener(MouseEvent.MOUSE_DOWN,onRender);
+			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 		}
 		private function onMouseMove(e:MouseEvent):void
@@ -228,21 +228,55 @@ package mongoose.display
 		private function onRender(e:Event=null):void
 		{
 			context3d.clear();
+			
+			_drawCall=0;
+			renderObj(this);
+			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
+			mFps.uints=_drawCall;
+			
 			_drawCall=0;
 			_startDraw=0;
-			renderObj(this);
-			if(_drawCall>0)
-			{
-				var end:uint=_drawCall-_startDraw;
-				trace("输出顶点缓冲区",_startDraw*4,end*4);
-				context3d.setTextureAt(0,mCurrentTexture);
-				mVerticBuffer.uploadFromVector(mVerticBufferData,4,8);
-				context3d.drawTriangles(mIndexBuffer,0,2);
-				trace("绘制三角形",0,end*2);
-				mFps.uints=_drawCall;
-			}
+			drawObj(this);
+			context3d.setTextureAt(0,mCurrentTexture);
+			var end:uint=_drawCall-_startDraw;
+			context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+			
 			
 			context3d.present();
+		}
+		private function drawObj(obj:DisplayObject):void
+		{
+			var texture:TextureData=obj.texture;
+			if(!(obj is World))
+			{
+				if(texture!=null&&obj.visible)
+				{
+					if(mCurrentTexture!=texture.texture)
+					{
+						if(mCurrentTexture!=null)
+						{
+							var end:uint=_drawCall-_startDraw;
+							context3d.setTextureAt(0,mCurrentTexture);
+							context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+							_startDraw=_drawCall;
+						}
+						mCurrentTexture=texture.texture;
+					}
+					_drawCall++;
+				}
+			}
+			if(obj is DisplayObjectContainer)
+			{
+				var container:DisplayObjectContainer=obj as DisplayObjectContainer;
+				var childs:Array=container.childs;
+				var step:uint=0;
+				var total:uint=childs.length;
+				while(step<total)
+				{
+					drawObj(childs[step]);
+					step++;
+				}
+			}
 		}
 		private function renderObj(obj:DisplayObject):void
 		{
@@ -250,13 +284,13 @@ package mongoose.display
 			if(!(obj is World))
 			{
 				obj.render();
-				if(texture!=null)
+				if(texture!=null&&obj.visible)
 				{
 					
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
 					_vtIndex=_drawCall*4*mNumPerVertic;
-					trace("顶点计算",_drawCall);
+					//trace("顶点计算",_drawCall);
 					_xAngle=obj.rotationX*_pi;
 					_yAngle=obj.rotationY*_pi;
 					_zAngle=obj.rotationZ*_pi;
@@ -381,36 +415,6 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					if(mCurrentTexture!=texture.texture)
-					{
-						
-						if(mCurrentTexture!=null)
-						{
-							var end:uint=_drawCall-_startDraw;
-							trace("输出常规顶点缓冲区",_startDraw*4,end*4);
-							context3d.setTextureAt(0,mCurrentTexture);
-							
-							//mVerticBuffer.uploadFromVector(mVerticBufferData,0,4);
-							
-							
-							
-							//context3d.drawTriangles(mIndexBuffer,0,2);
-							//context3d.drawTriangles(mIndexBuffer,6,2);
-							trace("绘制三角形",0,2*2);
-							_startDraw=_drawCall;
-							mCurrentTexture=texture.texture;
-							
-							
-						
-						}
-						else
-						{
-							
-							mCurrentTexture=texture.texture;
-						
-						}
-					}
-					trace("显示对象",obj);
 					_drawCall++;
 				}
 			}	

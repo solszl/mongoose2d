@@ -17,6 +17,7 @@ package mongoose.display
 			       rotationY:Number=0,
 				   rotationZ:Number=0;
 		public var scrollX:Number=0,scrollY:Number=0;
+		public var visible:Boolean=true;
 		public var red:Number=1.0,
 			       green:Number=1.0,
 				   blue:Number=1.0,
