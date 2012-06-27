@@ -176,6 +176,13 @@ package mongoose.display
 				_stage.removeChild(mFps);
 			}
 		}
+		public function showLogo(value:Boolean):void
+		{
+			if(value)
+			{
+				
+			}
+		}
 		private function createBuffers():void
 		{
 			mVerticBuffer=context3d.createVertexBuffer(mMaxPerson*mNumVerticPerPerson,mNumPerVertic);
@@ -215,7 +222,7 @@ package mongoose.display
 				"mov v0,va1\n"+
 				"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				"mul ft0,ft0,v1\n"+
+				   "mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
 				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
@@ -244,7 +251,7 @@ package mongoose.display
 			var end:uint;
 			while(step<_drawCall)
 			{
-				obj=mObjects[step] as DisplayObject;
+				obj=mObjects[step];
 				texture=obj.texture;
 				if(mCurrentTexture!=texture.texture)
 				{
@@ -281,6 +288,7 @@ package mongoose.display
 				obj.render();
 				if(texture!=null&&obj.visible)
 				{
+					mCurrentTexture=texture.texture;
 					mObjects[_drawCall]=obj;
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
@@ -415,7 +423,7 @@ package mongoose.display
 			}	
 			if(obj is DisplayObjectContainer)
 			{
-				var container:DisplayObjectContainer=obj as DisplayObjectContainer;
+				var container:DisplayObjectContainer=DisplayObjectContainer(obj);
 				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
