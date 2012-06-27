@@ -423,7 +423,7 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					var v3d0:Vector3D=_points[0];
+					/*var v3d0:Vector3D=_points[0];
 					var v3d1:Vector3D=_points[1];
 					var v3d2:Vector3D=_points[2];
 					var v3d3:Vector3D=_points[3];
@@ -431,7 +431,7 @@ package mongoose.display
 					var edge2:Vector3D=v3d2.subtract(v3d0);
 					var edge3:Vector3D=v3d3.subtract(v3d0);
 					
-					trace(instric(v3d0,edge1,edge2),instric(v3d0,edge2,edge3))
+					trace(instric(v3d0,edge1,edge2),instric(v3d0,edge2,edge3))*/
 					_drawCall++;
 				}
 			}	
