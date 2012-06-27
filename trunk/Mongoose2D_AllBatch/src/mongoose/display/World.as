@@ -17,6 +17,7 @@ package mongoose.display
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix3D;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 	
@@ -72,9 +73,10 @@ package mongoose.display
 
 		protected var mNearPoint:Vector3D=new Vector3D;
 		protected var mFarPoint:Vector3D=new Vector3D;
-		protected var mDir:Vector3D;
+		protected var mDir:Vector3D=new Vector3D;
 		
 		private var _startDraw:uint,_stopDraw:uint;
+		private var _points:Array=[];
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -98,7 +100,10 @@ package mongoose.display
 				1,-1, 0, 1, 1,1,1,1,1,
 				0,-1, 0, 0, 1,1,1,1,1
 			)
-			
+			_points.push(new Vector3D);
+			_points.push(new Vector3D);
+			_points.push(new Vector3D);
+			_points.push(new Vector3D);
 			_stage.addEventListener(Event.RESIZE,onResize);
 			
 			mStage3d.addEventListener(Event.CONTEXT3D_CREATE,onContext);
@@ -126,7 +131,7 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			
-			//_stage.addEventListener(MouseEvent.MOUSE_DOWN,onRender);
+			_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			_stage.addEventListener(Event.ENTER_FRAME,onRender);
 			dispatchEvent(new Event(Event.ADDED_TO_STAGE));
 		}
@@ -146,7 +151,7 @@ package mongoose.display
 			mFarPoint.z=far;
 			
 			mDir=mFarPoint.subtract(mNearPoint);
-			trace(mNearPoint,mFarPoint);
+			//trace(mNearPoint,mFarPoint);
 		}
 		private function configure():void
 		{
@@ -405,9 +410,9 @@ package mongoose.display
 							_y=_rx*_zsint+_ry*_zcost;
 							//trace(currtarget.name,x,y,z)
 							_x+=tParent.x;_y-=tParent.y;_z+=tParent.z;
-							mVerticBufferData[_id]=_x;
-							mVerticBufferData[_id+1]=_y;
-							mVerticBufferData[_id+2]=_z;
+							mVerticBufferData[_id]=_points[_vt].x=_x;
+							mVerticBufferData[_id+1]=_points[_vt].y=_y;
+							mVerticBufferData[_id+2]=_points[_vt].z=_z;
 							
 							mVerticBufferData[_id+5]*=tParent.red;
 							mVerticBufferData[_id+6]*=tParent.green;
@@ -418,6 +423,15 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
+					var v3d0:Vector3D=_points[0];
+					var v3d1:Vector3D=_points[1];
+					var v3d2:Vector3D=_points[2];
+					var v3d3:Vector3D=_points[3];
+					var edge1:Vector3D=v3d1.subtract(v3d0);
+					var edge2:Vector3D=v3d2.subtract(v3d0);
+					var edge3:Vector3D=v3d3.subtract(v3d0);
+					
+					trace(instric(v3d0,edge1,edge2),instric(v3d0,edge2,edge3))
 					_drawCall++;
 				}
 			}	
@@ -436,6 +450,12 @@ package mongoose.display
 		}
 		protected function instric(p0:Vector3D,edge1:Vector3D,edge2:Vector3D):Boolean
 		{
+			//var edge1:Vector3D,edge2:Vector3D,edge3:Vector3D;
+			//edge1=p1.subtract(p0);
+			//edge2=p2.subtract(p0);
+			//edge3=p3.subtract(p0);
+			
+			
 			var pass:Boolean=true;
 			//var edge1:Vector3D,edge2:Vector3D;
 			
@@ -443,7 +463,7 @@ package mongoose.display
 			
 			var _pvec:Vector3D=mDir.crossProduct(edge2);
 			var _det:Number=edge1.dotProduct(_pvec);
-			var _tvec:Vector3D,_tu:Number,_qvec:Vector3D,_tv:Number,_t:Number,_temp:Number,_u:Number,_v:Number;
+			var _tvec:Vector3D=new Vector3D,_tu:Number,_qvec:Vector3D=new Vector3D,_tv:Number,_t:Number,_temp:Number;
 			if(_det>0)
 			{
 				_tvec=mNearPoint.subtract(p0);
@@ -467,9 +487,6 @@ package mongoose.display
 			_t*=_temp;
 			_tu*=_temp;
 			_tv*=_temp;
-			_u=_tu;
-			_v=_tv;
-			
 			return pass;
 		}
 		public function start():void
