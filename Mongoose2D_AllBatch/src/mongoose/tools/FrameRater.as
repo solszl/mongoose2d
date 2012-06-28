@@ -29,6 +29,7 @@ package mongoose.tools {
 		private var _showGraph:Boolean;
 		private var _graphColor:uint;
         public var uints:uint;
+		public var gpu:Number=0,cpu:Number=0;
 		public function FrameRater(textColor:uint=0x000000, drawShadow:Boolean=false, showGraph:Boolean=true, graphColor:uint=0xff0000) {
 
 			_showGraph=showGraph;
@@ -59,7 +60,7 @@ package mongoose.tools {
 		}
 		private function onTimer(event:TimerEvent):void {
 			var val:Number=computeTime();
-			_text.text=Math.floor(val).toString()+" fps | DisplayObject:"+uints.toString();
+			_text.text=Math.floor(val).toString()+" fps | DisplayObject:"+uints.toString();//"\nCPU:"+cpu.toString()+"\nGPU:"+gpu.toString();
 			_text.setTextFormat(_tf);
 			_text.autoSize="left";
 			if (_showGraph) {

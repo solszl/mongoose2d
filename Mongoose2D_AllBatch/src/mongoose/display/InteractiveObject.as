@@ -8,7 +8,7 @@ package mongoose.display
 	public class InteractiveObject extends Image
 	{
 		static public var stage:Stage;
-		public var mouseEnabled:Boolean;
+		public var mouseEnabled:Boolean=true;
 		public var mouseChildren:Boolean;
 		protected var mEventHandles:Dictionary=new Dictionary;
 		internal var iuseMove:Boolean;
@@ -76,7 +76,7 @@ package mongoose.display
 				mEventHandles[type].splice(index,1);
 			}
 		}
-		internal function triggerEvent(type:String):void
+		internal function triggerEvent(type:String,x:Number,y:Number):void
 		{
 			var functions:Array=mEventHandles[type];
 			if(functions!=null)
@@ -85,7 +85,7 @@ package mongoose.display
 				var len:uint=functions.length;
 				while(step<len)
 				{
-					functions[step](this);
+					functions[step](this,x,y);
 					step++;
 				}
 			}
