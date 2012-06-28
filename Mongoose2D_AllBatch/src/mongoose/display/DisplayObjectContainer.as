@@ -33,6 +33,7 @@ package mongoose.display
 			if (child.parent == null)
 			{
 				childs.push(child);
+				child.parent = this;
 			}
 			else
 			{
@@ -40,6 +41,7 @@ package mongoose.display
 				{
 					child.parent.removeChild(child);
 					childs.push( child );
+					child.parent = this;
 				}
 				else
 				{
