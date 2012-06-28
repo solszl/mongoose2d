@@ -11,6 +11,7 @@ package mongoose.display
 		public var mouseEnabled:Boolean;
 		public var mouseChildren:Boolean;
 		protected var mEventHandles:Dictionary=new Dictionary;
+		internal var iuseMove:Boolean;
 		public function InteractiveObject(texture:TextureData)
 		{
 			super(texture);
@@ -53,6 +54,10 @@ package mongoose.display
 					super.addEventListener(type,listener,useCapture,priority,useWeakReference);
 					break;
 			}
+			iuseMove = mEventHandles[MouseEvent.MOUSE_OVER]!=null||
+				       mEventHandles[MouseEvent.MOUSE_OUT]!=null ||
+					   mEventHandles[MouseEvent.MOUSE_MOVE]!=null
+			   
 		}
 		private function addEvent(type:String,listener:Function):void
 		{
@@ -69,6 +74,20 @@ package mongoose.display
 			if(index!=-1)
 			{
 				mEventHandles[type].splice(index,1);
+			}
+		}
+		internal function triggerEvent(type:String):void
+		{
+			var functions:Array=mEventHandles[type];
+			if(functions!=null)
+			{
+				var step:uint=0;
+				var len:uint=functions.length;
+				while(step<len)
+				{
+					functions[step](this);
+					step++;
+				}
 			}
 		}
 		private function checkListener(type:String,listener:Function):int
@@ -100,34 +119,28 @@ package mongoose.display
 			switch(type)
 			{
 				case MouseEvent.CLICK:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.DOUBLE_CLICK:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_DOWN:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_MOVE:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_OUT:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_OVER:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_UP:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.MOUSE_WHEEL:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.ROLL_OUT:
-					delEvent(type,listener);
-					break;
+					
 				case MouseEvent.ROLL_OVER:
 					delEvent(type,listener);
+					break;
+				default:
+					super.removeEventListener(type,listener,useCapture);
 					break;
 			}
 		}
