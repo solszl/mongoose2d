@@ -20,6 +20,7 @@ package mongoose.display
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
+	import flash.utils.getTimer;
 	
 	import mongoose.tools.FrameRater;
 
@@ -53,12 +54,6 @@ package mongoose.display
 		
 		protected var mPerspective:PerspectiveMatrix3D;
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
-		
-		private var MathCos:Function = Math.cos;
-		private var MathSin:Function = Math.sin;
-		private var MathTan:Function = Math.tan;
-		private var MathAtan:Function = Math.atan;
-		
 		private var _pi:Number=Math.PI/180;
 		private var _scale:Number;
 		
@@ -83,6 +78,13 @@ package mongoose.display
 		
 		private var _startDraw:uint,_stopDraw:uint;
 		private var _points:Array=[];
+		private var _cpu:Number=0;
+		private var _gpu:Number=0;
+		
+		protected var mScaleMatrix:Matrix3D=new Matrix3D;
+		
+		private var sin:Function=Math.sin,
+			        cos:Function=Math.cos;
 		public function World(stage2d:Stage,viewPort:Rectangle,antiAlias:uint=0):void
 		{
 			_stage=stage2d;
@@ -143,10 +145,10 @@ package mongoose.display
 		}
 		private function onMouseMove(e:MouseEvent):void
 		{
-//			var tx:Number=e.stageX;
-//			var ty:Number=e.stageY;
-			var dx:Number=(e.stageX*_widthRcp-1);
-			var dy:Number=_scale-e.stageY*_heightRcp;
+			var tx:Number=e.stageX;
+			var ty:Number=e.stageY;
+			var dx:Number=(tx*_widthRcp-1);
+			var dy:Number=1-ty*_heightRcp;
 			
 			mNearPoint.x=dx*near;
 			mNearPoint.y=dy*near;
@@ -155,6 +157,10 @@ package mongoose.display
 			mFarPoint.x=dx*far;
 			mFarPoint.y=dy*far;
 			mFarPoint.z=far;
+			
+			
+			mNearPoint=mScaleMatrix.transformVector(mNearPoint);
+			mFarPoint=mScaleMatrix.transformVector(mFarPoint);
 			
 			mDir=mFarPoint.subtract(mNearPoint);
 			//trace(mNearPoint,mFarPoint);
@@ -165,13 +171,23 @@ package mongoose.display
 			height=_stage.stageHeight;
 			_widthRcp=2/width;
 			_heightRcp=2/height;
-			var mViewAngle:Number = MathAtan(height/width) * 2;
+			var mViewAngle:Number = Math.atan(height/width) * 2;
 			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, near,far);
 
 			_scale=height/width;
 			mWorldScaleMatrix.identity();
 			mWorldScaleMatrix.appendScale(2/width,2/height*_scale,1 / (far - near));
 			mWorldScaleMatrix.appendTranslation(-1,_scale,1);
+			
+			mScaleMatrix.rawData=mWorldScaleMatrix.rawData;
+			//mScaleMatrix.appendTranslation(1,-_scale,1);
+			//mScaleMatrix.appendScale(1,_scale,1);
+			mScaleMatrix.appendTranslation(0,1-_scale,0);
+			mScaleMatrix.invert();
+			
+			mScaleMatrix.appendScale(1,_scale,1);
+			
+			
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,4,mPerspective,true);
 			context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,mWorldScaleMatrix,true);
 			context3d.configureBackBuffer(width,height,antiAlias,false);
@@ -210,7 +226,7 @@ package mongoose.display
 					1,-1, 0,  1,1,1,1,1,1,
 					0,-1, 0,  0,1,1,1,1,1
 				);
-				var add:uint=step<<2;
+				var add:uint=step*4;
 				mIndexBufferData.push(0+add,1+add,2+add,0+add,2+add,3+add);
 				
 				step++;
@@ -227,16 +243,15 @@ package mongoose.display
 			var fsa:AGALMiniAssembler=new AGALMiniAssembler;
 			var vs:String=
 				"m44 vt0,va0,vc0\n"+
-				"m44 op,vt0,vc4\n"+
+				"m44 vt0,vt0,vc4\n"+
 				
-//				"mov op,vt0\n"+
+				"mov op,vt0\n"+
 				"mov v0,va1\n"+
 				"mov v1,va2";
-			var fs:String=
-				"tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				"mul oc,ft0,v1\n"//+
+			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
+				   "mul ft0,ft0,v1\n"+
 				// "mul ft0,ft0,v1\n" +
-//				"mov oc,ft0"; 
+				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
 			fsa.assemble(Context3DProgramType.FRAGMENT,fs);
 			mNormalProgram=context3d.createProgram();
@@ -250,10 +265,11 @@ package mongoose.display
 			context3d.clear();
 			
 			_drawCall=0;
-			renderObj(this);
-			mVerticBuffer.uploadFromVector(mVerticBufferData,0,(_drawCall<<2));
-			mFps.uints=_drawCall;
 			
+			renderObj(this);
+		
+			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
+			mFps.uints=_drawCall;
 			
 			_startDraw=0;
 
@@ -271,7 +287,7 @@ package mongoose.display
 					{
 						context3d.setTextureAt(0,mCurrentTexture);
 						end=step-_startDraw;
-						context3d.drawTriangles(mIndexBuffer,_startDraw*6,(end<<1));
+						context3d.drawTriangles(mIndexBuffer,_startDraw*6,end<<2);
 						_startDraw=step;
 					}
 					mCurrentTexture=texture.texture;
@@ -284,10 +300,8 @@ package mongoose.display
 			{
 				context3d.setTextureAt(0,mCurrentTexture);
 				end=_drawCall-_startDraw;
-				context3d.drawTriangles(mIndexBuffer,_startDraw*6,(end<<1));
+				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end<<1);
 			}
-			
-			
 			
 			context3d.present();
 		}
@@ -304,20 +318,20 @@ package mongoose.display
 					mObjects[_drawCall]=obj;
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
-					_vtIndex=(_drawCall<<2)*mNumPerVertic;
+					_vtIndex=_drawCall<<2*mNumPerVertic;
 					//trace("顶点计算",_drawCall);
 					_xAngle=obj.rotationX*_pi;
 					_yAngle=obj.rotationY*_pi;
 					_zAngle=obj.rotationZ*_pi;
 					
-					_xsint=MathSin(_xAngle);
-					_xcost=MathCos(_xAngle);
+					_xsint=sin(_xAngle);
+					_xcost=cos(_xAngle);
 					
-					_ysint=MathSin(_yAngle);
-					_ycost=MathCos(_yAngle);
+					_ysint=sin(_yAngle);
+					_ycost=cos(_yAngle);
 					
-					_zsint=MathSin(_zAngle);
-					_zcost=MathCos(_zAngle);
+					_zsint=sin(_zAngle);
+					_zcost=cos(_zAngle);
 					
 					//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 					
@@ -337,7 +351,6 @@ package mongoose.display
 						_x+=obj.pivot.x;
 						_y+=obj.pivot.y;
 						//缩放
-
 						_x*=obj.width*obj.scaleX;
 						_y*=obj.height*obj.scaleY;
 						
@@ -355,9 +368,9 @@ package mongoose.display
 						//位移
 						_x+=obj.x;_y-=obj.y;_z+=obj.z;
 						
-						mVerticBufferData[_id]=_x;
-						mVerticBufferData[_id+1]=_y;
-						mVerticBufferData[_id+2]=_z;
+						mVerticBufferData[_id]=_points[_vt].x=_x;
+						mVerticBufferData[_id+1]=_points[_vt].y=_y;
+						mVerticBufferData[_id+2]=_points[_vt].z=_z;
 	
 						_uid=_vt<<1;
 							
@@ -382,17 +395,17 @@ package mongoose.display
 						_yAngle=tParent.rotationY*_pi;
 						_zAngle=tParent.rotationZ*_pi;
 						
-						_xsint=MathSin(_xAngle);
-						_xcost=MathCos(_xAngle);
+						_xsint=sin(_xAngle);
+						_xcost=cos(_xAngle);
 						
-						_ysint=MathSin(_yAngle);
-						_ycost=MathCos(_yAngle);
+						_ysint=sin(_yAngle);
+						_ycost=cos(_yAngle);
 						
-						_zsint=MathSin(_zAngle);
-						_zcost=MathCos(_zAngle);
+						_zsint=sin(_zAngle);
+						_zcost=cos(_zAngle);
 
 						_vt=0;
-						_vtIndex=(_drawCall<<2)*mNumPerVertic;
+						_vtIndex=_drawCall<<2*mNumPerVertic;
 
 						//trace("获取源数据:",obj.name,index);
 						while(_vt<4)
@@ -418,9 +431,9 @@ package mongoose.display
 							_y=_rx*_zsint+_ry*_zcost;
 							//trace(currtarget.name,x,y,z)
 							_x+=tParent.x;_y-=tParent.y;_z+=tParent.z;
-							mVerticBufferData[_id]=_points[_vt].x=_x;
-							mVerticBufferData[_id+1]=_points[_vt].y=_y;
-							mVerticBufferData[_id+2]=_points[_vt].z=_z;
+							mVerticBufferData[_id]   =_points[_vt].x =_x;
+							mVerticBufferData[_id+1] =_points[_vt].y =_y;
+							mVerticBufferData[_id+2] =_points[_vt].z =_z;
 							
 							mVerticBufferData[_id+5]*=tParent.red;
 							mVerticBufferData[_id+6]*=tParent.green;
@@ -431,21 +444,28 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					/*var v3d0:Vector3D=_points[0];
-					var v3d1:Vector3D=_points[1];
-					var v3d2:Vector3D=_points[2];
-					var v3d3:Vector3D=_points[3];
-					var edge1:Vector3D=v3d1.subtract(v3d0);
-					var edge2:Vector3D=v3d2.subtract(v3d0);
-					var edge3:Vector3D=v3d3.subtract(v3d0);
+					var intObj:InteractiveObject=InteractiveObject(obj);
+					if(intObj!=null&&intObj.iuseMove)
+					{
+						var edge1:Vector3D=_points[1].subtract(_points[0]);
+						var edge2:Vector3D=_points[2].subtract(_points[0]);
+						var edge3:Vector3D=_points[3].subtract(_points[0]);
+	
+						var t1:Boolean=instric(_points[0],edge1,edge2);
+						var t2:Boolean=instric(_points[0],edge2,edge3);
+						
+                        if(t1||t2)
+						{
+							intObj.triggerEvent(MouseEvent.MOUSE_MOVE);
+						}
+					}
 					
-					trace(instric(v3d0,edge1,edge2),instric(v3d0,edge2,edge3))*/
 					_drawCall++;
 				}
 			}	
 			if(obj is DisplayObjectContainer)
 			{
-//				var container:DisplayObjectContainer=obj;
+				
 				var childs:Array=DisplayObjectContainer(obj).childs;
 				var step:uint=0;
 				var total:uint=childs.length;
@@ -458,17 +478,9 @@ package mongoose.display
 		}
 		protected function instric(p0:Vector3D,edge1:Vector3D,edge2:Vector3D):Boolean
 		{
-			//var edge1:Vector3D,edge2:Vector3D,edge3:Vector3D;
-			//edge1=p1.subtract(p0);
-			//edge2=p2.subtract(p0);
-			//edge3=p3.subtract(p0);
-			
-			
+		
 			var pass:Boolean=true;
-			//var edge1:Vector3D,edge2:Vector3D;
-			
-			//----------------------------------------------------			
-			
+		
 			var _pvec:Vector3D=mDir.crossProduct(edge2);
 			var _det:Number=edge1.dotProduct(_pvec);
 			var _tvec:Vector3D=new Vector3D,_tu:Number,_qvec:Vector3D=new Vector3D,_tv:Number,_t:Number,_temp:Number;
