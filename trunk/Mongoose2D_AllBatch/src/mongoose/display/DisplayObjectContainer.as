@@ -29,7 +29,26 @@ package mongoose.display
 		 */        
         public function addChild(child:DisplayObject) : void
         {
+			//modify by gene,  avoid calc via contain()
+			if (child.parent == null)
+			{
+				childs.push(child);
+			}
+			else
+			{
+				if(child.parent != this)
+				{
+					child.parent.removeChild(child);
+					childs.push( child );
+				}
+				else
+				{
+					this.setChildIndex(child,childs.length-1);
+				}
+			}
+			child.dispatchEvent(new Event(Event.ADDED));
 			
+			/*
             if (!this.contains(child))
             {
                 this.childs.push(child);
@@ -41,8 +60,7 @@ package mongoose.display
 			}
 			if(child.parent!=null&&child.parent!=this)
 				DisplayObjectContainer(child.parent).removeChild(child);
-            child.parent = this;
-            child.dispatchEvent(new Event(Event.ADDED));
+            child.parent = this;*/
         }
 		/**
 		 *是否包含子对象，如果是返回true，否则返回falsh 
