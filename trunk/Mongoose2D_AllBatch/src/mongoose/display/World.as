@@ -506,10 +506,8 @@ package mongoose.display
 	                        if(_angle1[0]||_angle2[0])
 							{
 								_testObject=intObj;
-								
 							}
 						}
-						
 					}
 					_drawCall++;
 				}
@@ -530,40 +528,40 @@ package mongoose.display
 		protected function instric(p0:Vector3D,edge1:Vector3D,edge2:Vector3D,result:Array):void
 		{
 			var pass:Boolean=true;
-			var _pvec:Vector3D=mDir.crossProduct(edge2);
-			var _det:Number=edge1.dotProduct(_pvec);
-			var _tvec:Vector3D=new Vector3D,
-				_qvec:Vector3D=new Vector3D,
-				_u:Number,
-				_v:Number,
-				_t:Number,
+			var cvec:Vector3D=mDir.crossProduct(edge2);
+			var det:Number=edge1.dotProduct(cvec);
+			var tvec:Vector3D=new Vector3D,
+				qvec:Vector3D=new Vector3D,
+				u:Number,
+				v:Number,
+				t:Number,
 				_temp:Number;
-			if(_det>0)
+			if(det>0)
 			{
-				_tvec=mNearPoint.subtract(p0);
+				tvec=mNearPoint.subtract(p0);
 			}
-			if(_det<0)
+			if(det<0)
 			{
-				_tvec=p0.subtract(mNearPoint);
-				_det=-_det;
+				tvec=p0.subtract(mNearPoint);
+				det=-det;
 			}
-			if(_det<0.0001)
-				pass= false;
-			_u=_tvec.dotProduct(_pvec);
-			if(_u<0||_u>_det)
-				pass= false;
-			_qvec=_tvec.crossProduct(edge1);
-			_v=mDir.dotProduct(_qvec);
-			if(_v<0||_u+_v>_det)
-				pass= false;
-			_t=edge2.dotProduct(_qvec);
-			_temp=1/_det;
-			_t*=_temp;
-			_u*=_temp;
-			_v*=_temp;
+			if(det<0.0001)pass= false;
+				
+			u=tvec.dotProduct(cvec);
+			if(u<0||u>det)pass= false;
+				
+			qvec=tvec.crossProduct(edge1);
+			v=mDir.dotProduct(qvec);
+			if(v<0||u+v>det)pass= false;
+				
+			t=edge2.dotProduct(qvec);
+			_temp=1/det;
+			t*=_temp;
+			u*=_temp;
+			v*=_temp;
 			result[0]=pass;
-			result[1]=_u;
-			result[2]=_v;
+			result[1]=u;
+			result[2]=v;
 		}
 		public function start():void
 		{
