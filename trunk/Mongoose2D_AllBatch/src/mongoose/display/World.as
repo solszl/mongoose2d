@@ -337,8 +337,7 @@ package mongoose.display
 						_x+=obj.pivot.x;
 						_y+=obj.pivot.y;
 						//缩放
-//						_x*=texture.width*(obj.width/texture.width)*obj.scaleX;
-//						_y*=texture.height*(obj.height/texture.height)*obj.scaleY;
+
 						_x*=obj.width*obj.scaleX;
 						_y*=obj.height*obj.scaleY;
 						
