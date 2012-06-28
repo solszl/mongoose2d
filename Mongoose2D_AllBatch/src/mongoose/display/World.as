@@ -89,7 +89,7 @@ package mongoose.display
 		private var _angle1:Array=[];
 		private var _angle2:Array=[];
 		
-		private var _type:String;
+		private var _type:String="";
 		private var _xPos:Number,_yPos:Number;
 		
 		private var _testObject:InteractiveObject;
@@ -292,9 +292,24 @@ package mongoose.display
 				if(_type!="")
 				{
 					_testObject.triggerEvent(_type,stage.mouseX,stage.mouseY);
+					_type="";
 				}
-				if(_testObject.iuseMove)
+				if(_prevObject!=_testObject)
+				{
+					if(_prevObject!=null)
+					{
+						_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
+					}
+					_prevObject=_testObject;
+				}
+				_testObject.triggerEvent(MouseEvent.MOUSE_OVER,stage.mouseX,stage.mouseY);
 				_testObject.triggerEvent(MouseEvent.MOUSE_MOVE,stage.mouseX,stage.mouseY);
+				_testObject=null;
+			}
+			else if(_prevObject!=null)
+			{
+				_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
+				_prevObject=null;
 			}
 			
 			
@@ -477,20 +492,24 @@ package mongoose.display
 					var intObj:InteractiveObject=InteractiveObject(obj);
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
-						var edge1:Vector3D=_points[1].subtract(_points[0]);
-						var edge2:Vector3D=_points[2].subtract(_points[0]);
-						var edge3:Vector3D=_points[3].subtract(_points[0]);
-	
-						
-						instric(_points[0],edge1,edge2,_angle1);
-						
-						instric(_points[0],edge2,edge3,_angle2);
-						
-                        if(_angle1[0]||_angle2[0])
+						if(intObj.iuseMove||_type!="")
 						{
-							_testObject=intObj;
+							var edge1:Vector3D=_points[1].subtract(_points[0]);
+							var edge2:Vector3D=_points[2].subtract(_points[0]);
+							var edge3:Vector3D=_points[3].subtract(_points[0]);
+		
 							
+							instric(_points[0],edge1,edge2,_angle1);
+							
+							instric(_points[0],edge2,edge3,_angle2);
+							
+	                        if(_angle1[0]||_angle2[0])
+							{
+								_testObject=intObj;
+								
+							}
 						}
+						
 					}
 					_drawCall++;
 				}

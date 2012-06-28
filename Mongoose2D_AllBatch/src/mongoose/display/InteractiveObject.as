@@ -12,6 +12,7 @@ package mongoose.display
 		public var mouseChildren:Boolean;
 		protected var mEventHandles:Dictionary=new Dictionary;
 		internal var iuseMove:Boolean;
+		internal var iOver:Boolean;
 		public function InteractiveObject(texture:TextureData)
 		{
 			super(texture);
@@ -78,6 +79,9 @@ package mongoose.display
 		}
 		internal function triggerEvent(type:String,x:Number,y:Number):void
 		{
+			if(type==MouseEvent.MOUSE_OVER&&iOver)
+				return;
+			
 			var functions:Array=mEventHandles[type];
 			if(functions!=null)
 			{
@@ -89,6 +93,8 @@ package mongoose.display
 					step++;
 				}
 			}
+			if(type==MouseEvent.MOUSE_OVER)iOver=true;
+			if(type==MouseEvent.MOUSE_OUT)iOver=false;
 		}
 		private function checkListener(type:String,listener:Function):int
 		{
