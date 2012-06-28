@@ -53,6 +53,12 @@ package mongoose.display
 		
 		protected var mPerspective:PerspectiveMatrix3D;
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
+		
+		private var MathCos:Function = Math.cos;
+		private var MathSin:Function = Math.sin;
+		private var MathTan:Function = Math.tan;
+		private var MathAtan:Function = Math.atan;
+		
 		private var _pi:Number=Math.PI/180;
 		private var _scale:Number;
 		
@@ -137,10 +143,10 @@ package mongoose.display
 		}
 		private function onMouseMove(e:MouseEvent):void
 		{
-			var tx:Number=e.stageX;
-			var ty:Number=e.stageY;
-			var dx:Number=(tx*_widthRcp-1);
-			var dy:Number=_scale-ty*_heightRcp;
+//			var tx:Number=e.stageX;
+//			var ty:Number=e.stageY;
+			var dx:Number=(e.stageX*_widthRcp-1);
+			var dy:Number=_scale-e.stageY*_heightRcp;
 			
 			mNearPoint.x=dx*near;
 			mNearPoint.y=dy*near;
@@ -159,7 +165,7 @@ package mongoose.display
 			height=_stage.stageHeight;
 			_widthRcp=2/width;
 			_heightRcp=2/height;
-			var mViewAngle:Number = Math.atan(height/width) * 2;
+			var mViewAngle:Number = MathAtan(height/width) * 2;
 			mPerspective.perspectiveFieldOfViewLH(mViewAngle,width/height, near,far);
 
 			_scale=height/width;
@@ -204,7 +210,7 @@ package mongoose.display
 					1,-1, 0,  1,1,1,1,1,1,
 					0,-1, 0,  0,1,1,1,1,1
 				);
-				var add:uint=step*4;
+				var add:uint=step<<2;
 				mIndexBufferData.push(0+add,1+add,2+add,0+add,2+add,3+add);
 				
 				step++;
@@ -221,15 +227,16 @@ package mongoose.display
 			var fsa:AGALMiniAssembler=new AGALMiniAssembler;
 			var vs:String=
 				"m44 vt0,va0,vc0\n"+
-				"m44 vt0,vt0,vc4\n"+
+				"m44 op,vt0,vc4\n"+
 				
-				"mov op,vt0\n"+
+//				"mov op,vt0\n"+
 				"mov v0,va1\n"+
 				"mov v1,va2";
-			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				   "mul ft0,ft0,v1\n"+
+			var fs:String=
+				"tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
+				"mul oc,ft0,v1\n"//+
 				// "mul ft0,ft0,v1\n" +
-				"mov oc,ft0"; 
+//				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
 			fsa.assemble(Context3DProgramType.FRAGMENT,fs);
 			mNormalProgram=context3d.createProgram();
@@ -244,7 +251,7 @@ package mongoose.display
 			
 			_drawCall=0;
 			renderObj(this);
-			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
+			mVerticBuffer.uploadFromVector(mVerticBufferData,0,(_drawCall<<2));
 			mFps.uints=_drawCall;
 			
 			
@@ -264,7 +271,7 @@ package mongoose.display
 					{
 						context3d.setTextureAt(0,mCurrentTexture);
 						end=step-_startDraw;
-						context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+						context3d.drawTriangles(mIndexBuffer,_startDraw*6,(end<<1));
 						_startDraw=step;
 					}
 					mCurrentTexture=texture.texture;
@@ -277,7 +284,7 @@ package mongoose.display
 			{
 				context3d.setTextureAt(0,mCurrentTexture);
 				end=_drawCall-_startDraw;
-				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
+				context3d.drawTriangles(mIndexBuffer,_startDraw*6,(end<<1));
 			}
 			
 			
@@ -297,20 +304,20 @@ package mongoose.display
 					mObjects[_drawCall]=obj;
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
-					_vtIndex=_drawCall*4*mNumPerVertic;
+					_vtIndex=(_drawCall<<2)*mNumPerVertic;
 					//trace("顶点计算",_drawCall);
 					_xAngle=obj.rotationX*_pi;
 					_yAngle=obj.rotationY*_pi;
 					_zAngle=obj.rotationZ*_pi;
 					
-					_xsint=Math.sin(_xAngle);
-					_xcost=Math.cos(_xAngle);
+					_xsint=MathSin(_xAngle);
+					_xcost=MathCos(_xAngle);
 					
-					_ysint=Math.sin(_yAngle);
-					_ycost=Math.cos(_yAngle);
+					_ysint=MathSin(_yAngle);
+					_ycost=MathCos(_yAngle);
 					
-					_zsint=Math.sin(_zAngle);
-					_zcost=Math.cos(_zAngle);
+					_zsint=MathSin(_zAngle);
+					_zcost=MathCos(_zAngle);
 					
 					//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 					
@@ -330,8 +337,10 @@ package mongoose.display
 						_x+=obj.pivot.x;
 						_y+=obj.pivot.y;
 						//缩放
-						_x*=texture.width*(obj.width/texture.width)*obj.scaleX;
-						_y*=texture.height*(obj.height/texture.height)*obj.scaleY;
+//						_x*=texture.width*(obj.width/texture.width)*obj.scaleX;
+//						_y*=texture.height*(obj.height/texture.height)*obj.scaleY;
+						_x*=obj.width*obj.scaleX;
+						_y*=obj.height*obj.scaleY;
 						
 						_rx=_ry=_rz=0;
 						//x旋转
@@ -351,7 +360,7 @@ package mongoose.display
 						mVerticBufferData[_id+1]=_y;
 						mVerticBufferData[_id+2]=_z;
 	
-						_uid=_vt*2;
+						_uid=_vt<<1;
 							
 						mVerticBufferData[_id+3]=obj.uv[_uid]+obj.scrollX;
 						mVerticBufferData[_id+4]=obj.uv[_uid+1]+obj.scrollY;
@@ -374,17 +383,17 @@ package mongoose.display
 						_yAngle=tParent.rotationY*_pi;
 						_zAngle=tParent.rotationZ*_pi;
 						
-						_xsint=Math.sin(_xAngle);
-						_xcost=Math.cos(_xAngle);
+						_xsint=MathSin(_xAngle);
+						_xcost=MathCos(_xAngle);
 						
-						_ysint=Math.sin(_yAngle);
-						_ycost=Math.cos(_yAngle);
+						_ysint=MathSin(_yAngle);
+						_ycost=MathCos(_yAngle);
 						
-						_zsint=Math.sin(_zAngle);
-						_zcost=Math.cos(_zAngle);
+						_zsint=MathSin(_zAngle);
+						_zcost=MathCos(_zAngle);
 
 						_vt=0;
-						_vtIndex=_drawCall*4*mNumPerVertic;
+						_vtIndex=(_drawCall<<2)*mNumPerVertic;
 
 						//trace("获取源数据:",obj.name,index);
 						while(_vt<4)
@@ -437,8 +446,8 @@ package mongoose.display
 			}	
 			if(obj is DisplayObjectContainer)
 			{
-				var container:DisplayObjectContainer=DisplayObjectContainer(obj);
-				var childs:Array=container.childs;
+//				var container:DisplayObjectContainer=obj;
+				var childs:Array=DisplayObjectContainer(obj).childs;
 				var step:uint=0;
 				var total:uint=childs.length;
 				while(step<total)

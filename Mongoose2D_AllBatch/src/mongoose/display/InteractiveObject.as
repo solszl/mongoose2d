@@ -60,7 +60,7 @@ package mongoose.display
 				mEventHandles[type]=[];
 			if(checkListener(type,listener)==-1)
 			{
-				(mEventHandles[type] as Array).push(listener);
+				mEventHandles[type].push(listener);
 			}
 		}
 		private function delEvent(type:String,listener:Function):void
@@ -68,13 +68,13 @@ package mongoose.display
 			var index:int=checkListener(type,listener);
 			if(index!=-1)
 			{
-				(mEventHandles[type] as Array).splice(index,1);
+				mEventHandles[type].splice(index,1);
 			}
 		}
 		private function checkListener(type:String,listener:Function):int
 		{
 			var step:uint=0;
-			var listeners:Array=mEventHandles[type] as Array;
+			var listeners:Array=mEventHandles[type];
 			if(listeners==null)return -1;
 			while(step<listeners.length)
 			{

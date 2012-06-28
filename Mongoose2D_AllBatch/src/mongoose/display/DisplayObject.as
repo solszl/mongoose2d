@@ -12,7 +12,7 @@ package mongoose.display
 		internal var program:Program3D;
 		public var pivot:Vector3D=new Vector3D(0,0,0);
 		
-		public var parent:DisplayObject;
+		public var parent:DisplayObjectContainer;
 		public var rotationX:Number=0,
 			       rotationY:Number=0,
 				   rotationZ:Number=0;
