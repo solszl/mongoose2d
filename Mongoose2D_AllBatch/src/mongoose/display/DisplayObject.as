@@ -31,10 +31,14 @@ package mongoose.display
 				   scaleZ:Number=1;
 		public var color:uint=0xffffff;
 		public var texture:TextureData;
+		public static var INSTANCE_NUM:uint;
+		internal var id:Number;
+		public var depth:Number;
 		public function DisplayObject()
 		{
 			super();
-			
+			INSTANCE_NUM++;
+			id=.001/INSTANCE_NUM;
 		}
 		public function set blendMode(mode:String):void
 		{

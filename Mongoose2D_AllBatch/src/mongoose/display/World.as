@@ -357,6 +357,7 @@ package mongoose.display
 			if(!(obj is World))
 			{
 				obj.render();
+				
 				if(texture!=null&&obj.visible)
 				{
 					obj.width=texture.width;
@@ -537,10 +538,10 @@ package mongoose.display
 				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
-				
+				container.depth=container[container.sortName]+container.id;
 				if(container.enableSort&&total>1)
 				{
-					childs.sortOn(container.sortName,container.sortParam);
+					childs.sortOn("depth",container.sortParam);
 				}
 				
 				while(step<total)
