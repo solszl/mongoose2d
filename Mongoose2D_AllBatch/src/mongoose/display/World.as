@@ -505,7 +505,23 @@ package mongoose.display
 							
 	                        if(_angle1[0]||_angle2[0])
 							{
-								_testObject=intObj;
+								if(alphaTest)
+								{
+									var u:Number=Math.max(_angle1[1],_angle2[1]);
+									var v:Number=Math.max(_angle1[2],_angle2[2]);
+									u=texture.uValue*u+texture.uvVector[0];
+									v=texture.vValue*v+texture.uvVector[1];
+									_xPos=texture.bitmapData.width;
+									_yPos=texture.bitmapData.height;
+									var _pixel:uint=texture.bitmapData.getPixel32(_xPos*u,_yPos*v);
+									//_pixel>0?iHit=true:iHit=false;
+									//	trace(_pixel);
+									if(_pixel>0)_testObject=intObj;
+								}
+								else
+								{
+									_testObject=intObj;
+								}
 							}
 						}
 					}

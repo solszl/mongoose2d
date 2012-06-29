@@ -10,6 +10,8 @@ package mongoose.display
 		static public var stage:Stage;
 		public var mouseEnabled:Boolean=true;
 		public var mouseChildren:Boolean;
+		public var alphaTest:Boolean=true;
+		public var useHandCursor:Boolean;
 		protected var mEventHandles:Dictionary=new Dictionary;
 		internal var iuseMove:Boolean;
 		internal var iOver:Boolean;
