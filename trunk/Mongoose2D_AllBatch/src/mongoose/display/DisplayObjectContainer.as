@@ -7,13 +7,15 @@ package mongoose.display
     {
 		internal var childs:Array=[];
 		
-		public var enableSort:Boolean;
+		public var enableSort:Boolean=true;
 		
-		public var sortName:String;
+		public var sortName:String="z";
 		public var sortParam:int=Array.DESCENDING|Array.NUMERIC;
 		
 		
 		private var _step:uint,_len:uint;
+		
+		
 		
         public function DisplayObjectContainer(texture:TextureData = null)
         {
@@ -64,6 +66,7 @@ package mongoose.display
 				DisplayObjectContainer(child.parent).removeChild(child);
             child.parent = this;*/
         }
+		
 		/**
 		 *是否包含子对象，如果是返回true，否则返回falsh 
 		 * @param child 添加的对象
