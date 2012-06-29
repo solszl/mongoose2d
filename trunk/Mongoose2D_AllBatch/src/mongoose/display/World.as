@@ -148,7 +148,7 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			
-			_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+			//_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			_stage.addEventListener(MouseEvent.CLICK,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_UP,onClick);
