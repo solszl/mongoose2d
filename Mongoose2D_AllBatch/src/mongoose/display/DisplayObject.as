@@ -23,14 +23,14 @@ package mongoose.display
 				   blue:Number=1.0,
 				   alpha:Number=1.0;
 		
-		public var uv:Vector.<Number>;
+	
 		public var width:Number=0,
 			       height:Number=0;
 		public var scaleX:Number=1,
 			       scaleY:Number=1,
 				   scaleZ:Number=1;
-		
-		private var _texture:TextureData;
+		public var color:uint=0xffffff;
+		public var texture:TextureData;
 		public function DisplayObject()
 		{
 			super();
@@ -47,22 +47,7 @@ package mongoose.display
 			this.blue=b;
 		}
 		
-		public function set texture(txt:TextureData):void
-		{
-			_texture=txt;
-			
-			if(_texture!=null)
-			{
-				
-				width=_texture.width;
-				height=_texture.height;
-				uv=_texture.uvVector;
-			}
-		}
-		public function get texture():TextureData
-		{
-			return _texture;
-		}
+		
 		public function render():void
 		{
 			
