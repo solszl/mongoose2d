@@ -261,15 +261,15 @@ package mongoose.display
 			var fsa:AGALMiniAssembler=new AGALMiniAssembler;
 			var vs:String=
 				"m44 vt0,va0,vc0\n"+
-				"m44 vt0,vt0,vc4\n"+
+				"m44 op,vt0,vc4\n"+
 				
-				"mov op,vt0\n"+
+//				"mov op,vt0\n"+
 				"mov v0,va1\n"+
 				"mov v1,va2";
 			var fs:String="tex ft0, v0, fs0 <2d,repeat,linear> \n" + 
-				   "mul ft0,ft0,v1\n"+
+				   "mul oc,ft0,v1\n"//+
 				// "mul ft0,ft0,v1\n" +
-				"mov oc,ft0"; 
+//				"mov oc,ft0"; 
 			vsa.assemble(Context3DProgramType.VERTEX,vs);
 			fsa.assemble(Context3DProgramType.FRAGMENT,fs);
 			mNormalProgram=context3d.createProgram();
@@ -507,8 +507,8 @@ package mongoose.display
 							{
 								if(alphaTest)
 								{
-									var u:Number=Math.max(_angle1[1],_angle2[1]);
-									var v:Number=Math.max(_angle1[2],_angle2[2]);
+									var u:Number=_angle1[1] > _angle2[1] ? _angle1[1] : _angle2[1];
+									var v:Number=_angle1[2] > _angle2[2] ? _angle1[2] : _angle2[2];
 									u=texture.uValue*u+texture.uvVector[0];
 									v=texture.vValue*v+texture.uvVector[1];
 									_xPos=texture.bitmapData.width;
