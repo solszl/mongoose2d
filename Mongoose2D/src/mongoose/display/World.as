@@ -200,7 +200,6 @@ package mongoose.display
             context3d.enableErrorChecking = true;
             context3d.configureBackBuffer(width, height, 0, false);
             context3d.setCulling(Context3DTriangleFace.NONE);
-			
             context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			context3d.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT,0,lights);
             TextureData.context3d = context3d;
