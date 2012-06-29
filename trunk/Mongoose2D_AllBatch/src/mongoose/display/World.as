@@ -359,6 +359,8 @@ package mongoose.display
 				obj.render();
 				if(texture!=null&&obj.visible)
 				{
+					obj.width=texture.width;
+					obj.height=texture.height;
 					mCurrentTexture=texture.texture;
 					mObjects[_drawCall]=obj;
 					//var len:uint=obj.childs.length;
@@ -419,8 +421,8 @@ package mongoose.display
 	
 						_uid=_vt*2;
 							
-						mVerticBufferData[_id+3]=obj.uv[_uid]  +obj.scrollX;
-						mVerticBufferData[_id+4]=obj.uv[_uid+1]+obj.scrollY;
+						mVerticBufferData[_id+3]=texture.uvVector[_uid]  +obj.scrollX;
+						mVerticBufferData[_id+4]=texture.uvVector[_uid+1]+obj.scrollY;
 						
 						mVerticBufferData[_id+5]=obj.red;
 						mVerticBufferData[_id+6]=obj.green;
