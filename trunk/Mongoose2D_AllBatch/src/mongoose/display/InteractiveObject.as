@@ -15,10 +15,13 @@ package mongoose.display
 		protected var mEventHandles:Dictionary=new Dictionary;
 		internal var iuseMove:Boolean;
 		internal var iOver:Boolean;
+		
+		private var enterFrames:Array;
 		public function InteractiveObject(texture:TextureData)
 		{
 			super(texture);
-			mEventHandles["enterFrame"]=[];
+			enterFrames=mEventHandles["enterFrame"]=[];
+			
 			if(stage)
 			stage.addEventListener(Event.RESIZE,onResize);
 		}
@@ -113,12 +116,13 @@ package mongoose.display
 		}
 		override public function render():void
 		{
-			var handles:Array=mEventHandles["enterFrame"];
+			//var handles:Array=mEventHandles["enterFrame"];
 			var step:uint=0;
-			var total:uint=handles.length;
+			var total:uint=enterFrames.length;
+			if(total==0)return;
 			while(step<total)
 			{
-				handles[step](this);
+				enterFrames[step](this);
 				step++;
 			}
 		}

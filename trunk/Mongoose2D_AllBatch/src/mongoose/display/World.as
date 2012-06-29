@@ -303,9 +303,7 @@ package mongoose.display
 				_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
 				_prevObject=null;
 			}
-			
-			
-			
+
 			//开始渲染
 			_startDraw=0;
 
