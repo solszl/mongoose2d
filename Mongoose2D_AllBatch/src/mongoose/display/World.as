@@ -512,12 +512,19 @@ package mongoose.display
 					_drawCall++;
 				}
 			}	
-			if(obj is DisplayObjectContainer)
+			var container:DisplayObjectContainer=DisplayObjectContainer(obj)
+			if(container!=null)
 			{
 				
-				var childs:Array=DisplayObjectContainer(obj).childs;
+				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
+				
+				if(container.enableSort&&total>1)
+				{
+					childs.sortOn(container.sortName,container.sortParam);
+				}
+				
 				while(step<total)
 				{
 					renderObj(childs[step]);
