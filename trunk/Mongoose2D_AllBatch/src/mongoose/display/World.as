@@ -86,8 +86,8 @@ package mongoose.display
 		private var sin:Function=Math.sin,
 			        cos:Function=Math.cos;
 		
-		private var _angle1:Array=[false,0,0];
-		private var _angle2:Array=[false,0,0];
+		private var _angle1:Array=[];
+		private var _angle2:Array=[];
 		
 		private var _type:String="";
 		private var _xPos:Number,_yPos:Number;
@@ -148,7 +148,7 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			
-			//_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+			_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			_stage.addEventListener(MouseEvent.CLICK,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_UP,onClick);
@@ -161,7 +161,28 @@ package mongoose.display
 			_type=e.type;
 			
 		}
-		
+		private function onMouseMove(e:MouseEvent):void
+		{
+			var tx:Number=e.stageX;
+			var ty:Number=e.stageY;
+			var dx:Number=(tx*_widthRcp-1);
+			var dy:Number=1-ty*_heightRcp;
+			
+			mNearPoint.x=dx*near;
+			mNearPoint.y=dy*near;
+			mNearPoint.z=near;
+			
+			mFarPoint.x=dx*far;
+			mFarPoint.y=dy*far;
+			mFarPoint.z=far;
+			
+			
+			mNearPoint=mScaleMatrix.transformVector(mNearPoint);
+			mFarPoint=mScaleMatrix.transformVector(mFarPoint);
+			
+			mDir=mFarPoint.subtract(mNearPoint);
+			//trace(mNearPoint,mFarPoint);
+		}
 		private function configure():void
 		{
 			width=_stage.stageWidth;
@@ -259,26 +280,33 @@ package mongoose.display
 		}
 		private function onRender(e:Event=null):void
 		{
-			//计算射线..........
-			var dx:Number=(stage.mouseX*_widthRcp-1);
-			var dy:Number=1-stage.mouseY*_heightRcp;
+			var tx:Number=stage.mouseX;
+			var ty:Number=stage.mouseY;
+			var dx:Number=(tx*_widthRcp-1);
+			var dy:Number=1-ty*_heightRcp;
+			
 			mNearPoint.x=dx*near;
 			mNearPoint.y=dy*near;
 			mNearPoint.z=near;
+			
 			mFarPoint.x=dx*far;
 			mFarPoint.y=dy*far;
 			mFarPoint.z=far;
+			
+			
 			mNearPoint=mScaleMatrix.transformVector(mNearPoint);
 			mFarPoint=mScaleMatrix.transformVector(mFarPoint);
+			
 			mDir=mFarPoint.subtract(mNearPoint);
 			
-			_drawCall=0;
+			
 			context3d.clear();
-			//计算物理位置
+			
+			_drawCall=0;
+			
 			renderObj(this);
-			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
-			mFps.uints=_drawCall;
-			//处理交互对象
+		
+			
 			if(_testObject!=null)
 			{
 				if(_type!="")
@@ -303,8 +331,11 @@ package mongoose.display
 				_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
 				_prevObject=null;
 			}
-
-			//开始渲染
+			
+			
+			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
+			mFps.uints=_drawCall;
+			
 			_startDraw=0;
 
 			var step:uint=0;
@@ -328,13 +359,15 @@ package mongoose.display
 				}
 				step++;
 			}
-
+			
+			
 			if(_drawCall>0)
 			{
 				context3d.setTextureAt(0,mCurrentTexture);
 				end=_drawCall-_startDraw;
 				context3d.drawTriangles(mIndexBuffer,_startDraw*6,end*2);
 			}
+			
 			context3d.present();
 		}
 		
@@ -479,7 +512,6 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					//鼠标对象检测
 					var intObj:InteractiveObject=InteractiveObject(obj);
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
@@ -522,6 +554,7 @@ package mongoose.display
 			var container:DisplayObjectContainer=DisplayObjectContainer(obj)
 			if(container!=null)
 			{
+				
 				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
@@ -543,8 +576,8 @@ package mongoose.display
 			var pass:Boolean=true;
 			var cvec:Vector3D=mDir.crossProduct(edge2);
 			var det:Number=edge1.dotProduct(cvec);
-			var tvec:Vector3D,
-				qvec:Vector3D,
+			var tvec:Vector3D=new Vector3D,
+				qvec:Vector3D=new Vector3D,
 				u:Number,
 				v:Number,
 				t:Number,
@@ -558,14 +591,14 @@ package mongoose.display
 				tvec=p0.subtract(mNearPoint);
 				det=-det;
 			}
-			if(det<0.0001){pass= false;return}
+			if(det<0.0001)pass= false;
 				
 			u=tvec.dotProduct(cvec);
-			if(u<0||u>det){pass= false;return}
+			if(u<0||u>det)pass= false;
 				
 			qvec=tvec.crossProduct(edge1);
 			v=mDir.dotProduct(qvec);
-			if(v<0||u+v>det){pass= false;return}
+			if(v<0||u+v>det)pass= false;
 				
 			t=edge2.dotProduct(qvec);
 			_temp=1/det;

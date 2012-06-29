@@ -8,7 +8,7 @@ package mongoose.display
 	public class InteractiveObject extends Image
 	{
 		static public var stage:Stage;
-		public var mouseEnabled:Boolean=false;
+		public var mouseEnabled:Boolean=true;
 		public var mouseChildren:Boolean;
 		public var alphaTest:Boolean=true;
 		public var useHandCursor:Boolean;
