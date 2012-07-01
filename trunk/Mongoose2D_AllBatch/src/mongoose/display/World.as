@@ -512,7 +512,7 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					var intObj:InteractiveObject=InteractiveObject(obj);
+					var intObj:InteractiveObject= obj is InteractiveObject ? InteractiveObject(obj) : null;
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
 						if(intObj.iuseMove||_type!="")
@@ -551,7 +551,7 @@ package mongoose.display
 					_drawCall++;
 				}
 			}	
-			var container:DisplayObjectContainer=DisplayObjectContainer(obj)
+			var container:DisplayObjectContainer=obj is DisplayObjectContainer ? DisplayObjectContainer(obj) : null;
 			if(container!=null)
 			{
 				

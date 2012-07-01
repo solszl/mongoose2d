@@ -237,6 +237,16 @@ package mongoose.display
         {
             return childs[index];
         }
-		
+
+        public function getChildByName(name:String):DisplayObject
+        {
+            for each( var o:DisplayObject in childs )
+            {
+                if(o.name == name)
+                    return o;
+            }
+
+            return null;
+        }
     }
 }
