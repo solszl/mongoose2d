@@ -57,12 +57,12 @@ package mongoose.display
 		private var _pi:Number=Math.PI/180;
 		private var _scale:Number;
 		
-		private var _xsint:Number,
-					_xcost:Number,
-					_ysint:Number,
-					_ycost:Number,
-					_zsint:Number,
-					_zcost:Number;
+		private var _xsint:Number=0,
+					_xcost:Number=1,
+					_ysint:Number=0,
+					_ycost:Number=1,
+					_zsint:Number=0,
+					_zcost:Number=1;
 		
 		private var _xAngle:Number,_yAngle:Number,_zAngle:Number;
 		private var _sid:int,_id:uint,_uid:uint;
@@ -89,7 +89,7 @@ package mongoose.display
 		private var _angle1:Array=[];
 		private var _angle2:Array=[];
 		
-		private var _type:String="";
+		private var _type:String=null;
 		private var _xPos:Number,_yPos:Number;
 		
 		private var _testObject:InteractiveObject;
@@ -309,7 +309,7 @@ package mongoose.display
 			
 			if(_testObject!=null)
 			{
-				if(_type!="")
+				if(_type!=null)
 				{
 					_testObject.triggerEvent(_type,stage.mouseX,stage.mouseY);
 					
@@ -331,7 +331,7 @@ package mongoose.display
 				_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
 				_prevObject=null;
 			}
-			_type="";
+			_type=null;
 			
 			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
 			mFps.uints=_drawCall;
@@ -387,19 +387,41 @@ package mongoose.display
 					//var len:uint=obj.childs.length;
 					//trace(obj.name)
 					_vtIndex=_drawCall*4*mNumPerVertic;
-					//trace("顶点计算",_drawCall);
-					_xAngle=obj.rotationX*_pi;
-					_yAngle=obj.rotationY*_pi;
-					_zAngle=obj.rotationZ*_pi;
 					
-					_xsint=sin(_xAngle);
-					_xcost=cos(_xAngle);
+					var _xsint:Number=0,
+						_xcost:Number=1,
+						_ysint:Number=0,
+						_ycost:Number=1,
+						_zsint:Number=0,
+						_zcost:Number=1;
+
 					
-					_ysint=sin(_yAngle);
-					_ycost=cos(_yAngle);
+					if(obj.rotationX!=0)
+					{
+						_xAngle=obj.rotationX*_pi;
+						_xsint=sin(_xAngle);
+						_xcost=cos(_xAngle);
+					}
 					
-					_zsint=sin(_zAngle);
-					_zcost=cos(_zAngle);
+					if(obj.rotationY!=0)
+					{
+						_yAngle=obj.rotationY*_pi;
+						_ysint=sin(_yAngle);
+						_ycost=cos(_yAngle);
+					}
+					
+					if(obj.rotationZ!=0)
+					{
+						_zAngle=obj.rotationZ*_pi;
+						_zsint=sin(_zAngle);
+						_zcost=cos(_zAngle);
+					}
+					
+					
+					
+					
+					
+					
 					
 					//trace("\n处理对象:",obj.name,obj.x,obj.y,obj.z);
 					
@@ -521,7 +543,7 @@ package mongoose.display
 					var intObj:InteractiveObject= obj as InteractiveObject;
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
-						if(intObj.iuseMove||_type!="")
+						if(intObj.iuseMove||_type!=null)
 						{
 							var edge1:Vector3D=_points[1].subtract(_points[0]);
 							var edge2:Vector3D=_points[2].subtract(_points[0]);
