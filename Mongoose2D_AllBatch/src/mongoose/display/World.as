@@ -77,7 +77,7 @@ package mongoose.display
 		protected var mDir:Vector3D=new Vector3D;
 		
 		private var _startDraw:uint,_stopDraw:uint;
-		private var _points:Array=[];
+		private var _points:Vector.<Vector3D>=new Vector.<Vector3D>;
 		private var _cpu:Number=0;
 		private var _gpu:Number=0;
 		
@@ -148,7 +148,7 @@ package mongoose.display
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			
-			_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+			//_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			_stage.addEventListener(MouseEvent.CLICK,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_UP,onClick);
@@ -312,7 +312,7 @@ package mongoose.display
 				if(_type!="")
 				{
 					_testObject.triggerEvent(_type,stage.mouseX,stage.mouseY);
-					_type="";
+					
 				}
 				if(_prevObject!=_testObject)
 				{
@@ -331,7 +331,7 @@ package mongoose.display
 				_prevObject.triggerEvent(MouseEvent.MOUSE_OUT,stage.mouseX,stage.mouseY);
 				_prevObject=null;
 			}
-			
+			_type="";
 			
 			mVerticBuffer.uploadFromVector(mVerticBufferData,0,_drawCall*4);
 			mFps.uints=_drawCall;
@@ -436,10 +436,16 @@ package mongoose.display
 						//位移
 						_x+=obj.x;_y-=obj.y;_z+=obj.z;
 						
-						mVerticBufferData[_id]  =_points[_vt].x=_x;
-						mVerticBufferData[_id+1]=_points[_vt].y=_y;
-						mVerticBufferData[_id+2]=_points[_vt].z=_z;
+						mVerticBufferData[_id]  =_x;
+						mVerticBufferData[_id+1]=_y;
+						mVerticBufferData[_id+2]=_z;
 	
+						var point:Vector3D=_points[_vt];
+						
+						point.x=_x;
+						point.y=_y;
+						point.z=_z;
+						
 						_uid=_vt*2;
 							
 						mVerticBufferData[_id+3]=texture.uvVector[_uid]  +obj.scrollX;
@@ -512,7 +518,7 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
-					var intObj:InteractiveObject= obj is InteractiveObject ? InteractiveObject(obj) : null;
+					var intObj:InteractiveObject= obj as InteractiveObject;
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
 						if(intObj.iuseMove||_type!="")
@@ -539,7 +545,7 @@ package mongoose.display
 									var _pixel:uint=texture.bitmapData.getPixel32(_xPos*u,_yPos*v);
 									//_pixel>0?iHit=true:iHit=false;
 									//	trace(_pixel);
-									if((_pixel&0x000000FF)==0)_testObject=intObj;
+									if(((_pixel >> 24) & 0xFF)>0)_testObject=intObj;
 								}
 								else
 								{
@@ -551,7 +557,7 @@ package mongoose.display
 					_drawCall++;
 				}
 			}	
-			var container:DisplayObjectContainer=obj is DisplayObjectContainer ? DisplayObjectContainer(obj) : null;
+			var container:DisplayObjectContainer=obj  as  DisplayObjectContainer;
 			if(container!=null)
 			{
 				
