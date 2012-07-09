@@ -539,7 +539,7 @@ package mongoose.display
 									var _pixel:uint=texture.bitmapData.getPixel32(_xPos*u,_yPos*v);
 									//_pixel>0?iHit=true:iHit=false;
 									//	trace(_pixel);
-									if(_pixel>0)_testObject=intObj;
+									if((_pixel&0x000000FF)==0)_testObject=intObj;
 								}
 								else
 								{
