@@ -481,9 +481,8 @@ package mongoose.display
 						_vt++;
 					}
 					var target:DisplayObject=obj;
-					var notWorld:Boolean=!(target.parent is World);
 					var tParent:DisplayObject;
-					while(target.parent!=null&&notWorld)
+					while(target.parent!=null&& !(target.parent is World))
 					{
 						tParent=target.parent;
 						//取出父级参数环境
