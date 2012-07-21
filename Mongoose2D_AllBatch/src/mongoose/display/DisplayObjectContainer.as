@@ -10,7 +10,7 @@ package mongoose.display
 		public var enableSort:Boolean=true;
 		
 		public var sortName:String="z";
-		public var sortParam:int=Array.DESCENDING|Array.NUMERIC;
+		public var sortParam:int=Array.NUMERIC;
 		
 		
 		private var _step:uint,_len:uint;
