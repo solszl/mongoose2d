@@ -8,6 +8,7 @@ package mongoose.display
 	import flash.display.StageAlign;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTriangleFace;
 	import flash.display3D.IndexBuffer3D;
@@ -22,6 +23,7 @@ package mongoose.display
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 	
+	import mongoose.tools.Camera;
 	import mongoose.tools.FrameRater;
 
 	[Event(name="addedToStage", type="flash.events.Event")]
@@ -54,6 +56,7 @@ package mongoose.display
 		
 		protected var mPerspective:PerspectiveMatrix3D;
 		protected var mWorldScaleMatrix:Matrix3D=new Matrix3D;
+		protected var mCamera:Camera=new Camera;
 		private var _pi:Number=Math.PI/180;
 		private var _scale:Number;
 		
@@ -99,6 +102,8 @@ package mongoose.display
 			_stage=stage2d;
 			_stage.scaleMode="noScale";
 			_stage.align=StageAlign.TOP_LEFT;
+			
+			mCamera.active=true;
 			width=viewPort.width;
 			height=viewPort.height;
 			
@@ -147,7 +152,7 @@ package mongoose.display
 			context3d.setCulling(Context3DTriangleFace.NONE);
 			context3d.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, 
 				                      Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
-			
+			//context3d.setDepthTest(false,Context3DCompareMode.LESS_EQUAL);
 			//_stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			_stage.addEventListener(MouseEvent.CLICK,onClick);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN,onClick);
@@ -262,7 +267,7 @@ package mongoose.display
 			var vs:String=
 				"m44 vt0,va0,vc0\n"+
 				"m44 op,vt0,vc4\n"+
-				
+				//"m44 op,vt0,vc8\n"+
 //				"mov op,vt0\n"+
 				"mov v0,va1\n"+
 				"mov v1,va2";
@@ -280,6 +285,12 @@ package mongoose.display
 		}
 		private function onRender(e:Event=null):void
 		{
+			Camera.current.render();
+			//mCamera.render();
+			//mCamera.matrix.identity();
+			//mCamera.appendRotation(mCamera.x,Vector3D.X_AXIS);
+			//mCamera.matrix.appendTranslation(-mCamera.x,-mCamera.y,-mCamera.z);
+			//context3d.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX,0,mCamera.matrix,true);
 			var tx:Number=stage.mouseX;
 			var ty:Number=stage.mouseY;
 			var dx:Number=(tx*_widthRcp-1);
@@ -539,6 +550,76 @@ package mongoose.display
 						}
 						target=target.parent;
 					}
+					
+					    _xsint=0,
+						_xcost=1,
+						_ysint=0,
+						_ycost=1,
+						_zsint=0,
+						_zcost=1;
+					var cam:Camera=Camera.current;
+					
+					if(cam.rotationX!=0)
+					{
+						_xAngle=cam.rotationX*_pi;
+						_xsint=sin(_xAngle);
+						_xcost=cos(_xAngle);
+					}
+					
+					if(cam.rotationY!=0)
+					{
+						_yAngle=cam.rotationY*_pi;
+						_ysint=sin(_yAngle);
+						_ycost=cos(_yAngle);
+					}
+					
+					if(cam.rotationZ!=0)
+					{
+						_zAngle=cam.rotationZ*_pi;
+						_zsint=sin(_zAngle);
+						_zcost=cos(_zAngle);
+					}
+					
+					_vt=0;
+					while(_vt<4)
+					{
+						_sid=_vt*mNumPerVertic;
+						_id=_vtIndex+_sid;
+						
+						_x=mVerticBufferData[_id];
+						_y=mVerticBufferData[_id+1];
+						_z=mVerticBufferData[_id+2];
+						_rx=_ry=_rz=0;
+						
+						
+						//var rx:Number=Camera.current.x,ry:Number=Camera.current.y,rz:Number=0;
+						
+						//x旋转
+						_ry=_y*_xcost-_z*_xsint;
+						_rz=_y*_xsint+_z*_xcost;
+						//y旋转
+						_rx=_x*_ycost+_rz*_ysint;
+						_z=_x*-_ysint+_rz*_ycost;
+						//z旋转
+						_x=_rx*_zcost-_ry*_zsint;
+						_y=_rx*_zsint+_ry*_zcost;
+						
+						//位移
+						_x+=cam.x;_y+=cam.y;_z+=cam.z;
+						
+						mVerticBufferData[_id]  =_x;
+						mVerticBufferData[_id+1]=_y;
+						mVerticBufferData[_id+2]=_z;
+						
+						_points[_vt].x=_x;
+						_points[_vt].y=_y;
+						_points[_vt].z=_z;
+						//trace(Camera.current.x)
+						_vt++;
+					}
+					
+					
+					
 					var intObj:InteractiveObject= obj as InteractiveObject;
 					if(intObj!=null&&intObj.mouseEnabled)
 					{
@@ -566,7 +647,8 @@ package mongoose.display
 									var _pixel:uint=texture.bitmapData.getPixel32(_xPos*u,_yPos*v);
 									//_pixel>0?iHit=true:iHit=false;
 									//	trace(_pixel);
-									if(((_pixel >> 24) & 0xFF)>0)_testObject=intObj;
+									if(_pixel>0)_testObject=intObj;
+									//if(((_pixel >> 24) & 0xFF)>0)_testObject=intObj;
 								}
 								else
 								{
@@ -578,6 +660,8 @@ package mongoose.display
 					_drawCall++;
 				}
 			}	
+			if(obj.parent!=null)
+			obj.depth=obj[obj.parent.sortName]+obj.id;
 			var container:DisplayObjectContainer=obj  as  DisplayObjectContainer;
 			if(container!=null)
 			{
@@ -585,7 +669,7 @@ package mongoose.display
 				var childs:Array=container.childs;
 				var step:uint=0;
 				var total:uint=childs.length;
-				container.depth=container[container.sortName]+container.id;
+				
 				if(container.enableSort&&total>1)
 				{
 					childs.sortOn("depth",container.sortParam);

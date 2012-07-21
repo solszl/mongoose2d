@@ -1,5 +1,7 @@
 package mongoose.display
 {
+	import flash.display3D.textures.Texture;
+
 	public class MovieClip extends Sprite2D
 	{
 		public var currentFrame:uint=1;
@@ -11,10 +13,17 @@ package mongoose.display
 		private var _delay:uint;
 		public function MovieClip(frames:Vector.<TextureData>=null,fps:int=24)
 		{
+			if(frames==null)return;
 			this.fps=fps;
 			_frames=frames;
 			currentFrame=1;
+			
 			this.texture=_frames[currentFrame-1];
+		}
+		public function set frames(value:Vector.<TextureData>):void
+		{
+			_frames=value;
+			currentFrame=1;
 		}
 		public function set fps(value:int):void
 		{
@@ -42,7 +51,10 @@ package mongoose.display
 			super.render();
 		}
 		
-		
+		public function gotoAndPlay(frame:int):void
+		{
+			currentFrame=frame;
+		}
 		public function play():void
 		{
 			_pause=false;
