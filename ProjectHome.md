@@ -1,0 +1,10 @@
+mongoose2d engine
+mongoose2d引擎重视对原Flash显示对象API的移植，并且保留Z轴。
+也就是说它也是一个3D引擎,你可以在自己派生的显示对象中利用shader扩展自己想要的任何效果
+
+mongoose2d会自动batch两个采用同一贴图的显示对象，最高可一次batch20个(取决Stage3D的常量寄存器数量)。
+所以，开发者如果能尽量将显示对象集中在一张贴图上，可获得引擎提供的最高效率。
+
+
+
+有任何相关建议以及bug请邮件给我们 popple@foxmail.com,defchen@gmail.com
